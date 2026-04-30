@@ -1,0 +1,51 @@
+[
+	{ "label": "Home", "href": "/", "hasDropdown": false },
+	{
+		"label": "Category",
+		"href": "/category",
+		"hasDropdown": true,
+		"subItems": [
+			{ "label": "Main Dish", "href": "/category/1" },
+			{ "label": "Break Fast", "href": "/category/2" },
+			{ "label": "Dessert", "href": "/category/3" },
+			{ "label": "Browse All", "href": "/category/4" },
+			{ "label": "Breakfast Food", "href": "/category/5" }
+		]
+	},
+	{
+		"label": "Products",
+		"href": "/products",
+		"hasDropdown": true,
+		"subItems": [
+			{ "label": "Sub Product 1", "href": "/products/sub1" },
+			{ "label": "Sub Product 2", "href": "/products/sub2" }
+		]
+	},
+	{
+		"label": "Pages",
+		"href": "/pages",
+		"hasDropdown": true,
+		"subItems": [
+			{ "label": "Sub Page 1", "href": "/pages/sub1" },
+			{ "label": "Sub Page 2", "href": "/pages/sub2" }
+		]
+	},
+	{
+		"label": "Blog",
+		"href": "/blog",
+		"hasDropdown": true,
+		"subItems": [
+			{ "label": "Sub Blog 1", "href": "/blog/sub1" },
+			{ "label": "Sub Blog 2", "href": "/blog/sub2" }
+		]
+	},
+	{
+		"label": "Elements",
+		"href": "/elements",
+		"hasDropdown": true,
+		"subItems": [
+			{ "label": "Sub Element 1", "href": "/elements/sub1" },
+			{ "label": "Sub Element 2", "href": "/elements/sub2" }
+		]
+	}
+]

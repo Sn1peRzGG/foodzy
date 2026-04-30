@@ -1,0 +1,32 @@
+[
+	{
+		"id": 1,
+		"name": "Main Dish",
+		"count": 86,
+		"image": "/main_dish.png"
+	},
+	{
+		"id": 2,
+		"name": "Break Fast",
+		"count": 12,
+		"image": "/break_fast.png"
+	},
+	{
+		"id": 3,
+		"name": "Dessert",
+		"count": 48,
+		"image": "/dessert.png"
+	},
+	{
+		"id": 4,
+		"name": "Browse All",
+		"count": 255,
+		"image": "/browse_all.png"
+	},
+	{
+		"id": 5,
+		"name": "Breakfast Food",
+		"count": 205,
+		"image": "/breakfast_food.png"
+	}
+]

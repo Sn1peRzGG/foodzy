@@ -1,0 +1,20 @@
+[
+	{
+		"id": "1",
+		"name": "Fattoush salad",
+		"description": "Description of the item",
+		"image": "/Fattoush_salad.png"
+	},
+	{
+		"id": "2",
+		"name": "Vegetable salad",
+		"description": "Description of the item",
+		"image": "/Vegetable_salad.png"
+	},
+	{
+		"id": "3",
+		"name": "Egg vegi salad",
+		"description": "Description of the item",
+		"image": "/Egg_salad.png"
+	}
+]

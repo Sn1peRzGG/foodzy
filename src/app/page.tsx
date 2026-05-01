@@ -1,7 +1,7 @@
-import Banner from '@/components/Banner'
-import CategorySection from '@/components/CategorySection'
-import PromoSection from '@/components/PromoSection'
-import SpecialSection from '@/components/SpecialSection'
+import Banner from '@/src/components/Banner'
+import CategorySection from '@/src/components/CategorySection'
+import PromoSection from '@/src/components/PromoSection'
+import SpecialSection from '@/src/components/SpecialSection'
 
 export default function Home() {
 	return (

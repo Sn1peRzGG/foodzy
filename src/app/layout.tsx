@@ -1,5 +1,5 @@
-import Footer from '@/components/Footer'
-import Header from '@/components/Header'
+import Footer from '@/src/components/Footer'
+import Header from '@/src/components/Header'
 import type { Metadata } from 'next'
 import { Nunito, Poppins } from 'next/font/google'
 import './globals.css'

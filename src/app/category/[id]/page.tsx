@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import categories from '../../../../data/categories.json'
-import { CategoryType } from '@/types/category'
+import { CategoryType } from '@/src/types/category'
 
 export default function CategoryPage() {
 	const params = useParams()

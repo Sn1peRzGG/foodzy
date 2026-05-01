@@ -5,11 +5,11 @@
 		"href": "/category",
 		"hasDropdown": true,
 		"subItems": [
-			{ "label": "Main Dish", "href": "/category/1" },
-			{ "label": "Break Fast", "href": "/category/2" },
-			{ "label": "Dessert", "href": "/category/3" },
-			{ "label": "Browse All", "href": "/category/4" },
-			{ "label": "Breakfast Food", "href": "/category/5" }
+			{ "label": "Fruits & Vegetables", "href": "/category/1" },
+			{ "label": "Main Dishes & Salads", "href": "/category/2" },
+			{ "label": "Drinks & Beverages", "href": "/category/3" },
+			{ "label": "Grocery & Packaged Food", "href": "/category/4" },
+			{ "label": "Browse All", "href": "/category/5" }
 		]
 	},
 	{

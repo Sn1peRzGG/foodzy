@@ -1,9 +1,14 @@
 'use client'
+
 import { useParams } from 'next/navigation'
+import categories from '../../../../data/categories.json'
+import { CategoryType } from '@/types/category'
 
 export default function CategoryPage() {
 	const params = useParams()
-	const id = params.id
+	const category = categories.find(
+		(category: CategoryType) => category.id === Number(params.id),
+	)
 
-	return <h1>Category ID: {id}</h1>
+	return <h1>Category Name: {category?.name}</h1>
 }

@@ -1,32 +1,32 @@
 [
 	{
 		"id": 1,
-		"name": "Main Dish",
+		"name": "Fruits & Vegetables",
 		"count": 86,
-		"image": "/main_dish.png"
+		"image": "/fruits_and_vegetables.png"
 	},
 	{
 		"id": 2,
-		"name": "Break Fast",
+		"name": "Main Dishes & Salads",
 		"count": 12,
-		"image": "/break_fast.png"
+		"image": "/main_dishes_and_salads.png"
 	},
 	{
 		"id": 3,
-		"name": "Dessert",
-		"count": 48,
-		"image": "/dessert.png"
+		"name": "Drinks & Beverages",
+		"count": 205,
+		"image": "/drinks_and_beverages.png"
 	},
 	{
 		"id": 4,
-		"name": "Browse All",
-		"count": 255,
-		"image": "/browse_all.png"
+		"name": "Grocery & Packaged Food",
+		"count": 48,
+		"image": "/grocery_and_packaged_food.png"
 	},
 	{
 		"id": 5,
-		"name": "Breakfast Food",
-		"count": 205,
-		"image": "/breakfast_food.png"
+		"name": "Browse All",
+		"count": 255,
+		"image": "/Fattoush_salad.png"
 	}
 ]

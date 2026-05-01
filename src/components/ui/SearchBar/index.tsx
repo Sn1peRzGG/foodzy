@@ -9,7 +9,13 @@ export default function SearchBar() {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	const [selectedCategory, setSelectedCategory] = useState('All Categories')
 
-	const categories = ['All Categories', 'Main Dish', 'Break Fast', 'Dessert']
+	const categories = [
+		'All Categories',
+		'Fruits & Vegetables',
+		'Main Dishes & Salads',
+		'Drinks & Beverages',
+		'Grocery & Packaged Food',
+	]
 
 	const items = [
 		{ label: 'Account', href: '/account', icon: <User /> },
@@ -51,7 +57,7 @@ export default function SearchBar() {
 					/>
 
 					{isDropdownOpen && (
-						<ul className='absolute left-0 top-full z-50 min-w-full rounded-md border border-gray-100 bg-white p-2 shadow-lg animate-in fade-in slide-in-from-top-2'>
+						<ul className='absolute right-0 w-64 mt-1 top-full z-50 min-w-full rounded-md border border-gray-100 bg-white p-2 shadow-lg animate-in fade-in slide-in-from-top-2 before:content-[""] before:absolute before:-top-2 before:left-0 before:w-full before:h-2 before:cursor-default'>
 							{categories.map(category => (
 								<li key={category}>
 									<button

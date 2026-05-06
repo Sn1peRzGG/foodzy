@@ -7,7 +7,7 @@ const productsData: ProductType[] = products
 
 export default function SpecialSection() {
 	return (
-		<div className='flex flex-col w-full px-4 sm:px-5 md:px-6 lg:px-0 gap-6 md:gap-8 lg:gap-10 relative py-6 sm:py-8 md:py-10 lg:py-10 lg:w-3/4 mx-auto'>
+		<div className='flex flex-col w-full gap-6 md:gap-8 lg:gap-10 relative mt-6'>
 			<div className='flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 lg:gap-12'>
 				<div className='flex flex-col justify-start gap-2 md:gap-3 lg:gap-10 flex-1'>
 					<h2 className='text-sm sm:text-base md:text-lg lg:text-[20px] font-bold text-[#FF6868] tracking-[0.175em] uppercase'>
@@ -18,7 +18,7 @@ export default function SpecialSection() {
 					</p>
 				</div>
 
-				<div className='flex gap-2 md:gap-3 lg:gap-12.5 shrink-0'>
+				<div className='flex gap-2 md:gap-3 lg:gap-12.5 shrink-0 my-auto pr-8'>
 					<ControlButton
 						orientation='left'
 						backgroundColor='#EFEFEF'

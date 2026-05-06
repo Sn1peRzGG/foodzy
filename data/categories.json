@@ -22,11 +22,5 @@
 		"name": "Grocery & Packaged Food",
 		"count": 48,
 		"image": "/grocery_and_packaged_food.png"
-	},
-	{
-		"id": 5,
-		"name": "Browse All",
-		"count": 255,
-		"image": "/Fattoush_salad.png"
 	}
 ]

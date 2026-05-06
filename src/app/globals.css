@@ -1,7 +1,8 @@
 @import 'tailwindcss';
 
 @theme {
-	--breakpoint-4xl: 2560px;
+	--breakpoint-4xl: 1920px;
+	/* --breakpoint-4xl: 2560px; */
 	--font-poppins: var(--font-poppins);
 	--font-nunito: var(--font-nunito);
 }

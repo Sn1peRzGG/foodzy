@@ -1,20 +1,31 @@
 [
 	{
-		"id": "1",
+		"id": 1,
 		"name": "Fattoush salad",
 		"description": "Description of the item",
-		"image": "/Fattoush_salad.png"
+		"image": "/Fattoush_salad.png",
+		"category": "Main Dishes & Salads",
+		"price": 10.99,
+		"oldPrice": 12.99,
+		"rating": 4.5
 	},
 	{
-		"id": "2",
+		"id": 2,
 		"name": "Vegetable salad",
 		"description": "Description of the item",
-		"image": "/Vegetable_salad.png"
+		"image": "/Vegetable_salad.png",
+		"category": "Main Dishes & Salads",
+		"price": 10.99,
+		"oldPrice": 12.99,
+		"rating": 4.5
 	},
 	{
-		"id": "3",
+		"id": 3,
 		"name": "Egg vegi salad",
 		"description": "Description of the item",
-		"image": "/Egg_salad.png"
+		"image": "/Egg_salad.png",
+		"category": "Main Dishes & Salads",
+		"price": 10.99,
+		"rating": 4.5
 	}
 ]

@@ -3,10 +3,9 @@
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
-import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
 
 interface BlogCardProps {
-	id: string
+	id: number
 	name: string
 	description: string
 	image: string
@@ -22,7 +21,7 @@ export default function BlogCard({
 
 	return (
 		<div
-			id={id}
+			id={id.toString()}
 			className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md flex flex-col rounded-[21px] shadow-[2px_9px_42px_0px_rgba(0,0,0,0.08)] relative bg-white overflow-hidden transition-all duration-300 hover:shadow-[2px_9px_52px_0px_rgba(0,0,0,0.12)] cursor-pointer'
 		>
 			<button
@@ -45,7 +44,7 @@ export default function BlogCard({
 						alt={name}
 						width={276}
 						height={276}
-						className='w-32 h-32 sm:w-36 md:w-40 lg:w-69 lg:h-69 object-contain'
+						className='object-contain'
 					/>
 				</div>
 

@@ -1,6 +1,6 @@
 export type CategoryType = {
-	id: number
+	categoryId: number
 	name: string
-	image: string
+	imageUrl: string
 	count: number
 }

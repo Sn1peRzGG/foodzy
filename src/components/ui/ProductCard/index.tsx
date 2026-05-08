@@ -5,10 +5,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 interface ProductCardProps {
-	id: number
+	productId: number
 	name: string
 	description: string
-	image: string
+	imageUrl: string
 	category: string
 	price: number
 	oldPrice?: number
@@ -18,7 +18,7 @@ interface ProductCardProps {
 export default function ProductCard(product: ProductCardProps) {
 	return (
 		<Link
-			href={`/products/${product.id}`}
+			href={`/products/${product.productId}`}
 			className='relative border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between bg-white group hover:scale-105 transform'
 		>
 			{product.oldPrice && (
@@ -33,7 +33,7 @@ export default function ProductCard(product: ProductCardProps) {
 
 			<div className='w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-4 relative z-10'>
 				<Image
-					src={product.image}
+					src={product.imageUrl}
 					alt={product.name}
 					fill
 					sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
@@ -74,7 +74,7 @@ export default function ProductCard(product: ProductCardProps) {
 						onClick={e => {
 							e.preventDefault()
 							e.stopPropagation()
-							console.log('Heart clicked:', product.id)
+							console.log('Heart clicked:', product.productId)
 						}}
 					>
 						<Heart />
@@ -86,7 +86,7 @@ export default function ProductCard(product: ProductCardProps) {
 						onClick={e => {
 							e.preventDefault()
 							e.stopPropagation()
-							console.log('Cart clicked:', product.id)
+							console.log('Cart clicked:', product.productId)
 						}}
 					>
 						<ShoppingCart />

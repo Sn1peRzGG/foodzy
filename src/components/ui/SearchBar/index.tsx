@@ -1,26 +1,32 @@
 'use client'
 
+import { useProductSearch } from '@/src/hooks/useProductSearch'
+import { CategoryType } from '@/src/types/category'
+import { ProductType } from '@/src/types/product'
 import {
 	ChevronDown,
 	Heart,
+	Menu,
 	Search,
 	ShoppingCart,
 	User,
 	X,
-	Menu,
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useProductSearch } from '@/src/hooks/useProductSearch'
 
 interface SearchBarProps {
 	isMenuOpen: boolean
 	setIsMenuOpen: (open: boolean) => void
+	products: ProductType[]
+	categories: CategoryType[]
 }
 
 export default function SearchBar({
 	isMenuOpen,
 	setIsMenuOpen,
+	products,
+	categories,
 }: SearchBarProps) {
 	const {
 		searchRef,
@@ -33,9 +39,8 @@ export default function SearchBar({
 		setIsDropdownOpen,
 		selectedCategory,
 		setSelectedCategory,
-		categories,
 		handleSearchSubmit,
-	} = useProductSearch()
+	} = useProductSearch(products, categories)
 
 	const userMenuItems = [
 		{ label: 'Account', href: '/account', icon: <User size={20} /> },
@@ -45,11 +50,12 @@ export default function SearchBar({
 
 	return (
 		<div
-			className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full xl:h-3/5 flex items-center justify-between relative gap-4 max-w-360'
+			className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full flex items-center justify-between relative gap-2 md:gap-4 max-w-360 mx-auto'
 			ref={searchRef}
 		>
-			<div className='flex items-center xl:hidden'>
+			<div className='flex items-center xl:hidden shrink-0'>
 				<button
+					type='button'
 					onClick={() => setIsMenuOpen(!isMenuOpen)}
 					className='p-2 border border-gray-200 rounded-[5px] bg-white active:bg-gray-50 cursor-pointer'
 				>
@@ -59,7 +65,7 @@ export default function SearchBar({
 
 			<Link
 				href='/'
-				className='flex flex-row select-none cursor-pointer shrink-0'
+				className='hidden sm:flex flex-row select-none cursor-pointer shrink-0'
 			>
 				<Image
 					src='/logo.png'
@@ -78,11 +84,11 @@ export default function SearchBar({
 				</div>
 			</Link>
 
-			<div className='hidden sm:flex flex-1 xl:flex-none xl:w-125 h-11.25 rounded-[5px] border border-[#64B496] flex-row justify-between items-center relative bg-white'>
-				<div className='pl-4 py-3 flex-1 flex items-center gap-2'>
+			<div className='flex flex-1 xl:flex-none xl:w-125 h-10 md:h-11.25 rounded-[5px] border border-[#64B496] flex-row justify-between items-center relative bg-white'>
+				<div className='pl-3 md:pl-4 py-2 flex-1 flex items-center gap-2'>
 					<input
 						type='text'
-						placeholder='Search for items...'
+						placeholder='Search...'
 						value={query}
 						onChange={e => {
 							setQuery(e.target.value)
@@ -94,8 +100,9 @@ export default function SearchBar({
 					/>
 					{query && (
 						<button
+							type='button'
 							onClick={() => setQuery('')}
-							className='text-gray-400 hover:text-black mr-2 cursor-pointer transition-colors duration-200'
+							className='text-gray-400 hover:text-black mr-1 cursor-pointer'
 						>
 							<X size={16} />
 						</button>
@@ -103,7 +110,7 @@ export default function SearchBar({
 				</div>
 
 				<div
-					className='flex flex-row items-center justify-center border-l border-l-[#64B496] h-full p-3 cursor-pointer relative select-none'
+					className='hidden lg:flex flex-row items-center justify-center border-l border-l-[#64B496] h-full p-3 cursor-pointer relative select-none'
 					onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 				>
 					<p className='text-[13px] font-regular whitespace-nowrap mr-1 text-gray-700'>
@@ -113,39 +120,32 @@ export default function SearchBar({
 						className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
 						size={18}
 					/>
-
 					{isDropdownOpen && (
-						<ul className='absolute right-0 w-64 mt-1 top-full z-100 rounded-md border border-gray-100 bg-white p-2 shadow-lg animate-in fade-in slide-in-from-top-2'>
+						<ul className='absolute right-0 w-64 mt-1 top-full z-100 rounded-md border border-gray-100 bg-white p-2 shadow-lg'>
 							<li>
 								<button
+									type='button'
 									onClick={e => {
 										e.stopPropagation()
 										setSelectedCategory('All Categories')
 										setIsDropdownOpen(false)
 									}}
-									className={`block w-full text-left rounded-sm px-4 py-2 text-sm transition-colors cursor-pointer font-semibold ${
-										selectedCategory === 'All Categories'
-											? 'bg-gray-50 text-[#64B496] font-semibold'
-											: 'text-gray-700 hover:bg-gray-100'
-									}`}
+									className={`block w-full text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'All Categories' ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 								>
 									All Categories
 								</button>
 							</li>
 							<div className='h-px bg-gray-100 my-1' />
 							{categories.map(category => (
-								<li key={category.id}>
+								<li key={category.categoryId}>
 									<button
+										type='button'
 										onClick={e => {
 											e.stopPropagation()
 											setSelectedCategory(category.name)
 											setIsDropdownOpen(false)
 										}}
-										className={`block w-full text-left rounded-sm px-4 py-2 text-sm transition-colors cursor-pointer ${
-											selectedCategory === category.name
-												? 'bg-gray-50 text-[#64B496] font-semibold'
-												: 'text-gray-700 hover:bg-gray-100'
-										}`}
+										className={`block w-full text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category.name ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 									>
 										{category.name}
 									</button>
@@ -156,27 +156,28 @@ export default function SearchBar({
 				</div>
 
 				<button
+					type='button'
 					onClick={handleSearchSubmit}
-					className='w-11.25 h-11.25 rounded-r-sm bg-[#2B2B2D] flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity duration-200 border-none shrink-0'
+					className='w-10 h-10 md:w-11.25 md:h-11.25 rounded-r-sm bg-[#2B2B2D] flex items-center justify-center cursor-pointer hover:opacity-90 border-none shrink-0'
 				>
-					<Search color='white' size={20} />
+					<Search color='white' size={18} />
 				</button>
 
 				{isSearchOpen && query && (
-					<div className='absolute left-0 mt-2 top-full w-full bg-white border border-gray-200 rounded-md shadow-xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2'>
+					<div className='absolute left-0 mt-2 top-full w-full bg-white border border-gray-200 rounded-md shadow-xl overflow-hidden z-50'>
 						{searchResults.length > 0 ? (
 							<>
 								<ul className='max-h-80 overflow-y-auto divide-y divide-gray-100'>
 									{searchResults.slice(0, 5).map(product => (
-										<li key={product.id}>
+										<li key={product.productId}>
 											<Link
-												href={`/products/${product.id}`}
+												href={`/products/${product.productId}`}
 												onClick={() => setIsSearchOpen(false)}
-												className='flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors'
+												className='flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50'
 											>
 												<div className='relative w-10 h-10 shrink-0 bg-gray-50 rounded-md overflow-hidden'>
 													<Image
-														src={product.image}
+														src={product.imageUrl}
 														alt={product.name}
 														fill
 														className='object-cover'
@@ -198,8 +199,9 @@ export default function SearchBar({
 									))}
 								</ul>
 								<button
+									type='button'
 									onClick={handleSearchSubmit}
-									className='w-full text-center block bg-gray-50 hover:bg-gray-100 py-2.5 text-xs font-bold text-[#64B496] border-t border-gray-100 transition-colors uppercase tracking-wider cursor-pointer'
+									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-[#64B496] border-t border-gray-100 uppercase tracking-wider'
 								>
 									View All Results ({searchResults.length})
 								</button>
@@ -214,12 +216,12 @@ export default function SearchBar({
 			</div>
 
 			<div className='shrink-0'>
-				<ul className='text-[15px] font-medium flex flex-row list-none gap-4 md:gap-6'>
+				<ul className='text-[15px] font-medium flex flex-row list-none gap-3 md:gap-6'>
 					{userMenuItems.map(item => (
 						<li key={item.href}>
 							<Link
 								href={item.href}
-								className='flex items-center gap-2 hover:text-[#64B496] transition-colors duration-200 text-black'
+								className='flex items-center gap-2 hover:text-[#64B496] text-black'
 							>
 								{item.icon}
 								<span className='hidden md:inline'>{item.label}</span>

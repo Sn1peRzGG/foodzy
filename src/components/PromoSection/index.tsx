@@ -1,5 +1,5 @@
+import PromoCard from '@/src/components/ui/PromoCard'
 import Image from 'next/image'
-import PromoCard from '../ui/PromoCard'
 
 export default function PromoSection() {
 	return (
@@ -24,17 +24,17 @@ export default function PromoSection() {
 					<PromoCard
 						title='Convenient and Reliable'
 						description='Whether you dine in, take out, or order delivery, our service is convenient, fast, and reliable, making mealtime hassle-free.'
-						image='/delivery_icon.png'
+						imageUrl='/delivery_icon.png'
 					/>
 					<PromoCard
 						title='Variety of Options'
 						description='From hearty meals to light snacks, we offer a wide range of options to suit every taste and craving.'
-						image='/menu_icon.png'
+						imageUrl='/menu_icon.png'
 					/>
 					<PromoCard
 						title='Eat Burger'
 						description='Our burgers are grilled to perfection, with juicy patties and flavorful toppings that make every bite a delicious experience.'
-						image='/burger_icon.png'
+						imageUrl='/burger_icon.png'
 					/>
 				</div>
 			</div>

@@ -1,43 +1,62 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
 import Fuse from 'fuse.js'
-import categoriesData from '@/data/categories.json'
-import productsData from '@/data/products.json'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { CategoryType } from '../types/category'
+import { ProductType } from '../types/product'
 
-export function useProductSearch() {
+export function useProductSearch(
+	products: ProductType[] = [],
+	categories: CategoryType[] = [],
+) {
 	const router = useRouter()
 	const searchRef = useRef<HTMLDivElement>(null)
 
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	const [selectedCategory, setSelectedCategory] = useState('All Categories')
 	const [query, setQuery] = useState('')
-	const [searchResults, setSearchResults] = useState<typeof productsData>([])
+	const [searchResults, setSearchResults] = useState<ProductType[]>([])
 	const [isSearchOpen, setIsSearchOpen] = useState(false)
 
-	const categories = categoriesData
-
 	const fuseInstance = useMemo(() => {
+		const safeProducts = Array.isArray(products) ? products : []
+
 		const filteredByCat =
 			selectedCategory === 'All Categories'
-				? productsData
-				: productsData.filter(p => p.category === selectedCategory)
+				? safeProducts
+				: safeProducts.filter(
+						p => p?.category?.toLowerCase() === selectedCategory.toLowerCase(),
+					)
 
 		return new Fuse(filteredByCat, {
 			keys: ['name', 'description'],
 			threshold: 0.4,
 		})
-	}, [selectedCategory])
+	}, [selectedCategory, products])
 
 	useEffect(() => {
+		if (!fuseInstance) return
+
 		if (!query.trim()) {
-			setSearchResults([])
+			if (searchResults.length !== 0) {
+				setSearchResults([])
+			}
 			return
 		}
 
-		setSearchResults(fuseInstance.search(query).map(res => res.item))
-	}, [query, fuseInstance])
+		const nextResults = fuseInstance.search(query).map(res => res.item)
+
+		const isSame =
+			searchResults.length === nextResults.length &&
+			searchResults.every(
+				(item, idx) => item.productId === nextResults[idx].productId,
+			)
+
+		if (!isSame) {
+			setSearchResults(nextResults)
+		}
+	}, [query, fuseInstance, searchResults.length])
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -57,7 +76,9 @@ export function useProductSearch() {
 		if (!query.trim()) return
 		setIsSearchOpen(false)
 		router.push(
-			`/products?search=${encodeURIComponent(query)}&category=${encodeURIComponent(selectedCategory)}`,
+			`/products?search=${encodeURIComponent(
+				query,
+			)}&category=${encodeURIComponent(selectedCategory)}`,
 		)
 	}
 

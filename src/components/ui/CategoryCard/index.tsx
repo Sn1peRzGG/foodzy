@@ -2,22 +2,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 interface CategoryCardProps {
-	id: number
+	categoryId: number
 	name: string
-	image: string
+	imageUrl: string
 	count: number
 }
 
-export default function CategoryCard({
-	id,
-	name,
-	image,
-	count,
-}: CategoryCardProps) {
+export default function CategoryCard(props: CategoryCardProps) {
 	return (
 		<Link
-			href={`/category/${id}`}
-			id={id.toString()}
+			href={`/products?search=&category=${encodeURIComponent(props.name)}`}
+			id={props.categoryId.toString()}
 			className='
         flex flex-col items-center justify-start 
         w-70 h-75 aspect-square 
@@ -30,8 +25,8 @@ export default function CategoryCard({
 			<div className='w-30 h-30 rounded-full bg-[#C0B263]/17 flex items-center justify-center shrink-0 overflow-hidden'>
 				<div className='relative w-30 h-30'>
 					<Image
-						src={image}
-						alt={name}
+						src={props.imageUrl}
+						alt={props.name}
 						fill
 						sizes='120px'
 						className='object-cover aspect-square'
@@ -41,11 +36,11 @@ export default function CategoryCard({
 			</div>
 
 			<h3 className='text-[26px] font-semibold text-center leading-tight'>
-				{name}
+				{props.name}
 			</h3>
 
 			<p className='text-gray-600 text-[22px] font-medium text-center'>
-				({count} dishes)
+				({props.count} dishes)
 			</p>
 		</Link>
 	)

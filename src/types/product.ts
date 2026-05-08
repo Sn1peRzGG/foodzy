@@ -1,10 +1,10 @@
 export type ProductType = {
-	id: number
+	productId: number
 	name: string
 	description: string
-	image: string
+	imageUrl: string
 	category: string
 	price: number
-	oldPrice?: number
+	oldPrice: number | null
 	rating: number
 }

@@ -1,14 +1,26 @@
-'use client'
+import { prisma } from '@/prisma/prisma'
+import { notFound } from 'next/navigation'
 
-import { useParams } from 'next/navigation'
-import products from '@/data/products.json'
-import { ProductType } from '@/src/types/product'
+interface Props {
+	params: Promise<{ id: string }>
+}
 
-export default function ProductPage() {
-	const params = useParams()
-	const product = products.find(
-		(product: ProductType) => product.id === Number(params.id),
+export default async function ProductPage({ params }: Props) {
+	const { id } = await params
+
+	const product = await prisma.product.findFirst({
+		where: {
+			productId: Number(id),
+		},
+	})
+
+	if (!product) {
+		notFound()
+	}
+
+	return (
+		<div>
+			<h1>Product Name: {product.name}</h1>
+		</div>
 	)
-
-	return <h1>Product Name: {product?.name}</h1>
 }

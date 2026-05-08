@@ -1,6 +1,7 @@
+import { prisma } from '@/prisma/prisma'
+import { CategoryType } from '@/src/types/category'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Image from 'next/image'
-import categories from '@/data/categories.json'
 import Link from 'next/link'
 
 interface ContactItem {
@@ -68,7 +69,9 @@ const imageData: ImageItem[] = [
 	{ src: '/product_5.jpg', alt: 'Product 5' },
 ]
 
-export default function Footer() {
+export default async function Footer() {
+	const categories: CategoryType[] = await prisma.category.findMany()
+
 	return (
 		<footer className='flex flex-col relative h-auto 2xl:h-128 w-full bg-[#F7F7F8] border-t border-[#E9E9E9] pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
 			<div className='hidden 2xl:block grow'></div>
@@ -96,7 +99,6 @@ export default function Footer() {
 						<div className='flex flex-col mt-7 gap-4 w-full'>
 							{contactData.map((contact, index) => {
 								const IconComponent = contact.icon
-
 								return (
 									<div
 										key={index}
@@ -122,7 +124,7 @@ export default function Footer() {
 							<div className='flex flex-col gap-2.5 2xl:gap-4'>
 								{companyData.map(company => (
 									<span
-										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap'
+										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap cursor-pointer hover:text-black'
 										key={company}
 									>
 										{company}
@@ -136,14 +138,19 @@ export default function Footer() {
 								Category
 							</h2>
 							<div className='flex flex-col gap-2.5 2xl:gap-4'>
-								{categories.map(category => (
-									<span
-										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap'
-										key={category.id}
-									>
-										{category.name}
-									</span>
-								))}
+								{categories.length > 0 ? (
+									categories.map(category => (
+										<Link
+											href={`/products?category=${category.name}`}
+											key={category.categoryId}
+											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap hover:text-black'
+										>
+											{category.name}
+										</Link>
+									))
+								) : (
+									<span className='text-xs text-gray-400'>Loading...</span>
+								)}
 							</div>
 						</div>
 
@@ -152,17 +159,13 @@ export default function Footer() {
 								Subscribe Our Newsletter
 							</h2>
 
-							<div className='h-11 w-full xl:max-w-[380px] 2xl:w-104 mt-4 rounded-[5px] border border-[#E9E9E9] bg-white flex items-center justify-between px-4 focus-within:border-gray-400 transition-colors'>
+							<div className='h-11 w-full xl:max-w-95 2xl:w-104 mt-4 rounded-[5px] border border-[#E9E9E9] bg-white flex items-center justify-between px-4 focus-within:border-gray-400 transition-colors'>
 								<input
-									type='text'
-									placeholder='Search here...'
+									type='email'
+									placeholder='Your email...'
 									className='h-full flex-1 text-[14px] text-black focus:outline-none bg-transparent placeholder:text-gray-400'
 								/>
-
-								<button
-									type='button'
-									className='text-black hover:text-gray-600 transition-colors duration-200 cursor-pointer flex items-center justify-center pl-2'
-								>
+								<button className='cursor-pointer pl-2'>
 									<Send
 										size={18}
 										className='transform rotate-45 -translate-y-0.5'
@@ -176,32 +179,15 @@ export default function Footer() {
 										key={social.name}
 										href={social.href}
 										target='_blank'
-										rel='noopener noreferrer'
-										className='rounded-[5px] border border-[#E1DFDF] w-9 h-9 flex items-center justify-center hover:bg-gray-50 transition-colors'
+										className='rounded-[5px] border border-[#E1DFDF] w-9 h-9 flex items-center justify-center hover:bg-gray-50'
 									>
 										<svg
-											role='img'
 											viewBox='0 0 24 24'
-											xmlns='http://www.w3.org/2000/svg'
 											className='w-5 h-5 fill-current text-black'
 										>
-											<title>{social.name}</title>
 											<path d={social.path} />
 										</svg>
 									</Link>
-								))}
-							</div>
-
-							<div className='mt-6 flex flex-row flex-wrap gap-2 2xl:gap-3'>
-								{imageData.map(image => (
-									<Image
-										key={image.alt}
-										src={image.src}
-										alt={image.alt}
-										width={74}
-										height={74}
-										className='aspect-square rounded-[5px] w-14.5 h-14.5 min-[1400px]:w-18.5 min-[1400px]:h-18.5 transition-all'
-									/>
 								))}
 							</div>
 						</div>
@@ -219,30 +205,27 @@ export default function Footer() {
 				</div>
 			</div>
 
-			<div className='absolute inset-0 pointer-events-none hidden md:block'>
+			<div className='absolute inset-0 pointer-events-none hidden md:block overflow-hidden'>
 				<Image
 					src='/footer_lemon.png'
-					loading='eager'
 					alt='Lemon'
 					width={60}
 					height={60}
-					className='absolute top-[40%] 2xl:top-50 -left-2.5 p-1'
+					className='absolute top-[40%] -left-2'
 				/>
 				<Image
 					src='/footer_tomato.png'
-					loading='eager'
 					alt='Tomato'
 					width={70}
 					height={60}
-					className='absolute -top-6 right-10 2xl:right-25 p-1'
+					className='absolute -top-6 right-10'
 				/>
 				<Image
 					src='/footer_pepper.png'
-					loading='eager'
 					alt='Pepper'
 					width={120}
 					height={60}
-					className='absolute bottom-5 right-10 2xl:right-54 p-1'
+					className='absolute bottom-5 right-10'
 				/>
 			</div>
 		</footer>

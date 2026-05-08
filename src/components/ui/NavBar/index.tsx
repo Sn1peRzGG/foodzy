@@ -1,10 +1,11 @@
 'use client'
 
+import menuItems from '@/data/menuItems.json'
 import { ChevronDown, Phone, TextAlignJustify, X } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
-import menuItems from '@/data/menuItems.json'
+import { useEffect, useState } from 'react'
 
 interface NavBarProps {
 	isMenuOpen: boolean
@@ -15,9 +16,20 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 	const pathname = usePathname()
 	const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
+	useEffect(() => {
+		if (isMenuOpen) {
+			document.body.style.overflow = 'hidden'
+		} else {
+			document.body.style.overflow = 'unset'
+		}
+		return () => {
+			document.body.style.overflow = 'unset'
+		}
+	}, [isMenuOpen])
+
 	return (
 		<>
-			<div className='w-full h-2/5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] hidden xl:block'>
+			<div className='w-full h-full shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] hidden xl:block'>
 				<div className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full flex items-center justify-between mx-auto max-w-360'>
 					<div className='w-8.75 h-8.75 border border-[#E9E9E9] rounded-[5px] flex items-center pl-1 cursor-pointer hover:bg-gray-50 transition-colors'>
 						<TextAlignJustify className='w-5.5 h-5.5' />
@@ -142,6 +154,27 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 						<X className='w-5 h-5 text-gray-600' />
 					</button>
 				</div>
+
+				<Link
+					href='/'
+					className='flex flex-row select-none cursor-pointer shrink-0 px-2 mt-4'
+				>
+					<Image
+						src='/logo.png'
+						alt='Logo'
+						width={82}
+						height={82}
+						className='w-14 h-14 xl:w-20.5 xl:h-20.5 object-contain'
+					/>
+					<div className='flex flex-col justify-center -ml-2'>
+						<h2 className='text-lg xl:text-[24px] font-black leading-tight'>
+							Foodzy
+						</h2>
+						<p className='text-[10px] xl:text-[12px] font-semibold -mt-0.5 text-black'>
+							A Treasure of Tastes
+						</p>
+					</div>
+				</Link>
 
 				<nav className='flex-1 overflow-y-auto p-4'>
 					<ul className='flex flex-col gap-1'>

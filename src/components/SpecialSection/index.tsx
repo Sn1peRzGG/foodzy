@@ -1,11 +1,9 @@
-import { prisma } from '@/prisma/prisma'
+import products from '@/data/products.json'
 import BlogCard from '@/src/components/ui/BlogCard'
 import ControlButton from '@/src/components/ui/ControlButton'
 import { ProductType } from '@/src/types/product'
 
-export default async function SpecialSection() {
-	const products: ProductType[] = await prisma.product.findMany()
-
+export default function SpecialSection() {
 	return (
 		<div className='flex flex-col w-full gap-6 md:gap-8 lg:gap-10 relative mt-6'>
 			<div className='flex flex-row justify-between items-start gap-4 md:gap-6 lg:gap-12 px-2'>

@@ -1,10 +1,7 @@
-import { prisma } from '@/prisma/prisma'
+import categories from '@/data/categories.json'
 import CategoryCard from '@/src/components/ui/CategoryCard'
-import { CategoryType } from '@/src/types/category'
 
-export default async function CategorySection() {
-	const categories: CategoryType[] = await prisma.category.findMany()
-
+export default function CategorySection() {
 	return (
 		<div className='w-full mt-8 sm:mt-12 md:mt-16 lg:mt-20 2xl:mt-32'>
 			<div className='flex flex-col items-center gap-2 md:gap-3 lg:gap-7 mb-8 md:mb-12 lg:mb-16'>

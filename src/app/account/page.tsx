@@ -1,12 +1,8 @@
-import { prisma } from '@/prisma/prisma'
+import users from '@/data/users.json'
 import Image from 'next/image'
 
-export default async function AccountPage() {
-	const user = await prisma.user.findFirst({
-		where: {
-			userId: 1,
-		},
-	})
+export default function AccountPage() {
+	const user = users.find(user => user.userId === 1)
 
 	if (!user) {
 		return <div>User not found</div>

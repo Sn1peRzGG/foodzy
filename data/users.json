@@ -1,0 +1,14 @@
+[
+	{
+		"userId": 1,
+		"email": "alex.foodzy@example.com",
+		"password": "1234",
+		"firstName": "Alex",
+		"lastName": "Gray",
+		"phoneNumber": "+380671234567",
+		"city": "Kyiv",
+		"address": "Khreshchatyk St, 24/1, 15",
+		"role": "admin",
+		"avatarUrl": "https://ui-avatars.com/api/?name=Alex+Gray&background=random"
+	}
+]

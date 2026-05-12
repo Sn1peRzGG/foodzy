@@ -4,7 +4,6 @@ import type { Metadata } from 'next'
 import { Nunito, Poppins } from 'next/font/google'
 import './globals.css'
 import Breadcrumbs from '@/src/components/ui/Breadcrumbs'
-import { prisma } from '@/prisma/prisma'
 
 const poppins = Poppins({
 	subsets: ['latin'],
@@ -23,20 +22,17 @@ export const metadata: Metadata = {
 	description: 'A Treasure of Tastes',
 }
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	const products = await prisma.product.findMany()
-	const categories = await prisma.category.findMany()
-
 	return (
 		<html lang='en' className='h-full'>
 			<body
 				className={`${poppins.variable} ${nunito.variable} min-h-full flex flex-col antialiased`}
 			>
-				<Header products={products} categories={categories} />
+				<Header />
 				<main className='grow mt-24 xl:mt-36 flex flex-col min-h-screen'>
 					<Breadcrumbs />
 					{children}

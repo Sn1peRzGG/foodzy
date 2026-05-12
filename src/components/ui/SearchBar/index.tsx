@@ -1,8 +1,7 @@
 'use client'
 
+import categories from '@/data/categories.json'
 import { useProductSearch } from '@/src/hooks/useProductSearch'
-import { CategoryType } from '@/src/types/category'
-import { ProductType } from '@/src/types/product'
 import {
 	ChevronDown,
 	Heart,
@@ -18,15 +17,11 @@ import Link from 'next/link'
 interface SearchBarProps {
 	isMenuOpen: boolean
 	setIsMenuOpen: (open: boolean) => void
-	products: ProductType[]
-	categories: CategoryType[]
 }
 
 export default function SearchBar({
 	isMenuOpen,
 	setIsMenuOpen,
-	products,
-	categories,
 }: SearchBarProps) {
 	const {
 		searchRef,
@@ -40,7 +35,7 @@ export default function SearchBar({
 		selectedCategory,
 		setSelectedCategory,
 		handleSearchSubmit,
-	} = useProductSearch(products, categories)
+	} = useProductSearch()
 
 	const userMenuItems = [
 		{ label: 'Account', href: '/account', icon: <User size={20} /> },
@@ -130,14 +125,14 @@ export default function SearchBar({
 										setSelectedCategory('All Categories')
 										setIsDropdownOpen(false)
 									}}
-									className={`block w-full text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'All Categories' ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'All Categories' ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 								>
 									All Categories
 								</button>
 							</li>
 							<div className='h-px bg-gray-100 my-1' />
 							{categories.map(category => (
-								<li key={category.categoryId}>
+								<li key={category.categoryId} className='cursor-pointer'>
 									<button
 										type='button'
 										onClick={e => {
@@ -145,7 +140,7 @@ export default function SearchBar({
 											setSelectedCategory(category.name)
 											setIsDropdownOpen(false)
 										}}
-										className={`block w-full text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category.name ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category.name ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 									>
 										{category.name}
 									</button>

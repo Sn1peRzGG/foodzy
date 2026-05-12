@@ -1,5 +1,4 @@
-import { prisma } from '@/prisma/prisma'
-import { CategoryType } from '@/src/types/category'
+import categories from '@/data/categories.json'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -69,9 +68,7 @@ const imageData: ImageItem[] = [
 	{ src: '/product_5.jpg', alt: 'Product 5' },
 ]
 
-export default async function Footer() {
-	const categories: CategoryType[] = await prisma.category.findMany()
-
+export default function Footer() {
 	return (
 		<footer className='flex flex-col relative h-auto 2xl:h-128 w-full bg-[#F7F7F8] border-t border-[#E9E9E9] pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
 			<div className='hidden 2xl:block grow'></div>

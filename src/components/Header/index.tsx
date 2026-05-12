@@ -6,12 +6,7 @@ import { CategoryType } from '@/src/types/category'
 import { ProductType } from '@/src/types/product'
 import { useState } from 'react'
 
-interface HeaderProps {
-	products: ProductType[]
-	categories: CategoryType[]
-}
-
-export default function Header(props: HeaderProps) {
+export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 
 	return (
@@ -21,12 +16,7 @@ export default function Header(props: HeaderProps) {
 			</div>
 
 			<div className='w-full h-full xl:h-[60%] shrink-0'>
-				<SearchBar
-					isMenuOpen={isMenuOpen}
-					setIsMenuOpen={setIsMenuOpen}
-					products={props.products}
-					categories={props.categories}
-				/>
+				<SearchBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 			</div>
 		</header>
 	)

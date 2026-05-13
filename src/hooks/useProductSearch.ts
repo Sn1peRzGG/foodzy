@@ -1,10 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import Fuse from 'fuse.js'
-import categoriesData from '@/data/categories.json'
-import productsData from '@/data/products.json'
+import { useEffect, useRef, useState } from 'react'
+import api from '../lib/api'
+import { CategoryType } from '../types/category'
+import { ProductType } from '../types/product'
+import { useDebounce } from './useDebounce'
 
 export function useProductSearch() {
 	const router = useRouter()
@@ -13,31 +15,35 @@ export function useProductSearch() {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	const [selectedCategory, setSelectedCategory] = useState('All Categories')
 	const [query, setQuery] = useState('')
-	const [searchResults, setSearchResults] = useState<typeof productsData>([])
 	const [isSearchOpen, setIsSearchOpen] = useState(false)
 
-	const categories = categoriesData
+	const { data: categories = [] } = useQuery<CategoryType[]>({
+		queryKey: ['categories'],
+		queryFn: async () => {
+			const res = await api.get('/categories')
+			return res.data
+		},
+		staleTime: 1000 * 60 * 10,
+	})
 
-	const fuseInstance = useMemo(() => {
-		const filteredByCat =
-			selectedCategory === 'All Categories'
-				? productsData
-				: productsData.filter(p => p.category === selectedCategory)
+	const debouncedQuery = useDebounce(query, 200)
 
-		return new Fuse(filteredByCat, {
-			keys: ['name', 'description'],
-			threshold: 0.4,
-		})
-	}, [selectedCategory])
-
-	useEffect(() => {
-		if (!query.trim()) {
-			setSearchResults([])
-			return
-		}
-
-		setSearchResults(fuseInstance.search(query).map(res => res.item))
-	}, [query, fuseInstance])
+	const { data: searchResults = [] } = useQuery<ProductType[]>({
+		queryKey: ['search', debouncedQuery, selectedCategory],
+		queryFn: async () => {
+			const res = await api.get('/products/search', {
+				params: {
+					name: debouncedQuery,
+					category:
+						selectedCategory === 'All Categories'
+							? undefined
+							: selectedCategory,
+				},
+			})
+			return res.data
+		},
+		enabled: !!debouncedQuery.trim(),
+	})
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -49,15 +55,20 @@ export function useProductSearch() {
 				setIsDropdownOpen(false)
 			}
 		}
+
 		document.addEventListener('mousedown', handleClickOutside)
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [])
 
 	const handleSearchSubmit = () => {
 		if (!query.trim()) return
+
 		setIsSearchOpen(false)
+
 		router.push(
-			`/products?search=${encodeURIComponent(query)}&category=${encodeURIComponent(selectedCategory)}`,
+			`/products?search=${encodeURIComponent(query)}&category=${encodeURIComponent(
+				selectedCategory,
+			)}`,
 		)
 	}
 

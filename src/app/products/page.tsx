@@ -1,36 +1,46 @@
 'use client'
 
-import products from '@/data/products.json'
-import ProductCard from '@/src/components/ui/ProductCard'
-import Fuse from 'fuse.js'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+
+import api from '@/src/lib/api'
+import ProductCard from '@/src/components/ui/ProductCard'
+import { ProductType } from '@/src/types/product'
 
 export default function ProductsPage() {
 	const searchParams = useSearchParams()
+
 	const searchQuery = searchParams.get('search')
 	const searchCategory = searchParams.get('category') || 'All Categories'
 
-	const [filteredProducts, setFilteredProducts] = useState(products)
+	const {
+		data: products = [],
+		isLoading,
+		error,
+	} = useQuery<ProductType[]>({
+		queryKey: ['products', searchQuery, searchCategory],
 
-	useEffect(() => {
-		let baseProducts = products
-		if (searchCategory !== 'All Categories') {
-			baseProducts = products.filter(p => p.category === searchCategory)
-		}
-
-		if (searchQuery) {
-			const fuse = new Fuse(baseProducts, {
-				keys: ['name', 'description'],
-				threshold: 0.4,
+		queryFn: async () => {
+			const res = await api.get('/products/search', {
+				params: {
+					name: searchQuery || undefined,
+					category:
+						searchCategory === 'All Categories' ? undefined : searchCategory,
+				},
 			})
-			const results = fuse.search(searchQuery).map(res => res.item)
-			setFilteredProducts(results)
-		} else {
-			setFilteredProducts(baseProducts)
-		}
-	}, [searchQuery, searchCategory])
+
+			return res.data
+		},
+	})
+
+	if (error) {
+		return (
+			<div className='w-full flex items-center justify-center py-20'>
+				<p className='text-red-500'>Failed to load products.</p>
+			</div>
+		)
+	}
 
 	return (
 		<div className='w-full flex flex-col items-center px-4 py-8'>
@@ -39,20 +49,26 @@ export default function ProductsPage() {
 					<h1 className='text-3xl font-black text-black'>
 						{searchQuery ? `Results for "${searchQuery}"` : 'Our Products'}
 					</h1>
+
 					<p className='text-sm text-gray-500 mt-1'>
 						Category:{' '}
 						<span className='font-semibold text-[#64B496]'>
 							{searchCategory}
 						</span>{' '}
-						– Found {filteredProducts.length} items
+						– Found {products.length} items
 					</p>
 				</div>
 
-				{filteredProducts.length === 0 ? (
+				{isLoading ? (
+					<div className='text-center py-20 text-gray-500'>
+						Loading products...
+					</div>
+				) : products.length === 0 ? (
 					<div className='text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-200'>
 						<p className='text-gray-500 text-lg'>
 							We couldn't find anything matching your request.
 						</p>
+
 						<Link
 							href='/'
 							className='text-[#64B496] font-semibold mt-2 inline-block hover:underline'
@@ -62,7 +78,7 @@ export default function ProductsPage() {
 					</div>
 				) : (
 					<div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 [screen-and-(min-width:1800px)]:grid-cols-5 gap-6'>
-						{filteredProducts.map(product => (
+						{products.map(product => (
 							<ProductCard key={product.productId} {...product} />
 						))}
 					</div>

@@ -1,7 +1,20 @@
-import categories from '@/data/categories.json'
 import CategoryCard from '@/src/components/ui/CategoryCard'
+import api from '@/src/lib/api'
+import { CategoryType } from '@/src/types/category'
 
-export default function CategorySection() {
+async function getCategories() {
+	try {
+		const response = await api.get('/categories')
+		return response.data as CategoryType[]
+	} catch (error) {
+		console.error('Failed to fetch categories:', error)
+		throw new Error('Failed to load categories. Please try again later.')
+	}
+}
+
+export default async function CategorySection() {
+	const categories: CategoryType[] = await getCategories()
+
 	return (
 		<div className='w-full mt-8 sm:mt-12 md:mt-16 lg:mt-20 2xl:mt-32'>
 			<div className='flex flex-col items-center gap-2 md:gap-3 lg:gap-7 mb-8 md:mb-12 lg:mb-16'>

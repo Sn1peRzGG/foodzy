@@ -4,14 +4,14 @@ import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 
-interface BlogCardProps {
+interface SpecialCardProps {
 	productId: number
 	name: string
 	description: string
 	imageUrl: string
 }
 
-export default function BlogCard(props: BlogCardProps) {
+export default function SpecialCard(props: SpecialCardProps) {
 	const [liked, setLiked] = useState(false)
 
 	return (

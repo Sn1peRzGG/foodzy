@@ -11,7 +11,7 @@ interface ProductCardProps {
 	imageUrl: string
 	category: string
 	price: number
-	oldPrice?: number
+	oldPrice: number | null
 	rating: number
 }
 

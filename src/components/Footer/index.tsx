@@ -1,4 +1,8 @@
-import categories from '@/data/categories.json'
+'use client'
+
+import api from '@/src/lib/api'
+import { CategoryType } from '@/src/types/category'
+import { useQuery } from '@tanstack/react-query'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -69,6 +73,15 @@ const imageData: ImageItem[] = [
 ]
 
 export default function Footer() {
+	const { data: categories = [] } = useQuery<CategoryType[]>({
+		queryKey: ['categories'],
+		queryFn: async () => {
+			const res = await api.get('/categories')
+			return res.data
+		},
+		staleTime: 1000 * 60 * 10,
+	})
+
 	return (
 		<footer className='flex flex-col relative h-auto 2xl:h-128 w-full bg-[#F7F7F8] border-t border-[#E9E9E9] pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
 			<div className='hidden 2xl:block grow'></div>
@@ -187,6 +200,19 @@ export default function Footer() {
 									</Link>
 								))}
 							</div>
+
+							<div className='flex flex-wrap gap-3 mt-6 flex-row'>
+								{imageData.map(image => (
+									<Image
+										src={image.src}
+										alt={image.alt}
+										width={74}
+										height={74}
+										key={image.alt}
+										className='rounded-[5px]'
+									/>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -202,7 +228,7 @@ export default function Footer() {
 				</div>
 			</div>
 
-			<div className='absolute inset-0 pointer-events-none hidden md:block overflow-hidden'>
+			<div className='absolute inset-0 pointer-events-none hidden md:block'>
 				<Image
 					src='/footer_lemon.png'
 					alt='Lemon'

@@ -1,6 +1,5 @@
 'use client'
 
-import categories from '@/data/categories.json'
 import { useProductSearch } from '@/src/hooks/useProductSearch'
 import {
 	ChevronDown,
@@ -35,6 +34,7 @@ export default function SearchBar({
 		selectedCategory,
 		setSelectedCategory,
 		handleSearchSubmit,
+		categories,
 	} = useProductSearch()
 
 	const userMenuItems = [
@@ -196,7 +196,7 @@ export default function SearchBar({
 								<button
 									type='button'
 									onClick={handleSearchSubmit}
-									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-[#64B496] border-t border-gray-100 uppercase tracking-wider'
+									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-[#64B496] border-t border-gray-100 uppercase tracking-wider cursor-pointer'
 								>
 									View All Results ({searchResults.length})
 								</button>

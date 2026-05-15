@@ -24,7 +24,7 @@ export default function Error({
 			<p>{error.message}</p>
 			<button
 				onClick={handleReset}
-				className='px-4 py-2 bg-[#64B496] text-white rounded cursor-pointer'
+				className='px-4 py-2 bg-primary text-white rounded cursor-pointer'
 			>
 				Try again
 			</button>

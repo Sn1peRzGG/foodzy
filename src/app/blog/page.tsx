@@ -1,3 +1,3 @@
 export default function BlogPage() {
-	return <div>Blog Content</div>
+	return <div className='container-responsive'>Blog Content</div>
 }

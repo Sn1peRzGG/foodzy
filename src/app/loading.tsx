@@ -3,7 +3,7 @@ export default function Loading() {
 		<div className='w-full mt-20 flex items-center justify-center text-7xl font-semibold'>
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
-				className='size-12 animate-[spin_0.8s_linear_infinite] fill-[#64B496]'
+				className='size-12 animate-[spin_0.8s_linear_infinite] fill-primary'
 				viewBox='0 0 24 24'
 				aria-hidden='true'
 			>

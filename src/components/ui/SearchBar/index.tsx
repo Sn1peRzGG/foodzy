@@ -79,7 +79,7 @@ export default function SearchBar({
 				</div>
 			</Link>
 
-			<div className='flex flex-1 xl:flex-none xl:w-125 h-10 md:h-11.25 rounded-[5px] border border-[#64B496] flex-row justify-between items-center relative bg-white'>
+			<div className='flex flex-1 xl:flex-none xl:w-125 h-10 md:h-11.25 rounded-[5px] border border-primary flex-row justify-between items-center relative bg-white'>
 				<div className='pl-3 md:pl-4 py-2 flex-1 flex items-center gap-2'>
 					<input
 						type='text'
@@ -105,7 +105,7 @@ export default function SearchBar({
 				</div>
 
 				<div
-					className='hidden lg:flex flex-row items-center justify-center border-l border-l-[#64B496] h-full p-3 cursor-pointer relative select-none'
+					className='hidden lg:flex flex-row items-center justify-center border-l border-l-primary h-full p-3 cursor-pointer relative select-none'
 					onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 				>
 					<p className='text-[13px] font-regular whitespace-nowrap mr-1 text-gray-700'>
@@ -125,7 +125,7 @@ export default function SearchBar({
 										setSelectedCategory('All Categories')
 										setIsDropdownOpen(false)
 									}}
-									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'All Categories' ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'All Categories' ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 								>
 									All Categories
 								</button>
@@ -140,7 +140,7 @@ export default function SearchBar({
 											setSelectedCategory(category.name)
 											setIsDropdownOpen(false)
 										}}
-										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category.name ? 'bg-gray-50 text-[#64B496] font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category.name ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 									>
 										{category.name}
 									</button>
@@ -186,7 +186,7 @@ export default function SearchBar({
 														{product.description}
 													</p>
 												</div>
-												<span className='text-sm font-bold text-[#64B496]'>
+												<span className='text-sm font-bold text-primary'>
 													${product.price}
 												</span>
 											</Link>
@@ -196,7 +196,7 @@ export default function SearchBar({
 								<button
 									type='button'
 									onClick={handleSearchSubmit}
-									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-[#64B496] border-t border-gray-100 uppercase tracking-wider cursor-pointer'
+									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-primary border-t border-gray-100 uppercase tracking-wider cursor-pointer'
 								>
 									View All Results ({searchResults.length})
 								</button>
@@ -216,7 +216,7 @@ export default function SearchBar({
 						<li key={item.href}>
 							<Link
 								href={item.href}
-								className='flex items-center gap-2 hover:text-[#64B496] text-black'
+								className='flex items-center gap-2 hover:text-primary text-black'
 							>
 								{item.icon}
 								<span className='hidden md:inline'>{item.label}</span>

@@ -1,3 +1,3 @@
 export default function FAQPage() {
-	return <div>FAQ Content</div>
+	return <div className='container-responsive'>FAQ Content</div>
 }

@@ -17,5 +17,9 @@ export default function ProductPage() {
 		enabled: !!params.id,
 	})
 
-	return <h1>Product Name: {product?.name}</h1>
+	return (
+		<div className='container-responsive'>
+			<h1>Product Name: {product?.name}</h1>
+		</div>
+	)
 }

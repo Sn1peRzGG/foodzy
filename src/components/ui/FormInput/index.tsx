@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import React, { useState } from 'react'
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string
@@ -27,7 +27,7 @@ export const FormInput = ({
 
 			<div className='group relative'>
 				{icon && (
-					<div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors group-focus-within:text-[#64B496]'>
+					<div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors group-focus-within:text-primary'>
 						{icon}
 					</div>
 				)}
@@ -41,7 +41,7 @@ export const FormInput = ({
 						${
 							error
 								? 'border-red-400 focus:ring-4 focus:ring-red-50'
-								: 'border-gray-200 focus:border-[#64B496] focus:ring-4 focus:ring-[#64B496]/15'
+								: 'border-gray-200 focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
 					`}
 				/>
@@ -50,7 +50,7 @@ export const FormInput = ({
 					<button
 						type='button'
 						onClick={() => setShowPassword(prev => !prev)}
-						className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-[#64B496] cursor-pointer'
+						className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-primary cursor-pointer'
 					>
 						{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
 					</button>

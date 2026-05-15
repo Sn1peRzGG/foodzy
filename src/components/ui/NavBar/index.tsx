@@ -200,7 +200,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 												}
 												className={`w-full flex items-center justify-between py-2.5 px-2 rounded-md transition-colors cursor-pointer ${
 													isActive
-														? 'bg-gray-50 text-[#64B496] font-semibold'
+														? 'bg-gray-50 text-primary font-semibold'
 														: 'text-gray-700 active:bg-gray-50'
 												}`}
 											>
@@ -221,7 +221,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 																	onClick={() => setIsMenuOpen(false)}
 																	className={`block rounded-md px-3 py-2 text-sm transition-colors ${
 																		isSubActive
-																			? 'text-[#64B496] font-semibold bg-white shadow-sm'
+																			? 'text-primary font-semibold bg-white shadow-sm'
 																			: 'text-gray-600 active:bg-gray-100'
 																	}`}
 																>
@@ -239,7 +239,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 											onClick={() => setIsMenuOpen(false)}
 											className={`block py-2.5 px-2 rounded-md transition-colors ${
 												isActive
-													? 'bg-gray-50 text-[#64B496] font-semibold'
+													? 'bg-gray-50 text-primary font-semibold'
 													: 'text-gray-700 active:bg-gray-50'
 											}`}
 										>

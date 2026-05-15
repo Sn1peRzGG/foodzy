@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
 				port: '',
 				pathname: '/api/**',
 			},
+			{
+				protocol: 'http',
+				hostname: 'localhost',
+				port: '5555',
+				pathname: '/**',
+			},
 		],
 	},
 	allowedDevOrigins: ['192.168.0.93'],

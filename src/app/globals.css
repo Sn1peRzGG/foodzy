@@ -2,9 +2,21 @@
 
 @theme {
 	--breakpoint-4xl: 1920px;
-	/* --breakpoint-4xl: 2560px; */
 	--font-poppins: var(--font-poppins);
 	--font-nunito: var(--font-nunito);
+
+	--color-primary: #64b496;
+	--color-primary-hover: color-mix(in srgb, #64b496 90%, black);
+
+	--color-accent: #ff6868;
+
+	--color-main-bg: #f8fafc;
+}
+
+@layer components {
+	.container-responsive {
+		@apply w-full md:w-11/12 xl:w-4/5 4xl:w-1/2 max-w-400 mx-auto px-4 py-8;
+	}
 }
 
 :root {

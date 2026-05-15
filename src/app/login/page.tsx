@@ -2,6 +2,8 @@
 
 import { FormInput } from '@/src/components/ui/FormInput'
 import api from '@/src/lib/api'
+import { getApiError } from '@/src/lib/get-api-error'
+import { getFieldErrors } from '@/src/lib/get-field-errors'
 import { ArrowRight, Lock, LogIn, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -9,7 +11,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
 
 export default function LoginPage() {
 	const [formData, setFormData] = useState({
@@ -41,7 +43,7 @@ export default function LoginPage() {
 
 		if (!PASSWORD_REGEX.test(formData.password)) {
 			newErrors.password =
-				'Password must be 8+ chars with uppercase, lowercase, and numbers'
+				'Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number'
 
 			isValid = false
 		}
@@ -51,45 +53,55 @@ export default function LoginPage() {
 		return isValid
 	}
 
-	const handleSubmit = async (e: React.SubmitEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-		if (!validate()) return
+		setErrors({
+			email: '',
+			password: '',
+		})
+
+		if (!validate()) {
+			return
+		}
 
 		setLoading(true)
 
-		const loadToast = toast.loading('Authenticating...')
+		const loadingToast = toast.loading('Authenticating...')
 
 		try {
-			const response = await api.post('/auth/login', {
+			await api.post('/auth/login', {
 				email: formData.email,
 				password: formData.password,
 			})
 
-			if (response.status === 200 || response.status === 201) {
-				toast.success('Login successful', {
-					id: loadToast,
-				})
+			toast.success('Login successful', {
+				id: loadingToast,
+			})
 
-				router.push('/account')
-			}
-		} catch (error: any) {
-			toast.error(
-				error.response?.data?.message || 'Invalid email or password',
-				{
-					id: loadToast,
-				},
-			)
+			router.push('/account')
+			router.refresh()
+		} catch (error) {
+			const fieldErrors = getFieldErrors(error)
+
+			setErrors(prev => ({
+				...prev,
+				...fieldErrors,
+			}))
+
+			toast.error(getApiError(error), {
+				id: loadingToast,
+			})
 		} finally {
 			setLoading(false)
 		}
 	}
 
 	return (
-		<div className='flex flex-1 items-center justify-center px-4 py-8'>
+		<div className='container-responsive flex flex-1 items-center justify-center'>
 			<div className='w-full max-w-md'>
 				<div className='mb-8 text-center'>
-					<div className='mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#64B496] text-white shadow-xl shadow-[#64B496]/30'>
+					<div className='mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white shadow-xl shadow-[#64B496]/30'>
 						<LogIn size={28} />
 					</div>
 
@@ -109,15 +121,15 @@ export default function LoginPage() {
 					<FormInput
 						label='Email Address'
 						type='email'
-						placeholder='e.g. admin@test.com'
+						placeholder='Enter Your email'
 						value={formData.email}
 						error={errors.email}
 						icon={<Mail size={18} />}
 						onChange={e =>
-							setFormData({
-								...formData,
+							setFormData(prev => ({
+								...prev,
 								email: e.target.value,
-							})
+							}))
 						}
 						required
 					/>
@@ -125,15 +137,15 @@ export default function LoginPage() {
 					<FormInput
 						label='Password'
 						type='password'
-						placeholder='••••••••'
+						placeholder='Enter Your password'
 						value={formData.password}
 						error={errors.password}
 						icon={<Lock size={18} />}
 						onChange={e =>
-							setFormData({
-								...formData,
+							setFormData(prev => ({
+								...prev,
 								password: e.target.value,
-							})
+							}))
 						}
 						required
 					/>
@@ -141,17 +153,17 @@ export default function LoginPage() {
 					<div className='text-right text-sm'>
 						<Link
 							href='/forgot-password'
-							className='group relative inline-block font-semibold text-[#64B496]'
+							className='group relative inline-block font-semibold text-primary'
 						>
 							Forgot password?
-							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-[#64B496] transition-all duration-300 group-hover:w-full' />
+							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full' />
 						</Link>
 					</div>
 
 					<button
 						type='submit'
 						disabled={loading}
-						className='group relative flex w-full cursor-pointer items-center justify-center rounded-xl bg-[#64B496] py-3.5 text-sm font-bold text-white transition-all hover:bg-[#58a78a] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
+						className='group relative flex w-full cursor-pointer items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-bold text-white transition-all hover:bg-[#58a78a] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
 					>
 						{loading ? 'Signing in...' : 'Sign in'}
 
@@ -163,13 +175,13 @@ export default function LoginPage() {
 
 				<div className='mt-8 text-center'>
 					<p className='text-sm text-gray-600'>
-						Don't have an account?{' '}
+						Don&apos;t have an account?{' '}
 						<Link
 							href='/signup'
-							className='group relative inline-block font-bold text-[#64B496]'
+							className='group relative inline-block font-bold text-primary'
 						>
 							Create an account
-							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-[#64B496] transition-all duration-300 group-hover:w-full' />
+							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full' />
 						</Link>
 					</p>
 				</div>

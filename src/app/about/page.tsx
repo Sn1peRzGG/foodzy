@@ -1,3 +1,3 @@
 export default function AboutPage() {
-	return <div>About Content</div>
+	return <div className='container-responsive'>About Content</div>
 }

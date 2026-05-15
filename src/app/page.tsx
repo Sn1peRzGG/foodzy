@@ -8,7 +8,7 @@ export default function Home() {
 		<>
 			<Banner />
 			<div className='w-full flex flex-col items-center px-4'>
-				<div className='w-full md:w-11/12 xl:w-4/5 4xl:w-1/2 max-w-400'>
+				<div className='container-responsive'>
 					<CategorySection />
 					<SpecialSection />
 					<PromoSection />

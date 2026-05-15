@@ -37,7 +37,7 @@ export default function RootLayout({
 				<QueryProvider>
 					<Toaster position='top-center' />
 					<Header />
-					<main className='flex-1 mt-24 xl:mt-36 bg-[#f8fafc]'>
+					<main className='flex-1 mt-24 xl:mt-36 bg-main-bg'>
 						<Breadcrumbs />
 						{children}
 					</main>

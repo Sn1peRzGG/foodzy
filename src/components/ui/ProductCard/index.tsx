@@ -42,7 +42,7 @@ export default function ProductCard(product: ProductCardProps) {
 			</div>
 
 			<div className='flex items-center justify-between mb-1'>
-				<span className='text-xs text-[#64B496] font-bold uppercase tracking-wider'>
+				<span className='text-xs text-primary font-bold uppercase tracking-wider'>
 					{product.category}
 				</span>
 				<span className='text-[14px] font-semibold text-[#F5885F] flex items-center justify-center gap-1'>
@@ -70,7 +70,7 @@ export default function ProductCard(product: ProductCardProps) {
 				<div className='flex flex-row items-center gap-2'>
 					<button
 						type='button'
-						className='w-10 h-10 rounded-sm bg-gray-100 flex items-center justify-center hover:bg-gray-100 hover:text-[#64B496] transition-colors cursor-pointer border border-gray-300'
+						className='w-10 h-10 rounded-sm bg-gray-100 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition-colors cursor-pointer border border-gray-300'
 						onClick={e => {
 							e.preventDefault()
 							e.stopPropagation()
@@ -82,7 +82,7 @@ export default function ProductCard(product: ProductCardProps) {
 
 					<button
 						type='button'
-						className='w-10 h-10 rounded-sm bg-gray-100 flex items-center justify-center hover:bg-gray-100 hover:text-[#64B496] transition-colors cursor-pointer border border-gray-300'
+						className='w-10 h-10 rounded-sm bg-gray-100 flex items-center justify-center hover:bg-gray-100 hover:text-primary transition-colors cursor-pointer border border-gray-300'
 						onClick={e => {
 							e.preventDefault()
 							e.stopPropagation()

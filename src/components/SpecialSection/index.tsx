@@ -20,7 +20,7 @@ export default async function SpecialSection() {
 		<div className='flex flex-col w-full gap-6 md:gap-8 lg:gap-10 relative mt-6'>
 			<div className='flex flex-row justify-between items-start gap-4 md:gap-6 lg:gap-12 px-2'>
 				<div className='flex flex-col justify-start gap-2 md:gap-3 lg:gap-10 flex-1'>
-					<h2 className='text-sm sm:text-base md:text-lg lg:text-[20px] font-bold text-[#FF6868] tracking-[0.175em] uppercase'>
+					<h2 className='text-sm sm:text-base md:text-lg lg:text-[20px] font-bold text-accent tracking-[0.175em] uppercase'>
 						Special Dishes
 					</h2>
 					<p className='text-xl sm:text-2xl md:text-3xl lg:text-5xl 2xl:text-6xl font-bold leading-[1.315] max-w-[15ch]'>

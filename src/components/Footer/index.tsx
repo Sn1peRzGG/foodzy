@@ -151,7 +151,7 @@ export default function Footer() {
 								{categories.length > 0 ? (
 									categories.map(category => (
 										<Link
-											href={`/products?category=${category.name}`}
+											href={`/products?search=&category=${encodeURIComponent(category.name)}`}
 											key={category.categoryId}
 											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap hover:text-black'
 										>

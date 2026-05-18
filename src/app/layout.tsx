@@ -1,10 +1,7 @@
-import Footer from '@/src/components/Footer'
-import Header from '@/src/components/Header'
-import Breadcrumbs from '@/src/components/ui/Breadcrumbs'
 import type { Metadata } from 'next'
 import { Nunito, Poppins } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
-import QueryProvider from '../lib/QueryProvider'
+import QueryProvider from '@/src/lib/QueryProvider'
 import './globals.css'
 
 const poppins = Poppins({
@@ -32,16 +29,11 @@ export default function RootLayout({
 	return (
 		<html lang='en' className='h-full'>
 			<body
-				className={`${poppins.variable} ${nunito.variable} min-h-screen flex flex-col antialiased `}
+				className={`${poppins.variable} ${nunito.variable} min-h-screen flex flex-col antialiased`}
 			>
 				<QueryProvider>
 					<Toaster position='top-center' />
-					<Header />
-					<main className='flex-1 mt-24 xl:mt-36 bg-main-bg'>
-						<Breadcrumbs />
-						{children}
-					</main>
-					<Footer />
+					{children}
 				</QueryProvider>
 			</body>
 		</html>

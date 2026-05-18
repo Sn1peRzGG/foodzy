@@ -1,29 +1,24 @@
 'use client'
 
+import { useUser } from '@/src/hooks/useUser'
 import { Settings } from 'lucide-react'
-import toast from 'react-hot-toast'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-interface ConfigButtonProps {
-	role: 'USER' | 'ADMIN'
-}
-
-export default function ConfigButton({ role }: ConfigButtonProps) {
-	function handleClick() {
-		toast.success('Click!')
-	}
+export default function ConfigButton() {
+	const { data: user } = useUser()
 
 	return (
 		<>
-			{role === 'ADMIN' && (
-				<button
-					className='group flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-gray-300 transition-colors duration-200 hover:border-gray-400'
-					onClick={handleClick}
-				>
-					<Settings
-						size={28}
-						className='transition-transform duration-500 ease-in-out group-hover:rotate-90'
-					/>
-				</button>
+			{user?.role === 'ADMIN' && (
+				<Link href={'/admin'} className='fixed right-4 bottom-4 z-20'>
+					<button className='group flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border bg-emerald-600 hover:bg-emerald-700 text-white border-none shadow-md transition-colors duration-200'>
+						<Settings
+							size={28}
+							className='transition-transform duration-500 ease-in-out group-hover:rotate-90'
+						/>
+					</button>
+				</Link>
 			)}
 		</>
 	)

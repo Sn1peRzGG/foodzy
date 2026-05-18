@@ -1,37 +1,12 @@
+'use client'
+
 import ConfigButton from '@/src/components/ui/ConfigButton'
 import UserCard from '@/src/components/ui/UserCard'
-import api from '@/src/lib/api'
-import { UserType } from '@/src/types/user'
-import { jwtDecode } from 'jwt-decode'
-import { cookies } from 'next/headers'
+import { useUser } from '@/src/hooks/useUser'
 import Link from 'next/link'
 
-async function getCurrentUser() {
-	const cookieStore = await cookies()
-
-	const token = cookieStore.get('jwt')?.value
-
-	if (!token) {
-		return null
-	}
-
-	try {
-		const decoded: any = jwtDecode(token)
-
-		const response = await api.get(`/users/${decoded.userId}`, {
-			headers: {
-				Cookie: `jwt=${token}`,
-			},
-		})
-
-		return response.data as UserType
-	} catch {
-		return null
-	}
-}
-
-export default async function AccountPage() {
-	const user = await getCurrentUser()
+export default function AccountPage() {
+	const { data: user } = useUser()
 
 	if (!user) {
 		return (
@@ -70,8 +45,6 @@ export default async function AccountPage() {
 			</div>
 
 			<UserCard user={user} />
-
-			<ConfigButton role={user.role} />
 		</div>
 	)
 }

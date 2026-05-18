@@ -33,11 +33,12 @@ export default function ProductCard(product: ProductCardProps) {
 
 			<div className='w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-4 relative z-10'>
 				<Image
-					src={product.imageUrl}
+					src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
 					alt={product.name}
 					fill
 					sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 					className='object-cover'
+					unoptimized
 				/>
 			</div>
 

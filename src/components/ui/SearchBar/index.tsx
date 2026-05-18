@@ -172,10 +172,11 @@ export default function SearchBar({
 											>
 												<div className='relative w-10 h-10 shrink-0 bg-gray-50 rounded-md overflow-hidden'>
 													<Image
-														src={product.imageUrl}
+														src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
 														alt={product.name}
 														fill
 														className='object-cover'
+														unoptimized
 													/>
 												</div>
 												<div className='overflow-hidden flex-1'>

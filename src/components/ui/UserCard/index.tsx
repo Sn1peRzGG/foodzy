@@ -12,7 +12,7 @@ export default function UserCard({ user }: UserCardProps) {
 	const { logout } = useLogout()
 
 	return (
-		<div className='flex flex-row items-center justify-between mt-8 p-6 bg-white rounded-3xl shadow-sm border border-gray-100 max-w-2xl'>
+		<div className='flex flex-row items-center justify-between mt-8 p-6 bg-white rounded-3xl shadow-xl border border-gray-100 max-w-2xl'>
 			<div className='flex items-center gap-6'>
 				<div className='relative w-24 h-24'>
 					<Image

@@ -1,7 +1,9 @@
-import { getCurrentUser } from '@/src/lib/get-current-user'
+'use client'
 
-export default async function CartPage() {
-	const user = await getCurrentUser()
+import { useUser } from '@/src/hooks/useUser'
+
+export default function CartPage() {
+	const { data: user } = useUser()
 
 	return (
 		<div className='container-responsive'>

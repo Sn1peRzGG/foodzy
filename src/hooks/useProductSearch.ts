@@ -13,7 +13,7 @@ export function useProductSearch() {
 	const searchRef = useRef<HTMLDivElement>(null)
 
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-	const [selectedCategory, setSelectedCategory] = useState('All Categories')
+	const [selectedCategory, setSelectedCategory] = useState('all')
 	const [query, setQuery] = useState('')
 	const [isSearchOpen, setIsSearchOpen] = useState(false)
 
@@ -33,11 +33,8 @@ export function useProductSearch() {
 		queryFn: async () => {
 			const res = await api.get('/products/search', {
 				params: {
-					name: debouncedQuery,
-					category:
-						selectedCategory === 'All Categories'
-							? undefined
-							: selectedCategory,
+					name: debouncedQuery || undefined,
+					category: selectedCategory === 'all' ? undefined : selectedCategory,
 				},
 			})
 			return res.data
@@ -65,9 +62,12 @@ export function useProductSearch() {
 
 		setIsSearchOpen(false)
 
+		const categoryParam =
+			selectedCategory === 'all' ? 'All Categories' : selectedCategory
+
 		router.push(
 			`/products?search=${encodeURIComponent(query)}&category=${encodeURIComponent(
-				selectedCategory,
+				categoryParam,
 			)}`,
 		)
 	}

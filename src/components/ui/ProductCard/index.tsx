@@ -4,12 +4,20 @@ import { Heart, ShoppingCart, Star } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+interface CategoryType {
+	_id: string
+	categoryId: number
+	name: string
+	imageUrl: string
+	count: number
+}
+
 interface ProductCardProps {
 	productId: number
 	name: string
 	description: string
 	imageUrl: string
-	category: string
+	category: CategoryType
 	price: number
 	oldPrice: number | null
 	rating: number
@@ -19,7 +27,7 @@ export default function ProductCard(product: ProductCardProps) {
 	return (
 		<Link
 			href={`/products/${product.productId}`}
-			className='relative border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between bg-white group hover:scale-105 transform'
+			className='relative border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between bg-white group hover:scale-105 transform'
 		>
 			{product.oldPrice && (
 				<span className='absolute top-0 left-0 w-16 h-12 bg-red-600 text-white text-lg font-bold px-2 py-1 rounded-br-3xl rounded-tl-xl z-20 text-center flex items-center justify-center'>
@@ -44,7 +52,7 @@ export default function ProductCard(product: ProductCardProps) {
 
 			<div className='flex items-center justify-between mb-1'>
 				<span className='text-xs text-primary font-bold uppercase tracking-wider'>
-					{product.category}
+					{product.category.name}
 				</span>
 				<span className='text-[14px] font-semibold text-[#F5885F] flex items-center justify-center gap-1'>
 					<Star size={20} fill='#F5885F' /> {product.rating}

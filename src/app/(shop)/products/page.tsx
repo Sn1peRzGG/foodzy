@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import ProductCard from '@/src/components/ui/ProductCard'
 import api from '@/src/lib/api'
 import { ProductType } from '@/src/types/product'
+import { CategoryType } from '@/src/types/category'
 
 export default function ProductsPage() {
 	const searchParams = useSearchParams()
@@ -14,13 +15,21 @@ export default function ProductsPage() {
 	const searchQuery = searchParams.get('search')
 	const searchCategory = searchParams.get('category') || 'All Categories'
 
+	const { data: categories = [] } = useQuery<CategoryType[]>({
+		queryKey: ['categories'],
+		queryFn: async () => {
+			const res = await api.get('/categories')
+			return res.data
+		},
+		staleTime: 1000 * 60 * 10,
+	})
+
 	const {
 		data: products = [],
 		isLoading,
 		error,
 	} = useQuery<ProductType[]>({
 		queryKey: ['products', searchQuery, searchCategory],
-
 		queryFn: async () => {
 			const res = await api.get('/products/search', {
 				params: {
@@ -29,10 +38,14 @@ export default function ProductsPage() {
 						searchCategory === 'All Categories' ? undefined : searchCategory,
 				},
 			})
-
 			return res.data
 		},
 	})
+
+	const displayName =
+		searchCategory === 'All Categories'
+			? 'All Categories'
+			: categories.find(cat => cat._id === searchCategory)?.name || 'Category'
 
 	if (error) {
 		return (
@@ -51,7 +64,7 @@ export default function ProductsPage() {
 
 				<p className='text-sm text-gray-500 mt-1'>
 					Category:{' '}
-					<span className='font-semibold text-primary'>{searchCategory}</span> –
+					<span className='font-semibold text-primary'>{displayName}</span> –
 					Found {products.length} items
 				</p>
 			</div>
@@ -63,7 +76,7 @@ export default function ProductsPage() {
 			) : products.length === 0 ? (
 				<div className='text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-200'>
 					<p className='text-gray-500 text-lg'>
-						We couldn't find anything matching your request.
+						We couldn&apos;t find anything matching your request.
 					</p>
 
 					<Link

@@ -3,6 +3,7 @@
 import api from '@/src/lib/api'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { isAxiosError } from 'axios'
 
 export function useLogout() {
 	const router = useRouter()
@@ -17,8 +18,14 @@ export function useLogout() {
 				router.push('/login')
 				router.refresh()
 			}
-		} catch (error: any) {
-			toast.error(error.response?.data?.message || 'Failed to logout')
+		} catch (error: unknown) {
+			if (isAxiosError(error)) {
+				toast.error(error.response?.data?.message || 'Failed to logout')
+			} else if (error instanceof Error) {
+				toast.error(error.message)
+			} else {
+				toast.error('Failed to logout')
+			}
 		}
 	}
 

@@ -1,9 +1,12 @@
+import { CategoryType } from './category'
+
 export type ProductType = {
+	_id: string
 	productId: number
 	name: string
 	description: string
 	imageUrl: string
-	category: string
+	category: CategoryType
 	price: number
 	oldPrice: number | null
 	rating: number

@@ -2,8 +2,6 @@
 
 import NavBar from '@/src/components/ui/NavBar'
 import SearchBar from '@/src/components/ui/SearchBar'
-import { CategoryType } from '@/src/types/category'
-import { ProductType } from '@/src/types/product'
 import { useState } from 'react'
 
 export default function Header() {

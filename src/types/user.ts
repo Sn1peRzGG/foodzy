@@ -1,12 +1,14 @@
+import { ProductType } from './product'
+
 export interface CartItemType {
-	productId: number
+	product: ProductType
 	quantity: number
 }
 
 export type UserType = {
+	_id: string
 	userId: number
 	email: string
-	password: string
 	firstName: string
 	lastName: string
 	phoneNumber: string
@@ -15,5 +17,5 @@ export type UserType = {
 	role: 'USER' | 'ADMIN'
 	avatarUrl?: string
 	cart: CartItemType[]
-	wishlist: number[]
+	wishlist: ProductType[]
 }

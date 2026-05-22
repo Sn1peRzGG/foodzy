@@ -7,8 +7,6 @@ interface ControlButtonProps {
 }
 
 export default function ControlButton(props: ControlButtonProps) {
-	const Icon = props.orientation === 'left' ? ChevronLeft : ChevronRight
-
 	return (
 		<button
 			style={{ backgroundColor: props.backgroundColor, color: props.textColor }}

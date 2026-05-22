@@ -16,10 +16,14 @@ export default function UserCard({ user }: UserCardProps) {
 			<div className='flex items-center gap-6'>
 				<div className='relative w-24 h-24'>
 					<Image
-						src={user.avatarUrl || '/default-avatar.jpg'}
+						src={
+							`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}` ||
+							'/default-avatar.jpg'
+						}
 						alt='Profile Pic'
 						fill
 						className='rounded-full object-cover pointer-events-none'
+						unoptimized
 					/>
 				</div>
 				<div className='flex flex-col gap-1'>

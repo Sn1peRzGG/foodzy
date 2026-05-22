@@ -1,6 +1,5 @@
 'use client'
 
-import ConfigButton from '@/src/components/ui/ConfigButton'
 import UserCard from '@/src/components/ui/UserCard'
 import { useUser } from '@/src/hooks/useUser'
 import Link from 'next/link'

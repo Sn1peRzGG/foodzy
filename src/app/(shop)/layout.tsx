@@ -2,6 +2,7 @@ import Footer from '@/src/components/Footer'
 import Header from '@/src/components/Header'
 import Breadcrumbs from '@/src/components/ui/Breadcrumbs'
 import ConfigButton from '@/src/components/ui/ConfigButton'
+import ScrollToTop from '@/src/components/ui/ScrollToTop'
 
 export default function ShopLayout({
 	children,
@@ -15,6 +16,7 @@ export default function ShopLayout({
 				<Breadcrumbs />
 				{children}
 				<ConfigButton />
+				<ScrollToTop />
 			</main>
 			<Footer />
 		</>

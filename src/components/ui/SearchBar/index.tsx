@@ -42,6 +42,11 @@ export default function SearchBar({
 		{ label: 'Wishlist', href: '/wishlist', icon: <Heart size={20} /> },
 		{ label: 'Cart', href: '/cart', icon: <ShoppingCart size={20} /> },
 	]
+	const currentCategoryName =
+		selectedCategory === 'all'
+			? 'All Categories'
+			: categories.find(cat => cat._id === selectedCategory)?.name ||
+				'All Categories'
 
 	return (
 		<div
@@ -109,7 +114,7 @@ export default function SearchBar({
 					onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 				>
 					<p className='text-[13px] font-regular whitespace-nowrap mr-1 text-gray-700'>
-						{selectedCategory}
+						{currentCategoryName}
 					</p>
 					<ChevronDown
 						className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
@@ -122,25 +127,25 @@ export default function SearchBar({
 									type='button'
 									onClick={e => {
 										e.stopPropagation()
-										setSelectedCategory('All Categories')
+										setSelectedCategory('all')
 										setIsDropdownOpen(false)
 									}}
-									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'All Categories' ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'all' ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 								>
 									All Categories
 								</button>
 							</li>
 							<div className='h-px bg-gray-100 my-1' />
 							{categories.map(category => (
-								<li key={category.categoryId} className='cursor-pointer'>
+								<li key={category._id} className='cursor-pointer'>
 									<button
 										type='button'
 										onClick={e => {
 											e.stopPropagation()
-											setSelectedCategory(category.name)
+											setSelectedCategory(category._id)
 											setIsDropdownOpen(false)
 										}}
-										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category.name ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category._id ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
 									>
 										{category.name}
 									</button>

@@ -2,6 +2,7 @@
 
 import { useUser } from '@/src/hooks/useUser'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import Loading from '../loading'
 import Sidebar from './admin/_components/Sidebar'
 
@@ -12,6 +13,15 @@ export default function AdminLayout({
 }) {
 	const { data: user, isLoading } = useUser()
 	const router = useRouter()
+	const [mounted, setMounted] = useState(false)
+
+	useEffect(() => {
+		setMounted(true)
+	}, [])
+
+	if (!mounted) {
+		return null
+	}
 
 	if (isLoading) {
 		return <Loading />

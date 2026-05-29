@@ -10,4 +10,7 @@ export type ProductType = {
 	price: number
 	oldPrice: number | null
 	rating: number
+	weight?: string
+	calories?: number
+	isAvailable: boolean
 }

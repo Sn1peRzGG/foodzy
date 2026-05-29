@@ -75,10 +75,11 @@ export default function LoginPage() {
 				password: formData.password,
 			})
 
-			toast.success('Login successful', {
+			toast.success('Welcome back!', {
 				id: loadingToast,
 			})
 
+			localStorage.setItem('isLoggedIn', 'true')
 			router.push('/account')
 			router.refresh()
 		} catch (error) {

@@ -42,6 +42,11 @@ export default function ProductsPage() {
 		},
 	})
 
+	const sortedProducts = [...products].sort((a, b) => {
+		if (a.isAvailable === b.isAvailable) return 0
+		return a.isAvailable ? -1 : 1
+	})
+
 	const displayName =
 		searchCategory === 'All Categories'
 			? 'All Categories'
@@ -88,7 +93,7 @@ export default function ProductsPage() {
 				</div>
 			) : (
 				<div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 [screen-and-(min-width:1800px)]:grid-cols-5 gap-6'>
-					{products.map(product => (
+					{sortedProducts.map(product => (
 						<ProductCard key={product.productId} {...product} />
 					))}
 				</div>

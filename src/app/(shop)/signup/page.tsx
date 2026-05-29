@@ -152,12 +152,14 @@ export default function SignupPage() {
 		try {
 			await api.post('/users', payload)
 
-			toast.success('Signup successful', { id: loadingToast })
+			toast.success('Account created!', { id: loadingToast })
 
 			await api.post('/auth/login', {
 				email: payload.email,
 				password: payload.password,
 			})
+
+			localStorage.setItem('isLoggedIn', 'true')
 			router.push('/account')
 			router.refresh()
 		} catch (error) {

@@ -35,6 +35,7 @@ export const FormInput = ({
 				<input
 					{...props}
 					type={inputType}
+					id={inputType}
 					className={`
 						w-full rounded-xl border bg-white py-3 text-gray-900 outline-none transition-all
 						${icon ? 'pl-10 pr-10' : 'px-4'}

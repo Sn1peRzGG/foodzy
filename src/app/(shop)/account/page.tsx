@@ -3,9 +3,24 @@
 import UserCard from '@/src/components/ui/UserCard'
 import { useUser } from '@/src/hooks/useUser'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import Loading from '../../loading'
 
 export default function AccountPage() {
-	const { data: user } = useUser()
+	const { data: user, isLoading } = useUser()
+	const [mounted, setMounted] = useState(false)
+
+	useEffect(() => {
+		setMounted(true)
+	}, [])
+
+	if (!mounted) {
+		return null
+	}
+
+	if (isLoading) {
+		return <Loading />
+	}
 
 	if (!user) {
 		return (

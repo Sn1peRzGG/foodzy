@@ -44,7 +44,7 @@ export default async function SpecialSection() {
 
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-10 justify-items-center w-full mt-8 md:mt-10 lg:mt-16'>
 				{products.map(product => (
-					<SpecialCard key={product.productId} {...product} />
+					<SpecialCard key={product._id} {...product} />
 				))}
 			</div>
 		</div>

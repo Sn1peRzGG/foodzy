@@ -1,7 +1,7 @@
+import QueryProvider from '@/src/lib/QueryProvider'
 import type { Metadata } from 'next'
 import { Nunito, Poppins } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
-import QueryProvider from '@/src/lib/QueryProvider'
 import './globals.css'
 
 const poppins = Poppins({
@@ -32,7 +32,34 @@ export default function RootLayout({
 				className={`${poppins.variable} ${nunito.variable} min-h-screen flex flex-col antialiased`}
 			>
 				<QueryProvider>
-					<Toaster position='top-center' />
+					<Toaster
+						position='top-right'
+						toastOptions={{
+							className:
+								'border border-gray-100 rounded-xl p-4 bg-white shadow-md text-sm font-medium text-black transition-all duration-300',
+							style: {
+								background: '#ffffff',
+								color: '#000000',
+								border: '1px solid #f3f4f6',
+								padding: '16px',
+								borderRadius: '0.75rem',
+								boxShadow:
+									'0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
+							},
+							success: {
+								iconTheme: {
+									primary: 'var(--primary, #10B981)',
+									secondary: '#ffffff',
+								},
+							},
+							error: {
+								iconTheme: {
+									primary: '#ef4444',
+									secondary: '#ffffff',
+								},
+							},
+						}}
+					/>
 					{children}
 				</QueryProvider>
 			</body>

@@ -2,7 +2,6 @@
 
 import { Minus, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useDebounce } from '@/src/hooks/useDebounce'
 
 interface Props {
 	item: any
@@ -19,37 +18,17 @@ export default function CartQuantityInput({
 	onUpdate,
 }: Props) {
 	const [localQuantity, setLocalQuantity] = useState(item.quantity)
-	const [isDirty, setIsDirty] = useState(false)
-
-	const debouncedQuantity = useDebounce(localQuantity, 200)
 
 	useEffect(() => {
-		if (!isDirty && localQuantity !== item.quantity) {
-			setLocalQuantity(item.quantity)
-		}
-	}, [item.quantity, isDirty, localQuantity])
+		setLocalQuantity(item.quantity)
+	}, [item.quantity])
 
-	useEffect(() => {
-		if (
-			isDirty &&
-			debouncedQuantity >= MIN &&
-			debouncedQuantity <= MAX &&
-			debouncedQuantity !== item.quantity
-		) {
-			onUpdate(item.product._id, debouncedQuantity)
-		}
-	}, [debouncedQuantity, item.quantity, item.product._id, onUpdate, isDirty])
+	const handleUpdate = (targetValue: number) => {
+		if (targetValue < MIN || targetValue > MAX || targetValue === item.quantity)
+			return
 
-	useEffect(() => {
-		if (item.quantity === debouncedQuantity) {
-			setIsDirty(false)
-		}
-	}, [item.quantity, debouncedQuantity])
-
-	const handleValueChange = (newValue: number) => {
-		const clampedValue = Math.min(Math.max(newValue, MIN), MAX)
-		setIsDirty(true)
-		setLocalQuantity(clampedValue)
+		setLocalQuantity(targetValue)
+		onUpdate(item.product._id, targetValue)
 	}
 
 	const isMin = localQuantity <= MIN
@@ -66,7 +45,7 @@ export default function CartQuantityInput({
 					<button
 						type='button'
 						disabled={isLoading || isMin}
-						onClick={() => handleValueChange(localQuantity - 1)}
+						onClick={() => handleUpdate(localQuantity - 1)}
 						className='h-full px-2.5 flex items-center justify-center border-r border-[#E9E9E9] disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:bg-gray-100 cursor-pointer transition-colors'
 					>
 						<Minus size={14} />
@@ -77,7 +56,22 @@ export default function CartQuantityInput({
 						value={localQuantity}
 						onChange={e => {
 							const val = parseInt(e.target.value)
-							if (!isNaN(val)) handleValueChange(val)
+							if (!isNaN(val)) setLocalQuantity(val)
+						}}
+						onBlur={() => {
+							const clamped = Math.min(Math.max(localQuantity, MIN), MAX)
+							if (clamped !== item.quantity) {
+								handleUpdate(clamped)
+							} else {
+								setLocalQuantity(item.quantity)
+							}
+						}}
+						onKeyDown={e => {
+							if (e.key === 'Enter') {
+								const clamped = Math.min(Math.max(localQuantity, MIN), MAX)
+								handleUpdate(clamped)
+								e.currentTarget.blur()
+							}
 						}}
 						className='h-full w-12 text-center text-sm focus:outline-none bg-transparent tabular-nums font-medium'
 					/>
@@ -85,7 +79,7 @@ export default function CartQuantityInput({
 					<button
 						type='button'
 						disabled={isLoading || isMax}
-						onClick={() => handleValueChange(localQuantity + 1)}
+						onClick={() => handleUpdate(localQuantity + 1)}
 						className='h-full px-2.5 flex items-center justify-center border-l border-[#E9E9E9] disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:bg-gray-100 cursor-pointer transition-colors'
 					>
 						<Plus size={14} />

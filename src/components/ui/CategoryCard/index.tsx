@@ -1,18 +1,12 @@
+import { CategoryType } from '@/src/types/category'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface CategoryCardProps {
-	categoryId: number
-	name: string
-	imageUrl: string
-	count: number
-}
-
-export default function CategoryCard(category: CategoryCardProps) {
+export default function CategoryCard(category: CategoryType) {
 	return (
 		<Link
-			href={`/products?search=&category=${encodeURIComponent(category.name)}`}
-			id={category.categoryId.toString()}
+			href={`/products?search=&category=${encodeURIComponent(category._id)}`}
+			id={category._id}
 			className='
         flex flex-col items-center justify-start 
         w-70 h-75 aspect-square 

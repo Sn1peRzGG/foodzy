@@ -26,7 +26,7 @@ const Banner = () => {
 
 			<Link
 				href={'/products'}
-				className='absolute group bg-[#CCB777] rounded-full flex flex-row cursor-pointer z-100 left-75 bottom-30'
+				className='absolute group bg-[#CCB777] rounded-full flex flex-row cursor-pointer z-10 left-75 bottom-30'
 			>
 				<div className='bg-[#36241E] py-3 pl-6 pr-4 flex items-center justify-center rounded-l-full'>
 					<ArrowRight
@@ -53,7 +53,7 @@ const Banner = () => {
 								key={social.name}
 								href={social.href}
 								target='_blank'
-								className='rounded-full w-7 h-7 flex items-center justify-center hover:bg-[#fbeec6] bg-[#FFF6DC]'
+								className='rounded-full w-7 h-7 flex items-center justify-center hover:bg-[#ffe9a9] bg-[#FFF6DC]'
 							>
 								<svg viewBox='0 0 24 24' className='w-4 h-4 fill-current'>
 									<path d={social.path} />

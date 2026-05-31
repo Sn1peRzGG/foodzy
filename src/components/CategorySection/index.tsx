@@ -28,7 +28,7 @@ export default async function CategorySection() {
 
 			<div className='flex flex-wrap justify-center gap-4 sm:gap-5 md:gap-6 lg:gap-8 2xl:gap-12 w-full'>
 				{categories.map(category => (
-					<CategoryCard key={category.categoryId} {...category} />
+					<CategoryCard key={category._id} {...category} />
 				))}
 			</div>
 		</div>

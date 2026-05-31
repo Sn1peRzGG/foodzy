@@ -2,15 +2,24 @@ import { CategoryType } from './category'
 
 export type ProductType = {
 	_id: string
-	productId: number
 	name: string
 	description: string
 	imageUrl: string
 	category: CategoryType
 	price: number
-	oldPrice: number | null
+	oldPrice?: number
 	rating: number
 	weight?: string
 	calories?: number
 	isAvailable: boolean
+}
+
+export interface PaginatedProducts {
+	data: ProductType[]
+	meta: {
+		total: number
+		page: number
+		limit: number
+		pages: number
+	}
 }

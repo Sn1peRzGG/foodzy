@@ -30,7 +30,7 @@ export default function FullProductCard(product: ProductType) {
 		isInCart: checkCart,
 	} = useUserActions()
 
-	const targetId = String((product as any)._id || product.productId)
+	const targetId = String((product as any)._id || product._id)
 
 	const isInWishlist = checkWishlist(targetId)
 	const isInCart = checkCart(targetId)

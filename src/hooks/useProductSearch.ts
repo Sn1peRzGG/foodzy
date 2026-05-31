@@ -8,6 +8,16 @@ import { CategoryType } from '../types/category'
 import { ProductType } from '../types/product'
 import { useDebounce } from './useDebounce'
 
+interface SearchApiResponse {
+	data: ProductType[]
+	meta: {
+		total: number
+		page: number
+		limit: number
+		pages: number
+	}
+}
+
 export function useProductSearch() {
 	const router = useRouter()
 	const searchRef = useRef<HTMLDivElement>(null)
@@ -28,18 +38,31 @@ export function useProductSearch() {
 
 	const debouncedQuery = useDebounce(query, 200)
 
-	const { data: searchResults = [] } = useQuery<ProductType[]>({
+	const { data: searchData = { products: [], total: 0 } } = useQuery<
+		SearchApiResponse,
+		Error,
+		{ products: ProductType[]; total: number }
+	>({
 		queryKey: ['search', debouncedQuery, selectedCategory],
 		queryFn: async () => {
 			const res = await api.get('/products/search', {
 				params: {
 					name: debouncedQuery || undefined,
 					category: selectedCategory === 'all' ? undefined : selectedCategory,
+					page: 1,
+					limit: 5,
 				},
 			})
 			return res.data
 		},
 		enabled: !!debouncedQuery.trim(),
+		select: response => {
+			const products = Array.isArray(response?.data) ? response.data : []
+			return {
+				products: products.filter(product => product.isAvailable),
+				total: response?.meta?.total || 0,
+			}
+		},
 	})
 
 	useEffect(() => {
@@ -61,15 +84,18 @@ export function useProductSearch() {
 		if (!query.trim()) return
 
 		setIsSearchOpen(false)
+		setIsDropdownOpen(false)
 
-		const categoryParam =
-			selectedCategory === 'all' ? 'All Categories' : selectedCategory
+		const params = new URLSearchParams()
+		params.set('search', query.trim())
 
-		router.push(
-			`/products?search=${encodeURIComponent(query)}&category=${encodeURIComponent(
-				categoryParam,
-			)}`,
-		)
+		if (selectedCategory !== 'all') {
+			params.set('category', selectedCategory)
+		}
+
+		params.set('page', '1')
+
+		router.push(`/products?${params.toString()}`)
 	}
 
 	return {
@@ -78,7 +104,8 @@ export function useProductSearch() {
 		setQuery,
 		isSearchOpen,
 		setIsSearchOpen,
-		searchResults,
+		searchResults: searchData.products,
+		totalResults: searchData.total,
 		isDropdownOpen,
 		setIsDropdownOpen,
 		selectedCategory,

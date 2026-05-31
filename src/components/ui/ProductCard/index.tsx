@@ -1,25 +1,13 @@
 'use client'
 
-import { CategoryType } from '@/src/types/category'
-import { Heart, ShoppingCart, Star, Loader2 } from 'lucide-react'
+import { useUserActions } from '@/src/hooks/useUserActions'
+import { ProductType } from '@/src/types/product'
+import { Heart, Loader2, ShoppingCart, Star } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useUserActions } from '@/src/hooks/useUserActions'
 
-interface ProductCardProps {
-	productId: number
-	name: string
-	description: string
-	imageUrl: string
-	category: CategoryType
-	price: number
-	oldPrice: number | null
-	rating: number
-	isAvailable: boolean
-}
-
-export default function ProductCard(product: ProductCardProps) {
+export default function ProductCard(product: ProductType) {
 	const [mounted, setMounted] = useState(false)
 	const { user, loadingStates, toggleWishlist, addToCart, removeFromCart } =
 		useUserActions()
@@ -28,7 +16,7 @@ export default function ProductCard(product: ProductCardProps) {
 		setMounted(true)
 	}, [])
 
-	const targetId = (product as any)._id || String(product.productId)
+	const targetId = (product as any)._id || String(product._id)
 
 	const isInWishlist = user?.wishlist?.some(
 		item => String(item._id) === targetId,
@@ -60,7 +48,7 @@ export default function ProductCard(product: ProductCardProps) {
 
 	return (
 		<Link
-			href={`/products/${product.productId}`}
+			href={`/products/${product._id}`}
 			className={`relative border border-gray-100 rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-col justify-between bg-white group transform ${
 				!product.isAvailable ? 'opacity-80' : 'hover:shadow-md hover:scale-105'
 			}`}
@@ -154,7 +142,7 @@ export default function ProductCard(product: ProductCardProps) {
 							!product.isAvailable
 								? 'bg-gray-100 border-gray-200 text-gray-300 cursor-not-allowed shadow-none'
 								: isInCart
-									? 'bg-primary border-primary text-white shadow-lg shadow-primary/20'
+									? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 cursor-pointer'
 									: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-primary cursor-pointer'
 						}`}
 					>

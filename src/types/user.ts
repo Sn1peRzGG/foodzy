@@ -7,7 +7,6 @@ export interface CartItemType {
 
 export type UserType = {
 	_id: string
-	userId: number
 	email: string
 	firstName: string
 	lastName: string

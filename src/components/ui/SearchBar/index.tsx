@@ -29,6 +29,7 @@ export default function SearchBar({
 		isSearchOpen,
 		setIsSearchOpen,
 		searchResults,
+		totalResults,
 		isDropdownOpen,
 		setIsDropdownOpen,
 		selectedCategory,
@@ -42,6 +43,7 @@ export default function SearchBar({
 		{ label: 'Wishlist', href: '/wishlist', icon: <Heart size={20} /> },
 		{ label: 'Cart', href: '/cart', icon: <ShoppingCart size={20} /> },
 	]
+
 	const currentCategoryName =
 		selectedCategory === 'all'
 			? 'All Categories'
@@ -50,7 +52,7 @@ export default function SearchBar({
 
 	return (
 		<div
-			className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full flex items-center justify-between relative gap-2 md:gap-4 max-w-360 mx-auto'
+			className='w-full px-4 xl:px-0 xl:w-2/3 h-full flex items-center justify-between relative gap-2 xl:gap-4 max-w-360 mx-auto'
 			ref={searchRef}
 		>
 			<div className='flex items-center xl:hidden shrink-0'>
@@ -65,27 +67,25 @@ export default function SearchBar({
 
 			<Link
 				href='/'
-				className='hidden sm:flex flex-row select-none cursor-pointer shrink-0'
+				className='hidden xl:flex flex-row select-none cursor-pointer shrink-0'
 			>
 				<Image
 					src='/logo.png'
 					alt='Logo'
 					width={82}
 					height={82}
-					className='w-14 h-14 xl:w-20.5 xl:h-20.5 object-contain'
+					className='w-20.5 h-20.5 object-contain'
 				/>
 				<div className='flex flex-col justify-center -ml-2'>
-					<h2 className='text-lg xl:text-[24px] font-black leading-tight'>
-						Foodzy
-					</h2>
-					<p className='text-[10px] xl:text-[12px] font-semibold -mt-0.5 text-black'>
+					<h2 className='text-[24px] font-black leading-tight'>Foodzy</h2>
+					<p className='text-[12px] font-semibold -mt-0.5 text-black'>
 						A Treasure of Tastes
 					</p>
 				</div>
 			</Link>
 
-			<div className='flex flex-1 xl:flex-none xl:w-125 h-10 md:h-11.25 rounded-[5px] border border-primary flex-row justify-between items-center relative bg-white'>
-				<div className='pl-3 md:pl-4 py-2 flex-1 flex items-center gap-2'>
+			<div className='flex flex-1 xl:flex-none 2xl:w-125 h-10 xl:h-11.25 rounded-[5px] border border-primary flex-row justify-between items-center relative bg-white'>
+				<div className='pl-3 xl:pl-4 py-2 flex-1 flex items-center gap-2'>
 					<input
 						type='text'
 						placeholder='Search...'
@@ -110,7 +110,7 @@ export default function SearchBar({
 				</div>
 
 				<div
-					className='hidden lg:flex flex-row items-center justify-center border-l border-l-primary h-full p-3 cursor-pointer relative select-none'
+					className='hidden 2xl:flex flex-row items-center justify-center border-l border-l-primary h-full p-3 cursor-pointer relative select-none'
 					onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 				>
 					<p className='text-[13px] font-regular whitespace-nowrap mr-1 text-gray-700'>
@@ -158,7 +158,7 @@ export default function SearchBar({
 				<button
 					type='button'
 					onClick={handleSearchSubmit}
-					className='w-10 h-10 md:w-11.25 md:h-11.25 rounded-r-sm bg-[#2B2B2D] flex items-center justify-center cursor-pointer hover:opacity-90 border-none shrink-0'
+					className='w-10 h-10 xl:w-11.25 xl:h-11.25 rounded-r-sm bg-[#2B2B2D] flex items-center justify-center cursor-pointer hover:opacity-90 border-none shrink-0'
 				>
 					<Search color='white' size={18} />
 				</button>
@@ -169,9 +169,9 @@ export default function SearchBar({
 							<>
 								<ul className='max-h-80 overflow-y-auto divide-y divide-gray-100'>
 									{searchResults.slice(0, 5).map(product => (
-										<li key={product.productId}>
+										<li key={product._id}>
 											<Link
-												href={`/products/${product.productId}`}
+												href={`/products/${product._id}`}
 												onClick={() => setIsSearchOpen(false)}
 												className='flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50'
 											>
@@ -180,7 +180,7 @@ export default function SearchBar({
 														src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
 														alt={product.name}
 														fill
-														className='object-cover'
+														className='object-cover pointer-events-none'
 														unoptimized
 													/>
 												</div>
@@ -204,7 +204,7 @@ export default function SearchBar({
 									onClick={handleSearchSubmit}
 									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-primary border-t border-gray-100 uppercase tracking-wider cursor-pointer'
 								>
-									View All Results ({searchResults.length})
+									View All Results ({totalResults})
 								</button>
 							</>
 						) : (
@@ -217,7 +217,7 @@ export default function SearchBar({
 			</div>
 
 			<div className='shrink-0'>
-				<ul className='text-[15px] font-medium flex flex-row list-none gap-3 md:gap-6'>
+				<ul className='text-[15px] font-medium flex flex-row list-none gap-3 xl:gap-6'>
 					{userMenuItems.map(item => (
 						<li key={item.href}>
 							<Link
@@ -225,7 +225,7 @@ export default function SearchBar({
 								className='flex items-center gap-2 hover:text-primary text-black'
 							>
 								{item.icon}
-								<span className='hidden md:inline'>{item.label}</span>
+								<span className='hidden xl:inline'>{item.label}</span>
 							</Link>
 						</li>
 					))}

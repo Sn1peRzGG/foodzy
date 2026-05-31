@@ -2,6 +2,7 @@
 
 import Loading from '@/src/app/loading'
 import FullProductCard from '@/src/components/ui/FullProductCard'
+import { useBreadcrumbs } from '@/src/context/BreadcrumbsContext'
 import api from '@/src/lib/api'
 import { ProductType } from '@/src/types/product'
 import { useQuery } from '@tanstack/react-query'
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react'
 export default function ProductPage() {
 	const params = useParams()
 	const [mounted, setMounted] = useState(false)
+	const { setLabel } = useBreadcrumbs()
 
 	const {
 		data: product,
@@ -25,6 +27,12 @@ export default function ProductPage() {
 		enabled: !!params.id,
 		retry: false,
 	})
+
+	useEffect(() => {
+		if (product?.name && params.id) {
+			setLabel(params.id as string, product.name)
+		}
+	}, [product?.name, params.id, setLabel])
 
 	useEffect(() => {
 		setMounted(true)

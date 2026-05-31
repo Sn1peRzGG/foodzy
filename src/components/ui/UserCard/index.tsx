@@ -27,7 +27,6 @@ export default function UserCard({ user }: UserCardProps) {
 					/>
 				</div>
 				<div className='flex flex-col gap-1'>
-					<p className='text-gray-400 text-sm'>User ID: #{user.userId}</p>
 					<p className='text-xl font-semibold'>{user.email}</p>
 					<p className='text-lg text-gray-600'>
 						{user.firstName} {user.lastName}

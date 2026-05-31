@@ -132,7 +132,7 @@ export default function Footer() {
 									categories.map(category => (
 										<Link
 											href={`/products?search=&category=${encodeURIComponent(category.name)}`}
-											key={category.categoryId}
+											key={category._id}
 											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap hover:text-black'
 										>
 											{category.name}
@@ -169,7 +169,7 @@ export default function Footer() {
 										key={social.name}
 										href={social.href}
 										target='_blank'
-										className='rounded-[5px] border border-[#E1DFDF] w-9 h-9 flex items-center justify-center hover:bg-gray-50'
+										className='rounded-[5px] border border-[#E1DFDF] w-9 h-9 flex items-center justify-center hover:bg-gray-200 transition-colors'
 									>
 										<svg
 											viewBox='0 0 24 24'

@@ -1,18 +1,12 @@
 'use client'
 
+import { ProductType } from '@/src/types/product'
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
-interface SpecialCardProps {
-	productId: number
-	name: string
-	description: string
-	imageUrl: string
-}
-
-export default function SpecialCard(product: SpecialCardProps) {
+export default function SpecialCard(product: ProductType) {
 	const [liked, setLiked] = useState(false)
 
 	const handleLike = (e: React.MouseEvent) => {
@@ -35,7 +29,7 @@ export default function SpecialCard(product: SpecialCardProps) {
 			</button>
 
 			<Link
-				href={`/products/${product.productId}`}
+				href={`/products/${product._id}`}
 				className='flex flex-col rounded-[21px] shadow-[2px_9px_42px_0px_rgba(0,0,0,0.08)] bg-white overflow-hidden cursor-pointer h-full'
 			>
 				<div className='flex flex-col flex-1 justify-start pt-5 sm:pt-6 md:pt-8 lg:pt-9 px-4 sm:px-5 md:px-6 lg:px-12 pb-5 sm:pb-6 md:pb-8 lg:pb-10'>

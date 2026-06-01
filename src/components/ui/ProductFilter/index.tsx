@@ -2,6 +2,7 @@
 
 import CategoryFilter from '../filters/CategoryFilter'
 import PriceRangeFilter from '../filters/PriceRangeFilter'
+import RatingFilter from '../filters/RatingFilter'
 import StatusFilter from '../filters/StatusFilter'
 
 export default function ProductFilter() {
@@ -14,6 +15,8 @@ export default function ProductFilter() {
 			<CategoryFilter />
 
 			<PriceRangeFilter />
+
+			<RatingFilter />
 
 			<StatusFilter />
 		</div>

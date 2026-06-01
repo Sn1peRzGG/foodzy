@@ -1,21 +1,34 @@
+'use client'
+
 import AccordionItem from '@/src/components/ui/AccordionItem'
-import { Accordion } from '@base-ui/react/accordion'
+import * as Accordion from '@radix-ui/react-accordion'
 import accordionItems from '@/data/accordionItems.json'
 import Image from 'next/image'
 
 export default function FAQPage() {
 	return (
-		<div className='container-responsive flex flex-row gap-6'>
-			<Image
-				src={'/faq.jpg'}
-				alt='FAQ Image'
-				width={600}
-				height={400}
-				className='rounded-[5px] aspect-auto pointer-events-none'
-			/>
-			<Accordion.Root className='flex w-2/3 max-w-[calc(100vw-8rem)] flex-col justify-center text-gray-900 gap-3'>
+		<div className='container-responsive flex flex-col lg:flex-row gap-8 items-start py-8'>
+			<div className='w-full lg:w-1/3 relative aspect-4/3 lg:aspect-auto lg:h-112.5 shrink-0'>
+				<Image
+					src='/faq.jpg'
+					alt='FAQ Image'
+					fill
+					className='rounded-[5px] object-cover pointer-events-none'
+					unoptimized
+				/>
+			</div>
+
+			<Accordion.Root
+				type='single'
+				collapsible
+				className='flex w-full lg:w-2/3 flex-col text-gray-900 gap-3'
+			>
 				{accordionItems.map(accordion => (
-					<AccordionItem key={accordion.label} {...accordion} />
+					<AccordionItem
+						key={accordion.label}
+						value={accordion.label}
+						{...accordion}
+					/>
 				))}
 			</Accordion.Root>
 		</div>

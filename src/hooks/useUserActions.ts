@@ -1,10 +1,8 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import {
-	useCartMutations,
-	useWishlistMutation,
-} from '@/src/hooks/useUpdateUser'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import api from '../lib/api'
 import { useUser } from '@/src/hooks/useUser'
 import { UserType } from '@/src/types/user'
 import toast from 'react-hot-toast'
@@ -12,15 +10,62 @@ import toast from 'react-hot-toast'
 type LoadingState = Record<string, 'wishlist' | 'cart' | 'update' | 'remove'>
 
 export function useUserActions() {
+	const queryClient = useQueryClient()
+
 	const { data: user, isLoading } = useUser() as {
 		data: UserType | undefined
 		isLoading: boolean
 	}
 
-	const { addToCartMutation, removeFromCartMutation } = useCartMutations()
-	const toggleWishlistMutation = useWishlistMutation()
-
 	const [loadingStates, setLoadingStates] = useState<LoadingState>({})
+
+	const addToCartMutation = useMutation({
+		mutationFn: async ({
+			productId,
+			quantity,
+		}: {
+			productId: string
+			quantity: number
+		}) => {
+			const { data } = await api.post('/users/cart', {
+				product: productId,
+				quantity,
+			})
+			return data
+		},
+		onSuccess: newCart => {
+			queryClient.setQueryData(['user-me'], (oldUser: UserType | undefined) => {
+				if (!oldUser) return oldUser
+				return { ...oldUser, cart: newCart }
+			})
+		},
+	})
+
+	const removeFromCartMutation = useMutation({
+		mutationFn: async (productId: string) => {
+			const { data } = await api.delete(`/users/cart/${productId}`)
+			return data
+		},
+		onSuccess: newCart => {
+			queryClient.setQueryData(['user-me'], (oldUser: UserType | undefined) => {
+				if (!oldUser) return oldUser
+				return { ...oldUser, cart: newCart }
+			})
+		},
+	})
+
+	const toggleWishlistMutation = useMutation({
+		mutationFn: async (productId: string) => {
+			const { data } = await api.post(`/users/wishlist/${productId}`)
+			return data
+		},
+		onSuccess: newWishlist => {
+			queryClient.setQueryData(['user-me'], (oldUser: UserType | undefined) => {
+				if (!oldUser) return oldUser
+				return { ...oldUser, wishlist: newWishlist }
+			})
+		},
+	})
 
 	const setLoading = useCallback(
 		(id: string, state: LoadingState[string] | null) => {

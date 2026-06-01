@@ -25,7 +25,7 @@ export default function CategoryFilter() {
 	})
 
 	return (
-		<div>
+		<div className='border-b border-gray-100 pb-5 last:border-0 last:pb-0'>
 			<h4 className='text-xs font-bold uppercase tracking-wider text-gray-700 mb-3 select-none'>
 				Categories
 			</h4>

@@ -19,25 +19,42 @@ export function useProducts() {
 	const isAvailableParam = searchParams.get('isAvailable') === 'true'
 	const onSaleParam = searchParams.get('onSale') === 'true'
 
+	const minPriceParam = searchParams.get('minPrice') || undefined
+	const maxPriceParam = searchParams.get('maxPrice') || undefined
+
+	const minRatingParam = searchParams.get('minRating') || undefined
+	const maxRatingParam = searchParams.get('maxRating') || undefined
+
 	const pageParam = searchParams.get('page')
 	const page = pageParam ? parseInt(pageParam, 10) || 1 : 1
 
 	const [sortBy, setSortBy] = useState<SortOption>('default')
 
-	const setParam = (key: string, value: string | null) => {
+	const setMultipleParams = (entries: Record<string, string | null>) => {
 		const params = new URLSearchParams(searchParams.toString())
+		let shouldResetPage = false
 
-		if (value === null || value === '' || value === 'all') {
-			params.delete(key)
-		} else {
-			params.set(key, value)
-		}
+		Object.entries(entries).forEach(([key, value]) => {
+			if (value === null || value === '' || value === 'all') {
+				params.delete(key)
+			} else {
+				params.set(key, value)
+			}
 
-		if (key !== 'page') {
+			if (key !== 'page') {
+				shouldResetPage = true
+			}
+		})
+
+		if (shouldResetPage) {
 			params.set('page', '1')
 		}
 
-		router.push(`${pathname}?${params.toString()}`)
+		router.push(`${pathname}?${params.toString()}`, { scroll: false })
+	}
+
+	const setParam = (key: string, value: string | null) => {
+		setMultipleParams({ [key]: value })
 	}
 
 	const setCheckboxParam = (key: string, checked: boolean) => {
@@ -67,6 +84,10 @@ export function useProducts() {
 			page,
 			isAvailableParam,
 			onSaleParam,
+			minPriceParam,
+			maxPriceParam,
+			minRatingParam,
+			maxRatingParam,
 		],
 		queryFn: async () => {
 			const res = await api.get('/products/search', {
@@ -78,6 +99,10 @@ export function useProducts() {
 					limit: 20,
 					isAvailable: isAvailableParam ? 'true' : undefined,
 					onSale: onSaleParam ? 'true' : undefined,
+					minPrice: minPriceParam,
+					maxPrice: maxPriceParam,
+					minRating: minRatingParam,
+					maxRating: maxRatingParam,
 				},
 			})
 			return res.data
@@ -116,6 +141,7 @@ export function useProducts() {
 		displayName,
 		getParam: (key: string) => searchParams.get(key),
 		setParam,
+		setMultipleParams,
 		setCheckboxParam,
 	}
 }

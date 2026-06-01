@@ -1,23 +1,29 @@
+'use client'
+
+import { useRef } from 'react'
 import ControlButton from '@/src/components/ui/ControlButton'
-import SpecialCard from '@/src/components/ui/SpecialCard'
-import api from '@/src/lib/api'
-import { ProductType } from '@/src/types/product'
+import SpecialSlider from '../ui/SpecialSlider'
+import { useSpecialProducts } from '@/src/hooks/useSpecialProducts'
 
-async function getProducts() {
-	try {
-		const response = await api.get('/products')
-		return response.data as ProductType[]
-	} catch (error) {
-		console.error('Failed to fetch products:', error)
-		throw new Error('Failed to load products. Please try again later.')
+export default function SpecialSection() {
+	const { specialProducts, isLoading } = useSpecialProducts()
+
+	const sliderRef = useRef<{ next: () => void; prev: () => void }>(null)
+
+	if (isLoading) {
+		return (
+			<div className='w-full py-12 flex items-center justify-center'>
+				<div className='text-sm font-medium text-gray-400 animate-pulse uppercase tracking-widest'>
+					Loading Special Menu...
+				</div>
+			</div>
+		)
 	}
-}
 
-export default async function SpecialSection() {
-	const products: ProductType[] = await getProducts()
+	if (specialProducts.length === 0) return null
 
 	return (
-		<div className='flex flex-col w-full gap-6 md:gap-8 lg:gap-10 relative mt-6'>
+		<div className='flex flex-col w-full gap-6 md:gap-8 lg:gap-10 relative mt-6 select-none'>
 			<div className='flex flex-row justify-between items-start gap-4 md:gap-6 lg:gap-12 px-2'>
 				<div className='flex flex-col justify-start gap-2 md:gap-3 lg:gap-10 flex-1'>
 					<h2 className='text-sm sm:text-base md:text-lg lg:text-[20px] font-bold text-accent tracking-[0.175em] uppercase'>
@@ -28,25 +34,25 @@ export default async function SpecialSection() {
 					</p>
 				</div>
 
-				<div className='flex gap-2 md:gap-3 lg:gap-12.5 shrink-0 my-auto xl:pr-8'>
-					<ControlButton
-						orientation='left'
-						backgroundColor='#EFEFEF'
-						textColor='#6F6E6E'
-					/>
-					<ControlButton
-						orientation='right'
-						backgroundColor='#F53E32'
-						textColor='white'
-					/>
+				<div className='flex gap-2 md:gap-3 lg:gap-4 shrink-0 my-auto xl:pr-8'>
+					<div onClick={() => sliderRef.current?.prev()}>
+						<ControlButton
+							orientation='left'
+							backgroundColor='#EFEFEF'
+							textColor='#6F6E6E'
+						/>
+					</div>
+					<div onClick={() => sliderRef.current?.next()}>
+						<ControlButton
+							orientation='right'
+							backgroundColor='#F53E32'
+							textColor='white'
+						/>
+					</div>
 				</div>
 			</div>
 
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-10 justify-items-center w-full mt-8 md:mt-10 lg:mt-16'>
-				{products.map(product => (
-					<SpecialCard key={product._id} {...product} />
-				))}
-			</div>
+			<SpecialSlider products={specialProducts} ref={sliderRef} />
 		</div>
 	)
 }

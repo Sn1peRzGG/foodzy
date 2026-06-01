@@ -7,7 +7,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-export default function ProductCard(product: ProductType) {
+interface ProductCardProps extends ProductType {
+	viewMode: 'grid' | 'list'
+}
+
+export default function ProductCard({
+	viewMode,
+	...product
+}: ProductCardProps) {
 	const [mounted, setMounted] = useState(false)
 	const { user, loadingStates, toggleWishlist, addToCart, removeFromCart } =
 		useUserActions()
@@ -16,7 +23,7 @@ export default function ProductCard(product: ProductType) {
 		setMounted(true)
 	}, [])
 
-	const targetId = (product as any)._id || String(product._id)
+	const targetId = String(product._id)
 
 	const isInWishlist = user?.wishlist?.some(
 		item => String(item._id) === targetId,
@@ -46,6 +53,132 @@ export default function ProductCard(product: ProductType) {
 
 	if (!mounted) return null
 
+	const discountPercent =
+		product.oldPrice && product.isAvailable
+			? Math.round(
+					((product.oldPrice - product.price) / product.oldPrice) * 100,
+				)
+			: null
+
+	if (viewMode === 'list') {
+		return (
+			<Link
+				href={`/products/${product._id}`}
+				className={`relative border border-gray-100 rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-row items-center gap-5 bg-white group ${
+					!product.isAvailable ? 'opacity-80' : 'hover:shadow-md'
+				}`}
+			>
+				<div className='w-32 h-32 sm:w-40 sm:h-40 bg-gray-50 rounded-lg overflow-hidden relative shrink-0 z-10'>
+					{discountPercent && (
+						<span className='absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-md z-20 shadow-sm'>
+							-{discountPercent}%
+						</span>
+					)}
+
+					{!product.isAvailable && (
+						<div className='absolute inset-0 bg-white/40 z-20 flex items-center justify-center'>
+							<span className='bg-gray-800 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-widest shadow-xl'>
+								Out of Stock
+							</span>
+						</div>
+					)}
+
+					<Image
+						src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+						alt={product.name}
+						fill
+						sizes='160px'
+						className={`object-cover transition-all duration-500 group-hover:scale-105 ${
+							!product.isAvailable ? 'grayscale scale-95 opacity-50' : ''
+						}`}
+						unoptimized
+					/>
+				</div>
+
+				<div className='flex flex-col grow h-full py-1'>
+					<div className='flex items-center justify-between gap-2 mb-1'>
+						<span className='text-xs text-primary font-bold uppercase tracking-wider'>
+							{product.category.name}
+						</span>
+						<span className='text-[14px] font-semibold text-[#F5885F] flex items-center gap-1'>
+							<Star size={16} fill='#F5885F' /> {product.rating}
+						</span>
+					</div>
+
+					<h2
+						className={`font-bold text-base sm:text-lg mb-1 line-clamp-1 ${!product.isAvailable ? 'text-gray-500' : 'text-black'}`}
+					>
+						{product.name}
+					</h2>
+
+					<p className='text-xs sm:text-sm text-gray-500 line-clamp-2 mb-3 italic max-w-xl'>
+						{product.description}
+					</p>
+
+					<div className='flex items-center justify-between border-t border-gray-50 pt-3 mt-auto'>
+						<div className='flex items-baseline gap-2'>
+							<span
+								className={`text-lg sm:text-xl font-black ${!product.isAvailable ? 'text-gray-400' : 'text-black'}`}
+							>
+								${product.price}
+							</span>
+							{product.oldPrice && product.isAvailable && (
+								<span className='text-xs sm:text-sm font-bold text-gray-400 line-through'>
+									${product.oldPrice}
+								</span>
+							)}
+						</div>
+
+						<div className='flex gap-2'>
+							<button
+								type='button'
+								disabled={loadingStates[targetId] === 'wishlist'}
+								onClick={handleToggleWishlist}
+								className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-all border active:scale-90 cursor-pointer ${
+									isInWishlist
+										? 'bg-red-50 border-red-200 text-red-500'
+										: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-red-500'
+								}`}
+							>
+								{loadingStates[targetId] === 'wishlist' ? (
+									<Loader2 size={16} className='animate-spin' />
+								) : (
+									<Heart
+										size={18}
+										fill={isInWishlist ? 'currentColor' : 'none'}
+									/>
+								)}
+							</button>
+
+							<button
+								type='button'
+								disabled={!product.isAvailable || !!loadingStates[targetId]}
+								onClick={handleToggleCart}
+								className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-all border active:scale-90 ${
+									!product.isAvailable
+										? 'bg-gray-100 border-gray-200 text-gray-300 cursor-not-allowed shadow-none'
+										: isInCart
+											? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 cursor-pointer'
+											: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-primary cursor-pointer'
+								}`}
+							>
+								{loadingStates[targetId] === 'cart' ||
+								loadingStates[targetId] === 'remove' ? (
+									<Loader2 size={16} className='animate-spin' />
+								) : (
+									<ShoppingCart
+										size={18}
+										fill={isInCart ? 'currentColor' : 'none'}
+									/>
+								)}
+							</button>
+						</div>
+					</div>
+				</div>
+			</Link>
+		)
+	}
+
 	return (
 		<Link
 			href={`/products/${product._id}`}
@@ -53,13 +186,9 @@ export default function ProductCard(product: ProductType) {
 				!product.isAvailable ? 'opacity-80' : 'hover:shadow-md hover:scale-105'
 			}`}
 		>
-			{product.oldPrice && product.isAvailable && (
+			{discountPercent && (
 				<span className='absolute top-0 left-0 w-16 h-12 bg-red-600 text-white text-lg font-bold px-2 py-1 rounded-br-3xl rounded-tl-xl z-20 text-center flex items-center justify-center'>
-					-
-					{Math.round(
-						((product.oldPrice - product.price) / product.oldPrice) * 100,
-					)}
-					%
+					-{discountPercent}%
 				</span>
 			)}
 

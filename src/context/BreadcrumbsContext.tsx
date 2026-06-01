@@ -2,10 +2,10 @@
 
 import {
 	createContext,
-	useContext,
-	useState,
 	ReactNode,
 	useCallback,
+	useContext,
+	useState,
 } from 'react'
 
 interface BreadcrumbsContextType {
@@ -13,9 +13,9 @@ interface BreadcrumbsContextType {
 	setLabel: (id: string, name: string) => void
 }
 
-export const BreadcrumbsContext = createContext<
-	BreadcrumbsContextType | undefined
->(undefined)
+const BreadcrumbsContext = createContext<BreadcrumbsContextType | undefined>(
+	undefined,
+)
 
 export function BreadcrumbsProvider({ children }: { children: ReactNode }) {
 	const [labels, setLabels] = useState<Record<string, string>>({})

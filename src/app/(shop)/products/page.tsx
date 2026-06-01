@@ -7,6 +7,8 @@ import {
 	ChevronDown,
 	ChevronLeft,
 	ChevronRight,
+	LayoutGrid,
+	Rows3,
 	SlidersHorizontal,
 	X,
 } from 'lucide-react'
@@ -32,11 +34,42 @@ export default function ProductsPage() {
 	const [isDesktopFilterOpen, setIsDesktopFilterOpen] = useState(false)
 
 	const dropdownRef = useRef<HTMLDivElement>(null)
+	const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
 	const sortLabels: Record<SortOption, string> = {
 		default: 'Default (High Rating)',
 		'price-asc': 'Price: Low to High',
 		'price-desc': 'Price: High to Low',
+	}
+
+	useEffect(() => {
+		const savedState = window.sessionStorage.getItem('isDesktopFilterOpen')
+		if (savedState !== null) {
+			setIsDesktopFilterOpen(savedState === 'true')
+		}
+	}, [])
+
+	useEffect(() => {
+		const savedViewMode = window.sessionStorage.getItem('viewMode')
+		if (savedViewMode === 'grid' || savedViewMode === 'list') {
+			setViewMode(savedViewMode)
+		}
+	}, [])
+
+	const toggleViewMode = (viewMode: 'grid' | 'list') => {
+		setViewMode(prev => {
+			const newMode = viewMode
+			window.sessionStorage.setItem('viewMode', newMode)
+			return newMode
+		})
+	}
+
+	const toggleDesktopFilter = () => {
+		setIsDesktopFilterOpen(prev => {
+			const newState = !prev
+			window.sessionStorage.setItem('isDesktopFilterOpen', String(newState))
+			return newState
+		})
 	}
 
 	useEffect(() => {
@@ -130,9 +163,37 @@ export default function ProductsPage() {
 						Filters
 					</button>
 
+					<div className='flex items-center gap-1 border border-gray-300 rounded-md h-10 px-1.5 bg-white shadow-sm select-none'>
+						<button
+							type='button'
+							onClick={() => toggleViewMode('list')}
+							className={`p-1.5 rounded-[5px] transition-all cursor-pointer ${
+								viewMode === 'list'
+									? 'bg-gray-100 text-primary font-semibold'
+									: 'text-gray-400 hover:text-gray-700 hover:bg-gray-50'
+							}`}
+							title='List view'
+						>
+							<Rows3 size={18} />
+						</button>
+
+						<button
+							type='button'
+							onClick={() => toggleViewMode('grid')}
+							className={`p-1.5 rounded-[5px] transition-all cursor-pointer ${
+								viewMode === 'grid'
+									? 'bg-gray-100 text-primary font-semibold'
+									: 'text-gray-400 hover:text-gray-700 hover:bg-gray-50'
+							}`}
+							title='Grid view'
+						>
+							<LayoutGrid size={18} />
+						</button>
+					</div>
+
 					<button
 						type='button'
-						onClick={() => setIsDesktopFilterOpen(!isDesktopFilterOpen)}
+						onClick={toggleDesktopFilter}
 						className='hidden xl:flex items-center justify-center gap-2 border border-gray-300 rounded-md h-10 w-fit px-4 py-2 bg-white text-black font-medium text-sm shadow-sm hover:bg-gray-100 transition-all select-none cursor-pointer'
 					>
 						<SlidersHorizontal
@@ -148,10 +209,6 @@ export default function ProductsPage() {
 						className='flex items-center gap-2 relative z-30'
 						ref={dropdownRef}
 					>
-						<span className='text-sm font-medium text-gray-700 whitespace-nowrap hidden lg:inline'>
-							Sort by:
-						</span>
-
 						<div
 							onClick={() => setIsSortOpen(!isSortOpen)}
 							className='flex flex-row items-center justify-between border border-gray-300 rounded-md h-10 px-4 py-2 cursor-pointer relative select-none bg-white min-w-44 sm:min-w-56 text-black shadow-sm transition-all focus-within:border-primary hover:bg-gray-100'
@@ -194,7 +251,7 @@ export default function ProductsPage() {
 
 			<div className='grid grid-cols-1 xl:grid-cols-4 gap-8 items-start'>
 				{isDesktopFilterOpen && (
-					<aside className='hidden xl:block xl:col-span-1 sticky top-4 animate-in fade-in duration-200'>
+					<aside className='hidden xl:block xl:col-span-1 sticky top-40 animate-in fade-in duration-200'>
 						<ProductFilter />
 					</aside>
 				)}
@@ -223,14 +280,22 @@ export default function ProductsPage() {
 					) : (
 						<>
 							<div
-								className={`grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all duration-300 ${
-									isDesktopFilterOpen
-										? 'lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3'
-										: 'lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4'
+								className={`transition-all duration-300 ${
+									viewMode === 'grid'
+										? `grid grid-cols-1 sm:grid-cols-2 gap-6 ${
+												isDesktopFilterOpen
+													? 'lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3'
+													: 'lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4'
+											}`
+										: 'flex flex-col gap-4'
 								}`}
 							>
 								{products.map(product => (
-									<ProductCard key={product._id} {...product} />
+									<ProductCard
+										key={product._id}
+										viewMode={viewMode}
+										{...product}
+									/>
 								))}
 							</div>
 

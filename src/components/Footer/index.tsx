@@ -63,7 +63,7 @@ export default function Footer() {
 	})
 
 	return (
-		<footer className='flex flex-col relative h-auto 2xl:h-128 w-full bg-[#F7F7F8] border-t border-[#E9E9E9] pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
+		<footer className='flex flex-col relative h-auto 2xl:h-120 w-full bg-[#F7F7F8] border-t border-[#E9E9E9] pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
 			<div className='hidden 2xl:block grow'></div>
 
 			<div className='w-full px-6 sm:px-12 2xl:px-0 2xl:w-2/3 h-auto 2xl:h-102 flex flex-col items-center 2xl:items-end justify-center mx-auto max-w-360'>
@@ -131,7 +131,7 @@ export default function Footer() {
 								{categories.length > 0 ? (
 									categories.map(category => (
 										<Link
-											href={`/products?search=&category=${encodeURIComponent(category.name)}`}
+											href={`/products?search=&category=${encodeURIComponent(category._id)}`}
 											key={category._id}
 											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap hover:text-black'
 										>

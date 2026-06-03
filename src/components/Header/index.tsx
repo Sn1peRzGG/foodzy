@@ -8,7 +8,7 @@ export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 
 	return (
-		<header className='fixed w-full bg-white h-24 xl:h-36 flex flex-col items-center text-sm font-medium z-100 shadow-sm'>
+		<header className='fixed w-full bg-white h-24 xl:h-36 flex flex-col items-center text-sm font-medium z-50 shadow-sm'>
 			<div className='w-full h-0 xl:h-[40%] shrink-0'>
 				<NavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
 			</div>

@@ -5,6 +5,8 @@ interface CartItemType {
 	quantity: number
 }
 
+export type UserRole = 'USER' | 'ADMIN' | 'OWNER'
+
 export type UserType = {
 	_id: string
 	email: string
@@ -13,7 +15,7 @@ export type UserType = {
 	phoneNumber: string
 	city?: string
 	address?: string
-	role: 'USER' | 'ADMIN'
+	role: UserRole
 	avatarUrl?: string
 	cart: CartItemType[]
 	wishlist: ProductType[]

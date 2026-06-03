@@ -107,7 +107,7 @@ export default function ProductsPage() {
 	return (
 		<div className='container-responsive px-4 mx-auto max-w-7xl py-8'>
 			<div
-				className={`fixed inset-x-0 top-24 bottom-0 z-50 xl:hidden transition-opacity duration-300 backdrop-blur-sm ${
+				className={`fixed inset-x-0 top-24 bottom-0 z-50 xl:hidden transition-opacity duration-300 backdrop-blur-md ${
 					isMobileFilterOpen
 						? 'pointer-events-auto opacity-100'
 						: 'pointer-events-none opacity-0'

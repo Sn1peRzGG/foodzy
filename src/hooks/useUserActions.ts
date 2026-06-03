@@ -1,13 +1,16 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from '../lib/api'
 import { useUser } from '@/src/hooks/useUser'
 import { UserType } from '@/src/types/user'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
+import api from '../lib/api'
 
-type LoadingState = Record<string, 'wishlist' | 'cart' | 'update' | 'remove'>
+type LoadingState = Record<
+	string,
+	'wishlist' | 'cart' | 'update' | 'remove' | 'checkout'
+>
 
 export function useUserActions() {
 	const queryClient = useQueryClient()
@@ -64,6 +67,26 @@ export function useUserActions() {
 				if (!oldUser) return oldUser
 				return { ...oldUser, wishlist: newWishlist }
 			})
+		},
+	})
+
+	const createOrderMutation = useMutation({
+		mutationFn: async (orderData: {
+			items: { product: string; quantity: number }[]
+			city: string
+			address: string
+			phoneNumber: string
+		}) => {
+			const { data } = await api.post('/orders', orderData)
+			return data
+		},
+		onSuccess: () => {
+			queryClient.setQueryData(['user-me'], (oldUser: UserType | undefined) => {
+				if (!oldUser) return oldUser
+				return { ...oldUser, cart: [] }
+			})
+
+			queryClient.invalidateQueries({ queryKey: ['user-orders'] })
 		},
 	})
 
@@ -186,6 +209,49 @@ export function useUserActions() {
 		[user, addToCartMutation, setLoading],
 	)
 
+	const createOrder = useCallback(
+		async (orderData: {
+			city: string
+			address: string
+			phoneNumber: string
+		}) => {
+			if (!user) return toast.error('Please login')
+			if (!user.cart || user.cart.length === 0)
+				return toast.error('Cart is empty')
+
+			const items = user.cart.map(item => ({
+				product:
+					item.product && typeof item.product === 'object'
+						? item.product._id
+						: item.product,
+				quantity: item.quantity,
+			}))
+
+			const key = 'checkout_process'
+			setLoading(key, 'checkout')
+
+			return new Promise((resolve, reject) => {
+				createOrderMutation.mutate(
+					{ ...orderData, items },
+					{
+						onSettled: () => setLoading(key, null),
+						onSuccess: data => {
+							toast.success('Order placed successfully!')
+							resolve(data)
+						},
+						onError: (error: any) => {
+							const errorMsg =
+								error?.response?.data?.message || 'Failed to place order'
+							toast.error(errorMsg)
+							reject(error)
+						},
+					},
+				)
+			})
+		},
+		[user, createOrderMutation, setLoading],
+	)
+
 	return {
 		user,
 		isLoading,
@@ -196,5 +262,6 @@ export function useUserActions() {
 		addToCart,
 		removeFromCart,
 		updateCartQuantity,
+		createOrder,
 	}
 }

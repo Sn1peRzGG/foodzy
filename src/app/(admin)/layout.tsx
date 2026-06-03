@@ -1,6 +1,7 @@
 'use client'
 
 import { useUser } from '@/src/hooks/useUser'
+import { hasAccess } from '@/src/utils/roles'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Loading from '../loading'
@@ -15,6 +16,16 @@ export default function AdminLayout({
 	const router = useRouter()
 	const [mounted, setMounted] = useState(false)
 
+	const canAccessAdmin = hasAccess(user?.role, 'ADMIN')
+
+	useEffect(() => {
+		if (mounted && !isLoading) {
+			if (!canAccessAdmin) {
+				router.push('/')
+			}
+		}
+	}, [canAccessAdmin, isLoading, mounted, router])
+
 	useEffect(() => {
 		setMounted(true)
 	}, [])
@@ -27,15 +38,17 @@ export default function AdminLayout({
 		return <Loading />
 	}
 
-	if (!user || user.role !== 'ADMIN') {
-		router.push('/login')
+	if (!canAccessAdmin) {
+		return null
 	}
 
 	return (
-		<>
+		<div className='min-h-screen bg-gray-50/50 flex w-full'>
 			<Sidebar />
 
-			<main className='flex-1 overflow-y-auto p-6'>{children}</main>
-		</>
+			<div className='flex-1 pl-64 min-h-screen flex flex-col w-full'>
+				{children}
+			</div>
+		</div>
 	)
 }

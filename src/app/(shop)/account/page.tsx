@@ -47,17 +47,7 @@ export default function AccountPage() {
 	}
 
 	return (
-		<div className='container-responsive'>
-			<div className='flex flex-col gap-2 md:gap-3 lg:gap-5'>
-				<h2 className='text-sm font-bold uppercase tracking-[0.175em] text-accent sm:text-base md:text-lg lg:text-[20px]'>
-					User Profile
-				</h2>
-
-				<p className='text-xl font-bold leading-[1.315] sm:text-2xl md:text-3xl lg:text-5xl'>
-					Welcome back, {user.firstName}
-				</p>
-			</div>
-
+		<div className='container-responsive p-6 max-w-7xl mx-auto'>
 			<UserCard user={user} />
 		</div>
 	)

@@ -1,12 +1,16 @@
 'use client'
 
 import { useProductSearch } from '@/src/hooks/useProductSearch'
+import { useUser } from '@/src/hooks/useUser'
+import { ROLE_CONFIG } from '@/src/utils/roleConfig'
 import {
 	ChevronDown,
+	Crown,
 	Heart,
 	Menu,
 	Search,
 	ShoppingCart,
+	ShieldAlert,
 	User,
 	X,
 } from 'lucide-react'
@@ -38,10 +42,35 @@ export default function SearchBar({
 		categories,
 	} = useProductSearch()
 
+	const { data: user } = useUser()
+
+	const userRoleConfig = user
+		? ROLE_CONFIG[user.role] || ROLE_CONFIG.USER
+		: null
+
 	const userMenuItems = [
-		{ label: 'Account', href: '/account', icon: <User size={20} /> },
-		{ label: 'Wishlist', href: '/wishlist', icon: <Heart size={20} /> },
-		{ label: 'Cart', href: '/cart', icon: <ShoppingCart size={20} /> },
+		{
+			label: user
+				? user.firstName || userRoleConfig?.label || 'Profile'
+				: 'Account',
+			href: '/account',
+			icon: <User size={20} />,
+			customColor: userRoleConfig
+				? userRoleConfig.nameColor
+				: 'text-black hover:text-primary',
+		},
+		{
+			label: 'Wishlist',
+			href: '/wishlist',
+			icon: <Heart size={20} />,
+			length: user?.wishlist?.length || null,
+		},
+		{
+			label: 'Cart',
+			href: '/cart',
+			icon: <ShoppingCart size={20} />,
+			length: user?.cart?.length || null,
+		},
 	]
 
 	const currentCategoryName =
@@ -216,19 +245,43 @@ export default function SearchBar({
 				)}
 			</div>
 
-			<div className='shrink-0'>
-				<ul className='text-[15px] font-medium flex flex-row list-none gap-3 xl:gap-6'>
-					{userMenuItems.map(item => (
-						<li key={item.href}>
-							<Link
-								href={item.href}
-								className='flex items-center gap-2 hover:text-primary text-black'
-							>
-								{item.icon}
-								<span className='hidden xl:inline'>{item.label}</span>
-							</Link>
-						</li>
-					))}
+			<div className='shrink-0 h-full flex items-center'>
+				<ul className='text-[15px] font-medium flex flex-row list-none gap-4 xl:gap-6 items-center h-full'>
+					{userMenuItems.map((item, index) => {
+						const isProfile = index === 0
+						const displayLabel = isProfile ? 'Account' : item.label
+
+						return (
+							<li key={item.href} className='relative h-full flex items-center'>
+								<Link
+									href={item.href}
+									className={`group relative flex items-center py-4 transition-colors duration-200 text-black hover:text-primary ${
+										isProfile ? 'gap-1.5' : 'gap-2.5'
+									}`}
+								>
+									<div
+										className={`relative shrink-0 flex items-center justify-center ${
+											isProfile ? '' : 'p-0.5'
+										}`}
+									>
+										{item.icon}
+
+										{item.length !== undefined &&
+											item.length !== null &&
+											item.length > 0 && (
+												<span className='absolute -top-1.5 -right-2 inline-flex items-center justify-center min-w-4 h-4 px-1 text-[9.5px] font-black tabular-nums text-white bg-primary rounded-full ring-2 ring-white select-none shadow-xs antialiased'>
+													{item.length}
+												</span>
+											)}
+									</div>
+
+									<span className='hidden xl:inline leading-none truncate'>
+										{displayLabel}
+									</span>
+								</Link>
+							</li>
+						)
+					})}
 				</ul>
 			</div>
 		</div>

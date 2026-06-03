@@ -2,7 +2,7 @@
 
 import AccordionItem from '@/src/components/ui/AccordionItem'
 import * as Accordion from '@radix-ui/react-accordion'
-import accordionItems from '@/data/accordionItems.json'
+import accordionItems from '@/constants/accordionItems.json'
 import Image from 'next/image'
 
 export default function FAQPage() {

@@ -1,9 +1,9 @@
 'use client'
 
+import { filterActiveStyles, statusStyles } from '@/constants/orderStatusStyles'
 import { useCancelOrder } from '@/src/hooks/useCancelOrder'
 import { useUserOrders } from '@/src/hooks/useUserOrders'
 import { OrderStatus } from '@/src/types/order'
-import { filterActiveStyles, statusStyles } from '@/src/utils/orderStatusStyles'
 import { ClipboardList, Loader2, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import socialData from '@/data/socialItems.json'
+import socialData from '@/constants/socialItems.json'
 
 interface ContactItem {
 	icon: React.ComponentType<{ size?: number; color?: string }>

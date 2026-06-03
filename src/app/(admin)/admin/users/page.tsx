@@ -1,24 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { ROLE_CONFIG } from '@/constants/roleConfig'
 import Loading from '@/src/app/loading'
+import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import { useAdminUsers } from '@/src/hooks/admin/useAdminUsers'
 import { useUser } from '@/src/hooks/useUser'
 import { UserRole, UserType } from '@/src/types/user'
-import { ROLE_CONFIG } from '@/src/utils/roleConfig'
 import {
+	Hash,
 	Heart,
 	Mail,
 	MapPin,
 	Phone,
 	ShoppingBag,
 	Users,
-	Hash,
-	Trash2,
 } from 'lucide-react'
 import Image from 'next/image'
+import { useState } from 'react'
 import AdminDropdown from '../_components/AdminDropdown'
-import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import DeleteButton from '../_components/DeleteButton'
 
 export default function UsersAdminPage() {

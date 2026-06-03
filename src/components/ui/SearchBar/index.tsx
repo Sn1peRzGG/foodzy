@@ -1,16 +1,14 @@
 'use client'
 
+import { ROLE_CONFIG } from '@/constants/roleConfig'
 import { useProductSearch } from '@/src/hooks/useProductSearch'
 import { useUser } from '@/src/hooks/useUser'
-import { ROLE_CONFIG } from '@/src/utils/roleConfig'
 import {
 	ChevronDown,
-	Crown,
 	Heart,
 	Menu,
 	Search,
 	ShoppingCart,
-	ShieldAlert,
 	User,
 	X,
 } from 'lucide-react'

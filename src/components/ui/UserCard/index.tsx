@@ -1,10 +1,10 @@
 'use client'
 
+import { ROLE_CONFIG } from '@/constants/roleConfig'
 import UserOrders from '@/src/components/ui/UserOrders'
 import { useLogout } from '@/src/hooks/useLogout'
 import { UserType } from '@/src/types/user'
 import {
-	Crown,
 	LogOut,
 	Mail,
 	MapPin,
@@ -15,7 +15,6 @@ import {
 import Image from 'next/image'
 import { useState } from 'react'
 import ConfirmModal from '../ConfirmModal'
-import { ROLE_CONFIG } from '@/src/utils/roleConfig'
 
 type UserCardProps = {
 	user: UserType

@@ -1,4 +1,4 @@
-import { OrderStatus } from '../types/order'
+import { OrderStatus } from '../src/types/order'
 
 export const statusStyles: Record<OrderStatus, string> = {
 	[OrderStatus.PENDING]: 'bg-amber-50 text-amber-700 border-amber-100/60',

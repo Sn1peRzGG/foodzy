@@ -1,6 +1,6 @@
 'use client'
 
-import menuItems from '@/data/menuItems.json'
+import menuItems from '@/constants/menuItems.json'
 import { ChevronDown, Phone, TextAlignJustify, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

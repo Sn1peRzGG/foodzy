@@ -1,13 +1,13 @@
 'use client'
 
+import { statusStyles } from '@/constants/orderStatusStyles'
+import { ROLE_CONFIG } from '@/constants/roleConfig'
 import Loading from '@/src/app/loading'
 import { useAdminCategories } from '@/src/hooks/admin/useAdminCategories'
 import { useAdminOrders } from '@/src/hooks/admin/useAdminOrders'
 import { useAdminProducts } from '@/src/hooks/admin/useAdminProducts'
 import { useAdminUsers } from '@/src/hooks/admin/useAdminUsers'
 import { OrderStatus } from '@/src/types/order'
-import { statusStyles } from '@/src/utils/orderStatusStyles'
-import { ROLE_CONFIG } from '@/src/utils/roleConfig'
 import Image from 'next/image'
 
 export default function AdminPage() {

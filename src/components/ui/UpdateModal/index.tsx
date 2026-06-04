@@ -1,20 +1,33 @@
 'use client'
 
-import { AlertCircle, Folder, Image as ImageIcon, Loader2 } from 'lucide-react'
-import Image from 'next/image'
+import { Folder, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { FormFileField, FormInput } from '../FormFields'
 
 interface UpdateModalProps {
 	isOpen: boolean
 	onClose: () => void
-	onConfirm: (data: { name: string; imageFile: File | null }) => void
+	onConfirm: (data: {
+		firstName: string
+		lastName: string
+		email: string
+		phoneNumber: string
+		city: string
+		address: string
+		imageFile: File | null
+	}) => void
 	title?: string
 	confirmText?: string
 	cancelText?: string
 	isLoading?: boolean
 	initialData?: {
-		name: string
+		firstName: string
+		lastName: string
+		email: string
+		phoneNumber: string
+		city?: string
+		address?: string
 		imageUrl?: string
 	} | null
 }
@@ -29,14 +42,24 @@ export default function UpdateModal({
 	isLoading = false,
 	initialData,
 }: UpdateModalProps) {
-	const [name, setName] = useState('')
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setLastName] = useState('')
+	const [email, setEmail] = useState('')
+	const [phoneNumber, setPhoneNumber] = useState('')
+	const [city, setCity] = useState('')
+	const [address, setAddress] = useState('')
 	const [imageFile, setImageFile] = useState<File | null>(null)
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 	const [fileError, setFileError] = useState<string | null>(null)
 
 	useEffect(() => {
 		if (isOpen && initialData) {
-			setName(initialData.name)
+			setFirstName(initialData.firstName)
+			setLastName(initialData.lastName)
+			setEmail(initialData.email)
+			setPhoneNumber(initialData.phoneNumber)
+			setCity(initialData.city || '')
+			setAddress(initialData.address || '')
 			setImageFile(null)
 			setFileError(null)
 			setPreviewUrl(
@@ -84,103 +107,139 @@ export default function UpdateModal({
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
-		if (!name.trim() || fileError) return
-		onConfirm({ name, imageFile })
+		if (
+			!firstName.trim() ||
+			!lastName.trim() ||
+			!email.trim() ||
+			!phoneNumber.trim() ||
+			fileError
+		)
+			return
+
+		onConfirm({
+			firstName,
+			lastName,
+			email,
+			phoneNumber,
+			city,
+			address,
+			imageFile,
+		})
 	}
 
 	if (!isOpen) return null
 
 	return createPortal(
-		<div className='fixed inset-0 z-100 flex items-center justify-center p-4 animate-fade-in'>
+		<div className='fixed inset-0 z-100 flex items-center justify-center p-4 select-none animate-fade-in'>
 			<div
-				className='fixed inset-0 bg-gray-950/60 backdrop-blur-md'
+				className='fixed inset-0 bg-gray-950/60 backdrop-blur-md transition-opacity'
 				onClick={isLoading ? undefined : onClose}
 			/>
 
-			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl border border-gray-100 animate-scale-up'>
-				<div className='flex items-start gap-4 mb-4'>
+			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all border border-gray-100 animate-scale-up max-h-[90vh] overflow-y-auto scrollbar-none'>
+				<div className='flex items-center gap-4 mb-5'>
 					<div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-600 border border-gray-100'>
 						<Folder size={20} />
 					</div>
 					<div className='flex-1 min-w-0'>
-						<h3 className='text-lg font-bold text-gray-900 tracking-tight'>
+						<h3 className='text-lg font-bold text-gray-900 tracking-tight leading-6'>
 							{title}
 						</h3>
 					</div>
 				</div>
 
 				<form onSubmit={handleSubmit} className='space-y-4'>
-					<div className='space-y-1.5'>
-						<label className='text-xs font-bold uppercase tracking-wider text-gray-500'>
-							First Name
-						</label>
-						<input
+					<div className='grid grid-cols-2 gap-3'>
+						<FormInput
+							label='First Name'
 							type='text'
 							required
 							disabled={isLoading}
-							value={name}
-							onChange={e => setName(e.target.value)}
-							placeholder='e.g. Smartphones'
-							className='w-full h-11 px-3.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-900 bg-white focus:outline-hidden focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all disabled:opacity-50'
+							value={firstName}
+							onChange={e => setFirstName(e.target.value)}
+							placeholder='John'
+						/>
+
+						<FormInput
+							label='Last Name'
+							type='text'
+							required
+							disabled={isLoading}
+							value={lastName}
+							onChange={e => setLastName(e.target.value)}
+							placeholder='Doe'
 						/>
 					</div>
 
-					<div className='space-y-1.5'>
-						<label className='text-xs font-bold uppercase tracking-wider text-gray-500'>
-							Profile Image (Max 4MB)
-						</label>
+					<FormInput
+						label='Email Address'
+						type='email'
+						required
+						disabled={isLoading}
+						value={email}
+						onChange={e => setEmail(e.target.value)}
+						placeholder='john.doe@example.com'
+					/>
 
-						<div
-							className={`flex items-center gap-4 p-3 bg-gray-50 rounded-xl border border-dashed transition-colors ${fileError ? 'border-red-300 bg-red-50/10' : 'border-gray-200'}`}
-						>
-							<div className='w-16 h-16 rounded-xl bg-white border border-gray-200 overflow-hidden shrink-0 relative flex items-center justify-center text-gray-400 font-bold text-xs shadow-xs'>
-								{previewUrl ? (
-									<Image
-										src={previewUrl}
-										alt='Preview'
-										fill
-										unoptimized
-										className='object-cover'
-									/>
-								) : (
-									<ImageIcon size={20} className='text-gray-300' />
-								)}
-							</div>
+					<FormInput
+						label='Phone Number'
+						type='tel'
+						required
+						disabled={isLoading}
+						value={phoneNumber}
+						onChange={e => setPhoneNumber(e.target.value)}
+						placeholder='+380...'
+					/>
 
-							<label className='inline-flex items-center justify-center h-9 px-4 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 shadow-sm hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-50'>
-								<span>Choose Image</span>
-								<input
-									type='file'
-									accept='image/jpeg, image/png, image/webp'
-									disabled={isLoading}
-									onChange={handleImageChange}
-									className='hidden'
-								/>
-							</label>
-						</div>
+					<div className='grid grid-cols-2 gap-3'>
+						<FormInput
+							label='City'
+							type='text'
+							disabled={isLoading}
+							value={city}
+							onChange={e => setCity(e.target.value)}
+							placeholder='Kyiv'
+						/>
 
-						{fileError && (
-							<div className='flex items-center gap-1.5 text-red-600 text-xs font-semibold mt-1'>
-								<AlertCircle size={14} />
-								<span>{fileError}</span>
-							</div>
-						)}
+						<FormInput
+							label='Address'
+							type='text'
+							disabled={isLoading}
+							value={address}
+							onChange={e => setAddress(e.target.value)}
+							placeholder='Khreshchatyk St, 1'
+						/>
 					</div>
 
-					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-2 border-t border-gray-50'>
+					<FormFileField
+						label='Profile Image (Max 4MB)'
+						previewUrl={previewUrl}
+						error={fileError}
+						disabled={isLoading}
+						onChange={handleImageChange}
+					/>
+
+					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-gray-100'>
 						<button
 							type='button'
 							disabled={isLoading}
 							onClick={onClose}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-hidden transition-all cursor-pointer disabled:opacity-50'
+							className='inline-flex justify-center items-center h-10 px-4 rounded-xl border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50'
 						>
 							{cancelText}
 						</button>
 
 						<button
 							type='submit'
-							disabled={isLoading || !name.trim() || !!fileError}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 transition-all cursor-pointer disabled:opacity-50 min-w-22.5'
+							disabled={
+								isLoading ||
+								!firstName.trim() ||
+								!lastName.trim() ||
+								!email.trim() ||
+								!phoneNumber.trim() ||
+								!!fileError
+							}
+							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 focus:outline-hidden focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 min-w-22.5 shadow-sm'
 						>
 							{isLoading ? (
 								<Loader2 className='animate-spin' size={16} />

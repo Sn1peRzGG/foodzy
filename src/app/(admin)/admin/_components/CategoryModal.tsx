@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import FormModal from '@/src/components/FormModal'
+import { FormFileField, FormInput } from '@/src/components/ui/FormFields'
 import { CategoryType } from '@/src/types/category'
-import AdminFormModal from './AdminFormModal'
-import { AdminTextField, AdminFileField } from './AdminFormFields'
+import { useEffect, useState } from 'react'
 
 interface CategoryModalProps {
 	isOpen: boolean
@@ -76,7 +76,7 @@ export default function CategoryModal({
 	}
 
 	return (
-		<AdminFormModal
+		<FormModal
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit}
@@ -85,7 +85,7 @@ export default function CategoryModal({
 			isLoading={isLoading}
 			isDisabled={!name.trim() || !!fileError}
 		>
-			<AdminTextField
+			<FormInput
 				label='Category Name'
 				type='text'
 				required
@@ -95,13 +95,13 @@ export default function CategoryModal({
 				placeholder='e.g. Smartphones'
 			/>
 
-			<AdminFileField
+			<FormFileField
 				label='Category Image (Max 4MB)'
 				previewUrl={previewUrl}
-				fileError={fileError}
+				error={fileError}
 				disabled={isLoading}
 				onChange={handleImageChange}
 			/>
-		</AdminFormModal>
+		</FormModal>
 	)
 }

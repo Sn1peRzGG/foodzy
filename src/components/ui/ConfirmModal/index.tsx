@@ -50,8 +50,8 @@ export default function ConfirmModal({
 
 	const confirmButtonStyles =
 		variant === 'danger'
-			? 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500 shadow-sm'
-			: 'bg-primary hover:bg-primary/90 text-white focus:ring-primary shadow-sm'
+			? 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500'
+			: 'bg-gray-900 hover:bg-gray-800 text-white focus:ring-gray-900'
 
 	return createPortal(
 		<div className='fixed inset-0 z-100 flex items-center justify-center p-4 select-none animate-fade-in'>
@@ -61,15 +61,15 @@ export default function ConfirmModal({
 			/>
 
 			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all border border-gray-100 animate-scale-up'>
-				<div className='flex items-start gap-4'>
+				<div className='flex items-center gap-4'>
 					{variant === 'danger' && (
-						<div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600 sm:h-10 sm:w-10'>
+						<div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600 border border-red-100'>
 							<AlertTriangle size={20} />
 						</div>
 					)}
 
 					<div className='flex-1 min-w-0'>
-						<h3 className='text-base font-bold text-gray-900 leading-6 tracking-tight'>
+						<h3 className='text-lg font-bold text-gray-900 tracking-tight leading-6'>
 							{title}
 						</h3>
 						<p className='mt-2 text-sm text-gray-500 leading-relaxed'>
@@ -78,7 +78,7 @@ export default function ConfirmModal({
 					</div>
 				</div>
 
-				<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2'>
+				<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-gray-100'>
 					<button
 						type='button'
 						disabled={isLoading}
@@ -92,7 +92,7 @@ export default function ConfirmModal({
 						type='button'
 						disabled={isLoading}
 						onClick={onConfirm}
-						className={`inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none min-w-22.5 ${confirmButtonStyles}`}
+						className={`inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none min-w-22.5 shadow-sm ${confirmButtonStyles}`}
 					>
 						{isLoading ? (
 							<Loader2 className='animate-spin' size={16} />

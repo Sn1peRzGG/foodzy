@@ -27,10 +27,10 @@ export default function ScrollToTop() {
 	}, [])
 
 	return (
-		<div className='fixed right-4 bottom-4 z-20'>
+		<>
 			{isVisible && (
 				<button
-					className='group flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border bg-emerald-600 hover:bg-emerald-700 text-white border-none shadow-md transition-colors duration-200'
+					className='order-2 group flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border bg-emerald-600 hover:bg-emerald-700 text-white border-none shadow-md transition-colors duration-200'
 					onClick={scrollToTop}
 				>
 					<ArrowBigUp
@@ -39,6 +39,6 @@ export default function ScrollToTop() {
 					/>
 				</button>
 			)}
-		</div>
+		</>
 	)
 }

@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
 import { Loader2, X } from 'lucide-react'
+import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-interface AdminFormModalProps {
+interface FormModalProps {
 	isOpen: boolean
 	onClose: () => void
 	onSubmit: (e: React.FormEvent) => void
@@ -16,7 +16,7 @@ interface AdminFormModalProps {
 	children: React.ReactNode
 }
 
-export default function AdminFormModal({
+export default function FormModal({
 	isOpen,
 	onClose,
 	onSubmit,
@@ -26,7 +26,7 @@ export default function AdminFormModal({
 	isLoading = false,
 	isDisabled = false,
 	children,
-}: AdminFormModalProps) {
+}: FormModalProps) {
 	useEffect(() => {
 		if (!isOpen) return
 		document.body.style.overflow = 'hidden'
@@ -65,7 +65,7 @@ export default function AdminFormModal({
 				</div>
 
 				<form onSubmit={onSubmit} className='space-y-4'>
-					<div className='space-y-4 max-h-[60vh] overflow-y-auto pr-1'>
+					<div className='space-y-4 max-h-[60vh] overflow-y-auto px-1 pr-1.5'>
 						{children}
 					</div>
 

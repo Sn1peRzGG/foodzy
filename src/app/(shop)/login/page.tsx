@@ -1,9 +1,9 @@
 'use client'
 
-import { FormInput } from '@/src/components/ui/FormInput'
+import { FormInput } from '@/src/components/ui/FormFields'
 import api from '@/src/lib/api'
-import { getApiError } from '@/src/lib/get-api-error'
-import { getFieldErrors } from '@/src/lib/get-field-errors'
+import { getApiError } from '@/src/utils/getApiError'
+import { getFieldErrors } from '@/src/utils/getFieldErrors'
 import { ArrowRight, Lock, LogIn, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'

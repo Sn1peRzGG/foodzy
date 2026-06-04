@@ -1,13 +1,16 @@
 'use client'
 
+import FormModal from '@/src/components/FormModal'
+import {
+	FormFileField,
+	FormInput,
+	FormSelect,
+} from '@/src/components/ui/FormFields'
 import api from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import { ProductType } from '@/src/types/product'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { AdminFileField, AdminTextField } from './AdminFormFields'
-import AdminFormModal from './AdminFormModal'
-import AdminSelect from './AdminSelect'
 
 interface ProductModalProps {
 	isOpen: boolean
@@ -100,7 +103,7 @@ export default function ProductModal({
 		} else {
 			setCategoryId('')
 		}
-	}, [isOpen, mode, initialData]) // Стежимо за метаморфозами відкриття та вхідних даних
+	}, [isOpen, mode, initialData])
 
 	const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		let val = e.target.value
@@ -209,7 +212,7 @@ export default function ProductModal({
 	}
 
 	return (
-		<AdminFormModal
+		<FormModal
 			isOpen={isOpen}
 			onClose={onClose}
 			onSubmit={handleSubmit}
@@ -225,26 +228,26 @@ export default function ProductModal({
 				!!fileError
 			}
 		>
-			<AdminTextField
+			<FormInput
 				label='Product Name'
 				type='text'
 				required
 				disabled={isLoading}
 				value={name}
 				onChange={e => setName(e.target.value)}
-				placeholder='Name'
+				placeholder='e.g. Fresh Caesar Salad'
 			/>
 
-			<AdminTextField
+			<FormInput
 				label='Product Description'
 				type='text'
 				disabled={isLoading}
 				value={description}
 				onChange={e => setDescription(e.target.value)}
-				placeholder='Description'
+				placeholder='e.g. Crispy lettuce, grilled chicken, parmesan, and signature dressing'
 			/>
 
-			<AdminSelect
+			<FormSelect
 				label='Category'
 				required
 				value={categoryId}
@@ -254,7 +257,7 @@ export default function ProductModal({
 				placeholder='Choose a category...'
 			/>
 
-			<AdminTextField
+			<FormInput
 				label='Product Price'
 				type='text'
 				inputMode='decimal'
@@ -262,30 +265,30 @@ export default function ProductModal({
 				disabled={isLoading}
 				value={price}
 				onChange={handlePriceChange}
-				placeholder='Price'
+				placeholder='e.g. 12.99'
 			/>
 
-			<AdminTextField
+			<FormInput
 				label='Product Old Price'
 				type='text'
 				inputMode='decimal'
 				disabled={isLoading}
 				value={oldPrice}
 				onChange={handleOldPriceChange}
-				placeholder='Old Price'
+				placeholder='e.g. 15.99'
 			/>
 
-			<AdminTextField
+			<FormInput
 				label='Product Rating (0 - 5)'
 				type='text'
 				inputMode='decimal'
 				disabled={isLoading}
 				value={rating}
 				onChange={handleRatingChange}
-				placeholder='Rating'
+				placeholder='e.g. 4.8'
 			/>
 
-			<AdminTextField
+			<FormInput
 				label='Product Weight'
 				type='text'
 				disabled={isLoading}
@@ -294,17 +297,17 @@ export default function ProductModal({
 				placeholder='Weight (e.g. 500g, 1kg)'
 			/>
 
-			<AdminTextField
+			<FormInput
 				label='Product Calories'
 				type='text'
 				inputMode='numeric'
 				disabled={isLoading}
 				value={calories}
 				onChange={handleCaloriesChange}
-				placeholder='Calories'
+				placeholder='e.g. 350'
 			/>
 
-			<div className='ml-2 flex items-center gap-3 py-2'>
+			<div className='w-full flex items-center gap-3 py-1.5 pl-0.5'>
 				<input
 					id='isAvailableCheckbox'
 					type='checkbox'
@@ -315,19 +318,19 @@ export default function ProductModal({
 				/>
 				<label
 					htmlFor='isAvailableCheckbox'
-					className='text-sm text-gray-700 font-medium select-none cursor-pointer'
+					className='text-sm text-gray-700 font-semibold select-none cursor-pointer'
 				>
 					Product In Stock
 				</label>
 			</div>
 
-			<AdminFileField
+			<FormFileField
 				label='Product Image (Max 4MB)'
 				previewUrl={previewUrl}
-				fileError={fileError}
+				error={fileError}
 				disabled={isLoading}
 				onChange={handleImageChange}
 			/>
-		</AdminFormModal>
+		</FormModal>
 	)
 }

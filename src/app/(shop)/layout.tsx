@@ -17,8 +17,10 @@ export default function ShopLayout({
 				<BreadcrumbsProvider>
 					<Breadcrumbs />
 					{children}
-					<ConfigButton />
-					<ScrollToTop />
+					<div className='fixed right-4 bottom-4 z-20 flex flex-col gap-4'>
+						<ConfigButton />
+						<ScrollToTop />
+					</div>
 				</BreadcrumbsProvider>
 			</main>
 			<Footer />

@@ -80,10 +80,7 @@ export default function Sidebar() {
 						href='/'
 						className='flex items-center gap-3 px-4 h-10.5 rounded-xl font-semibold text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-950 transition-all duration-200 group'
 					>
-						<ArrowLeftRight
-							size={18}
-							className='text-gray-400 group-hover:text-gray-600 transition-transform duration-200 group-hover:rotate-180 shrink-0'
-						/>
+						<ArrowLeftRight size={18} className='shrink-0' />
 						<span className='tracking-wide'>Back to Website</span>
 					</Link>
 				</div>

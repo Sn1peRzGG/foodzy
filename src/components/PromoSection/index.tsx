@@ -16,7 +16,7 @@ export default function PromoSection() {
 			</div>
 
 			<div className='flex flex-col justify-center w-full md:w-1/2 lg:w-[50%] gap-6 md:gap-8'>
-				<h2 className='font-bold text-gray-800 text-3xl lg:text-4xl 3xl:text-[50px] leading-[1.2] text-center md:text-left'>
+				<h2 className='font-bold text-text-muted text-3xl lg:text-4xl 3xl:text-[50px] leading-[1.2] text-center md:text-left'>
 					Why People Choose us?
 				</h2>
 

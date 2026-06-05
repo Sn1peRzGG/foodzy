@@ -100,7 +100,7 @@ export default function UserCard({ user }: UserCardProps) {
 	return (
 		<div className='container-responsive p-6 max-w-7xl mx-auto animate-fade-in'>
 			<div className='mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
-				<h1 className='text-3xl font-extrabold tracking-tight text-gray-900'>
+				<h1 className='text-3xl font-extrabold tracking-tight text-text-main'>
 					Welcome back, {user.firstName || 'Friend'}
 				</h1>
 
@@ -108,17 +108,17 @@ export default function UserCard({ user }: UserCardProps) {
 					type='button'
 					onClick={() => setShowUpdateModal(true)}
 					disabled={isUpdating}
-					className='inline-flex items-center justify-center gap-2 px-4 h-10 rounded-xl border border-gray-200 bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 active:scale-98 transition-all cursor-pointer shadow-xs sm:self-end disabled:opacity-50'
+					className='inline-flex items-center justify-center gap-2 px-4 h-10 rounded-xl border border-border-main bg-card-bg text-sm font-bold text-text-muted hover:bg-main-bg active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40:self-end disabled:opacity-50'
 				>
-					<Edit2 size={15} className='text-gray-500' />
+					<Edit2 size={15} className='text-text-muted' />
 					{isUpdating ? 'Saving...' : 'Edit Profile'}
 				</button>
 			</div>
 
 			<div className='w-full space-y-8'>
-				<div className='w-full bg-white border border-gray-200/80 rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-center md:justify-between gap-6 transition-all duration-200 hover:shadow-md'>
+				<div className='w-full bg-card-bg border border-border-main/80 rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-center md:justify-between gap-6 transition-all duration-200 hover:shadow-md'>
 					<div className='flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left min-w-0 w-full md:w-auto'>
-						<div className='relative flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gray-50 border border-gray-100 text-gray-500 shadow-xs overflow-hidden'>
+						<div className='relative flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-main-bg border border-border-main text-text-muted shadow-md dark:shadow-black/40'>
 							{user.avatarUrl ? (
 								<Image
 									src={`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
@@ -167,9 +167,9 @@ export default function UserCard({ user }: UserCardProps) {
 							type='button'
 							onClick={() => setShowLogoutConfirm(true)}
 							disabled={isLoggingOut}
-							className='inline-flex items-center justify-center gap-2 px-5 h-11 w-full sm:w-auto rounded-xl border border-gray-200 bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-gray-900 active:scale-98 transition-all cursor-pointer shadow-xs'
+							className='inline-flex items-center justify-center gap-2 px-5 h-11 w-full sm:w-auto rounded-xl border border-border-main bg-card-bg text-sm font-bold text-text-muted hover:bg-main-bg hover:text-text-main active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40'
 						>
-							<LogOut size={16} className='text-gray-500' />
+							<LogOut size={16} className='text-text-muted' />
 							Logout
 						</button>
 
@@ -177,7 +177,7 @@ export default function UserCard({ user }: UserCardProps) {
 							type='button'
 							onClick={() => setShowDeleteAccountConfirm(true)}
 							disabled={isPending}
-							className='inline-flex items-center justify-center gap-2 px-5 h-11 w-full sm:w-auto rounded-xl bg-red-600 text-sm font-bold text-white hover:bg-red-700 active:scale-98 transition-all cursor-pointer shadow-md hover:shadow-red-200 shadow-red-100/50'
+							className='inline-flex items-center justify-center gap-2 px-5 h-11 w-full sm:w-auto rounded-xl bg-red-600 text-sm font-bold text-text-main hover:bg-accent-hover active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40:shadow-lg hover:shadow-lg dark:hover:shadow-black/60:shadow-md dark:shadow-black/40:hover:shadow-lg dark:hover:shadow-black/60'
 						>
 							<Trash2 size={16} />
 							Delete Account
@@ -186,25 +186,28 @@ export default function UserCard({ user }: UserCardProps) {
 				</div>
 
 				<div className='space-y-3'>
-					<h4 className='text-xs font-bold text-gray-400 uppercase tracking-wider pl-1'>
+					<h4 className='text-xs font-bold text-text-subtle uppercase tracking-wider pl-1'>
 						Account Details
 					</h4>
-					<div className='bg-white border border-gray-200/80 rounded-xl p-6 shadow-sm'>
-						<div className='space-y-3.5 text-sm text-gray-700'>
+					<div className='bg-card-bg border border-border-main/80 rounded-xl p-6 shadow-sm'>
+						<div className='space-y-3.5 text-sm text-text-muted'>
 							<div className='flex items-center gap-3 min-w-0'>
-								<Mail size={16} className='text-gray-400 shrink-0' />
+								<Mail size={16} className='text-text-subtle shrink-0' />
 								<span className='truncate font-medium'>{user.email}</span>
 							</div>
 
-							<div className='flex items-center gap-3 min-w-0 border-t border-gray-100 pt-3.5'>
-								<Phone size={16} className='text-gray-400 shrink-0' />
+							<div className='flex items-center gap-3 min-w-0 border-t border-border-main pt-3.5'>
+								<Phone size={16} className='text-text-subtle shrink-0' />
 								<span className='truncate font-medium tabular-nums'>
 									{user.phoneNumber || '-'}
 								</span>
 							</div>
 
-							<div className='flex items-start gap-3 min-w-0 border-t border-gray-100 pt-3.5'>
-								<MapPin size={16} className='text-gray-400 shrink-0 mt-0.5' />
+							<div className='flex items-start gap-3 min-w-0 border-t border-border-main pt-3.5'>
+								<MapPin
+									size={16}
+									className='text-text-subtle shrink-0 mt-0.5'
+								/>
 								<div className='min-w-0 flex items-center gap-1.5'>
 									{user.city && (
 										<span className='truncate font-medium shrink-0'>

@@ -72,7 +72,7 @@ const SpecialSlider = forwardRef<SpecialSliderRef, SpecialSliderProps>(
 							style={{ width: `${100 / itemsPerPage}%` }}
 							className='flex-none px-2 md:px-3 py-2 flex box-border relative transition-all duration-300 hover:z-30'
 						>
-							<div className='w-full h-full flex flex-col'>
+							<div className='w-full h-full flex flex-col items-center'>
 								<SpecialCard {...product} />
 							</div>
 						</div>
@@ -86,9 +86,7 @@ const SpecialSlider = forwardRef<SpecialSliderRef, SpecialSliderProps>(
 							type='button'
 							onClick={() => setCurrentIndex(index)}
 							className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-								currentIndex === index
-									? 'w-7 bg-[#F53E32]'
-									: 'w-2.5 bg-gray-200'
+								currentIndex === index ? 'w-7 bg-accent' : 'w-2.5 bg-gray-200'
 							}`}
 						/>
 					))}

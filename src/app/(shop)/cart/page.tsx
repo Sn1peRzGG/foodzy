@@ -29,16 +29,16 @@ export default function CartPage() {
 
 	return (
 		<div className='container-responsive p-6 max-w-7xl mx-auto'>
-			<h1 className='text-3xl font-extrabold mb-8 tracking-tight text-gray-900'>
+			<h1 className='text-3xl font-extrabold mb-8 tracking-tight text-text-main'>
 				My Cart
 			</h1>
 
 			{user?.cart && user.cart.length > 0 ? (
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
-					<div className='lg:col-span-2 overflow-x-auto rounded-xl border border-gray-100 shadow-sm'>
-						<table className='w-full text-[#444444] border-collapse table-fixed min-w-150'>
+					<div className='lg:col-span-2 overflow-x-auto rounded-xl border border-border-main shadow-sm'>
+						<table className='w-full text-text-muted border-collapse table-fixed min-w-150'>
 							<thead>
-								<tr className='bg-[#E9E9E9] text-[15px] font-semibold text-gray-700'>
+								<tr className='bg-ui-hover text-[15px] font-semibold text-text-muted'>
 									<th className='py-4 pl-6 text-left rounded-tl-xl w-[40%]'>
 										Product
 									</th>
@@ -54,10 +54,10 @@ export default function CartPage() {
 								{user.cart.map(item => (
 									<tr
 										key={item.product._id}
-										className='bg-[#F7F7F8] hover:bg-gray-50 transition-colors'
+										className='bg-main-bg hover:bg-main-bg transition-colors'
 									>
 										<td className='py-5 px-6 flex flex-row items-center overflow-hidden'>
-											<div className='relative w-16 h-16 border border-[#E9E9E9] rounded-lg overflow-hidden bg-white shrink-0 shadow-sm'>
+											<div className='relative w-16 h-16 border border-border-main rounded-lg overflow-hidden bg-card-bg shrink-0 shadow-sm'>
 												<Image
 													src={`${process.env.NEXT_PUBLIC_API_URL}${item.product.imageUrl}`}
 													alt={item.product.name}
@@ -68,18 +68,18 @@ export default function CartPage() {
 											</div>
 											<Link
 												href={`/products/${item.product._id}`}
-												className='ml-5 font-semibold text-gray-800 truncate hover:text-primary transition-colors'
+												className='ml-5 font-semibold text-text-muted truncate hover:text-primary transition-colors'
 											>
 												{item.product.name}
 											</Link>
 										</td>
 
-										<td className='py-5 text-center tabular-nums font-medium text-gray-900'>
+										<td className='py-5 text-center tabular-nums font-medium text-text-main'>
 											${item.product.price.toFixed(2)}
 										</td>
 
 										<td className='py-5 text-center'>
-											<div className='inline-block bg-white rounded-md shadow-sm border border-gray-200 p-0.5'>
+											<div className='inline-block bg-card-bg rounded-md shadow-sm border border-border-main p-0.5'>
 												<CartQuantityInput
 													item={item}
 													isLoading={
@@ -90,7 +90,7 @@ export default function CartPage() {
 											</div>
 										</td>
 
-										<td className='py-5 text-center tabular-nums font-bold text-gray-950'>
+										<td className='py-5 text-center tabular-nums font-bold text-text-main'>
 											${(item.product.price * item.quantity).toFixed(2)}
 										</td>
 
@@ -100,7 +100,7 @@ export default function CartPage() {
 												className={`p-2.5 rounded-full transition-all duration-200 ${
 													loadingStates[item.product._id] === 'remove'
 														? 'text-red-500 bg-red-50 opacity-70 cursor-not-allowed'
-														: 'text-gray-400 hover:text-red-600 hover:bg-red-50 cursor-pointer'
+														: 'text-text-subtle hover:text-red-600 hover:bg-red-50 cursor-pointer'
 												}`}
 												onClick={() => removeFromCart(item.product._id)}
 											>
@@ -117,26 +117,28 @@ export default function CartPage() {
 						</table>
 					</div>
 
-					<div className='bg-white rounded-xl border border-gray-200 p-6 shadow-sm sticky top-6'>
-						<h2 className='text-xl font-bold text-gray-900 mb-5 pb-4 border-b border-gray-100'>
+					<div className='bg-card-bg rounded-xl border border-border-main p-6 shadow-sm sticky top-6'>
+						<h2 className='text-xl font-bold text-text-main mb-5 pb-4 border-b border-border-main'>
 							Order Summary
 						</h2>
 
 						<div className='space-y-4 mb-6'>
-							<div className='flex justify-between text-gray-600 text-sm'>
+							<div className='flex justify-between text-text-muted text-sm'>
 								<span>Subtotal</span>
-								<span className='font-medium text-gray-900'>
+								<span className='font-medium text-text-main'>
 									${cartTotal.toFixed(2)}
 								</span>
 							</div>
-							<div className='flex justify-between text-gray-600 text-sm'>
+							<div className='flex justify-between text-text-muted text-sm'>
 								<span>Shipping</span>
 								<span className='font-medium text-green-600'>Free</span>
 							</div>
-							<hr className='border-gray-100 my-2' />
+							<hr className='border-border-main my-2' />
 							<div className='flex justify-between items-baseline'>
-								<span className='text-base font-bold text-gray-900'>Total</span>
-								<span className='text-2xl font-black text-gray-900 tracking-tight'>
+								<span className='text-base font-bold text-text-main'>
+									Total
+								</span>
+								<span className='text-2xl font-black text-text-main tracking-tight'>
 									${cartTotal.toFixed(2)}
 								</span>
 							</div>
@@ -144,7 +146,7 @@ export default function CartPage() {
 
 						<Link
 							href='/checkout'
-							className='w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-semibold py-3.5 px-4 rounded-xl transition-all shadow-md shadow-primary/10 hover:shadow-lg active:scale-[0.98]'
+							className='w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-text-main font-semibold py-3.5 px-4 rounded-xl transition-all shadow-md shadow-md dark:shadow-black/40:shadow-lg active:scale-[0.98]'
 						>
 							Proceed to Checkout
 							<ArrowRight size={18} />
@@ -152,26 +154,26 @@ export default function CartPage() {
 
 						<Link
 							href='/products'
-							className='w-full mt-3 flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-800 font-medium py-2 transition-colors'
+							className='w-full mt-3 flex items-center justify-center gap-2 text-sm text-text-muted hover:text-text-muted font-medium py-2 transition-colors'
 						>
 							Continue Shopping
 						</Link>
 					</div>
 				</div>
 			) : (
-				<div className='border-2 border-dashed border-gray-200 rounded-2xl py-24 px-4 text-center max-w-md mx-auto mt-12 bg-gray-50/50'>
-					<div className='mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4 shadow-sm'>
+				<div className='border-2 border-dashed border-border-main rounded-2xl py-24 px-4 text-center max-w-md mx-auto mt-12 bg-main-bg/50'>
+					<div className='mx-auto w-16 h-16 bg-ui-hover rounded-full flex items-center justify-center text-text-subtle mb-4 shadow-sm'>
 						<ShoppingBag size={28} />
 					</div>
-					<h3 className='text-lg font-bold text-gray-900 mb-1'>
+					<h3 className='text-lg font-bold text-text-main mb-1'>
 						Your cart is empty
 					</h3>
-					<p className='text-gray-500 text-sm mb-6 max-w-xs mx-auto'>
+					<p className='text-text-muted text-sm mb-6 max-w-xs mx-auto'>
 						Looks like you haven&apos;t added anything to your cart yet.
 					</p>
 					<Link
 						href='/products'
-						className='inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 text-white font-medium text-sm py-2.5 px-6 rounded-xl transition-colors shadow-sm'
+						className='inline-flex items-center justify-center bg-main-bg hover:bg-main-bg text-text-main font-medium text-sm py-2.5 px-6 rounded-xl transition-colors shadow-sm'
 					>
 						Start Shopping
 					</Link>

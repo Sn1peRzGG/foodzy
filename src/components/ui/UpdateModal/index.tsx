@@ -132,17 +132,17 @@ export default function UpdateModal({
 	return createPortal(
 		<div className='fixed inset-0 z-100 flex items-center justify-center p-4 select-none animate-fade-in'>
 			<div
-				className='fixed inset-0 bg-gray-950/60 backdrop-blur-md transition-opacity'
+				className='fixed inset-0 bg-main-bg/60 backdrop-blur-md transition-opacity'
 				onClick={isLoading ? undefined : onClose}
 			/>
 
-			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all border border-gray-100 animate-scale-up max-h-[90vh] overflow-y-auto scrollbar-none'>
+			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-card-bg p-6 text-left align-middle shadow-xl transition-all border border-border-main animate-scale-up max-h-[90vh] overflow-y-auto scrollbar-none'>
 				<div className='flex items-center gap-4 mb-5'>
-					<div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-600 border border-gray-100'>
+					<div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-main-bg text-text-muted border border-border-main'>
 						<Folder size={20} />
 					</div>
 					<div className='flex-1 min-w-0'>
-						<h3 className='text-lg font-bold text-gray-900 tracking-tight leading-6'>
+						<h3 className='text-lg font-bold text-text-main tracking-tight leading-6'>
 							{title}
 						</h3>
 					</div>
@@ -219,12 +219,12 @@ export default function UpdateModal({
 						onChange={handleImageChange}
 					/>
 
-					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-gray-100'>
+					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-border-main'>
 						<button
 							type='button'
 							disabled={isLoading}
 							onClick={onClose}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50'
+							className='inline-flex justify-center items-center h-10 px-4 rounded-xl border border-border-strong bg-card-bg text-sm font-semibold text-text-muted hover:bg-main-bg focus:outline-hidden focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50'
 						>
 							{cancelText}
 						</button>
@@ -239,7 +239,7 @@ export default function UpdateModal({
 								!phoneNumber.trim() ||
 								!!fileError
 							}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 focus:outline-hidden focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 min-w-22.5 shadow-sm'
+							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary-hover focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 min-w-22.5 shadow-sm'
 						>
 							{isLoading ? (
 								<Loader2 className='animate-spin' size={16} />

@@ -1,8 +1,8 @@
 'use client'
 
+import accordionItems from '@/constants/accordionItems.json'
 import AccordionItem from '@/src/components/ui/AccordionItem'
 import * as Accordion from '@radix-ui/react-accordion'
-import accordionItems from '@/constants/accordionItems.json'
 import Image from 'next/image'
 
 export default function FAQPage() {
@@ -21,14 +21,19 @@ export default function FAQPage() {
 			<Accordion.Root
 				type='single'
 				collapsible
-				className='flex w-full lg:w-2/3 flex-col text-gray-900 gap-3'
+				className='flex w-full lg:w-2/3 flex-col text-text-main gap-3'
 			>
-				{accordionItems.map(accordion => (
-					<AccordionItem
+				{accordionItems.map((accordion, index) => (
+					<div
 						key={accordion.label}
-						value={accordion.label}
-						{...accordion}
-					/>
+						className='animate-fade-in'
+						style={{
+							animationDelay: `${index * 75}ms`,
+							animationFillMode: 'both',
+						}}
+					>
+						<AccordionItem value={accordion.label} {...accordion} />
+					</div>
 				))}
 			</Accordion.Root>
 		</div>

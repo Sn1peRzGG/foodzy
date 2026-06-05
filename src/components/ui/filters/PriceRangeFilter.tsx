@@ -39,8 +39,8 @@ export default function PriceRangeFilter() {
 	}
 
 	return (
-		<div className='border-b border-gray-100 pb-5 last:border-0 last:pb-0'>
-			<h4 className='mb-3 select-none text-xs font-bold uppercase tracking-wider text-gray-700'>
+		<div className='border-b border-border-main pb-5 last:border-0 last:pb-0'>
+			<h4 className='mb-3 select-none text-xs font-bold uppercase tracking-wider text-text-muted'>
 				Price Range
 			</h4>
 

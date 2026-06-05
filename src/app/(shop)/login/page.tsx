@@ -102,22 +102,22 @@ export default function LoginPage() {
 		<div className='container-responsive flex flex-1 items-center justify-center'>
 			<div className='w-full max-w-md'>
 				<div className='mb-8 text-center'>
-					<div className='mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white shadow-xl shadow-[#64B496]/30'>
+					<div className='mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-text-main shadow-xl shadow-md dark:shadow-black/40/30'>
 						<LogIn size={28} />
 					</div>
 
-					<h1 className='text-3xl font-extrabold tracking-tight text-gray-900'>
+					<h1 className='text-3xl font-extrabold tracking-tight text-text-main'>
 						Welcome Back
 					</h1>
 
-					<p className='mt-2 text-gray-500'>
+					<p className='mt-2 text-text-muted'>
 						Please enter your details to sign in
 					</p>
 				</div>
 
 				<form
 					onSubmit={handleSubmit}
-					className='space-y-6 rounded-2xl border border-gray-100 bg-white p-8 shadow-xl shadow-gray-200/50'
+					className='space-y-6 rounded-2xl border border-border-main bg-card-bg p-8 shadow-xl shadow-md dark:shadow-black/40'
 				>
 					<FormInput
 						label='Email Address'
@@ -153,7 +153,7 @@ export default function LoginPage() {
 
 					<div className='text-right text-sm'>
 						<Link
-							href='/forgot-password'
+							href='/forgot'
 							className='group relative inline-block font-semibold text-primary'
 						>
 							Forgot password?
@@ -164,7 +164,7 @@ export default function LoginPage() {
 					<button
 						type='submit'
 						disabled={loading}
-						className='group relative flex w-full cursor-pointer items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-bold text-white transition-all hover:bg-[#58a78a] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
+						className='group relative flex w-full cursor-pointer items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-bold text-text-main transition-all hover:bg-primary-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
 					>
 						{loading ? 'Signing in...' : 'Sign in'}
 
@@ -175,7 +175,7 @@ export default function LoginPage() {
 				</form>
 
 				<div className='mt-8 text-center'>
-					<p className='text-sm text-gray-600'>
+					<p className='text-sm text-text-muted'>
 						Don&apos;t have an account?{' '}
 						<Link
 							href='/signup'

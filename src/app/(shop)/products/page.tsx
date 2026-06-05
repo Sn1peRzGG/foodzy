@@ -114,24 +114,24 @@ export default function ProductsPage() {
 				}`}
 			>
 				<div
-					className='absolute inset-0 bg-black/50'
+					className='absolute inset-0 bg-main-bg/50'
 					onClick={() => setIsMobileFilterOpen(false)}
 				/>
 
 				<aside
-					className={`absolute left-0 top-0 h-full w-[85%] max-w-xs bg-white border-r border-gray-200 shadow-xl overflow-y-auto transition-transform duration-300 ease-out ${
+					className={`absolute left-0 top-0 h-full w-[85%] max-w-xs bg-card-bg border-r border-border-main shadow-xl overflow-y-auto transition-transform duration-300 ease-out ${
 						isMobileFilterOpen ? 'translate-x-0' : '-translate-x-full'
 					}`}
 				>
-					<div className='flex items-center justify-between px-4 py-4 border-b border-gray-100'>
-						<h2 className='text-lg font-bold text-black'>Filters</h2>
+					<div className='flex items-center justify-between px-4 py-4 border-b border-border-main'>
+						<h2 className='text-lg font-bold text-text-main'>Filters</h2>
 
 						<button
 							type='button'
 							onClick={() => setIsMobileFilterOpen(false)}
-							className='p-2 border border-gray-200 rounded-[5px] bg-white active:bg-gray-50 cursor-pointer'
+							className='p-2 border border-border-main rounded-[5px] bg-card-bg active:bg-ui-active cursor-pointer'
 						>
-							<X className='w-5 h-5 text-black' />
+							<X className='w-5 h-5 text-text-main' />
 						</button>
 					</div>
 
@@ -141,12 +141,12 @@ export default function ProductsPage() {
 				</aside>
 			</div>
 
-			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-gray-100 pb-4'>
+			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-border-main pb-4'>
 				<div>
-					<h1 className='text-2xl sm:text-3xl font-black text-black'>
+					<h1 className='text-2xl sm:text-3xl font-black text-text-main'>
 						{searchQuery ? `Results for "${searchQuery}"` : 'Our Products'}
 					</h1>
-					<p className='text-sm text-gray-500 mt-1'>
+					<p className='text-sm text-text-muted mt-1'>
 						Category:{' '}
 						<span className='font-semibold text-primary'>{displayName}</span> –
 						Found {meta?.total || 0} items
@@ -157,20 +157,20 @@ export default function ProductsPage() {
 					<button
 						type='button'
 						onClick={() => setIsMobileFilterOpen(true)}
-						className='flex xl:hidden items-center gap-2 border border-gray-300 rounded-md h-10 px-4 py-2 bg-white text-black font-medium text-sm shadow-sm hover:bg-gray-100 transition-colors cursor-pointer'
+						className='flex xl:hidden items-center gap-2 border border-border-strong rounded-md h-10 px-4 py-2 bg-card-bg text-text-main font-medium text-sm shadow-sm hover:bg-ui-hover transition-colors cursor-pointer'
 					>
 						<SlidersHorizontal size={16} />
 						Filters
 					</button>
 
-					<div className='flex items-center gap-1 border border-gray-300 rounded-md h-10 px-1.5 bg-white shadow-sm select-none'>
+					<div className='flex items-center gap-1 border border-border-strong rounded-md h-10 px-1.5 bg-card-bg shadow-sm select-none'>
 						<button
 							type='button'
 							onClick={() => toggleViewMode('list')}
 							className={`p-1.5 rounded-[5px] transition-all cursor-pointer ${
 								viewMode === 'list'
-									? 'bg-gray-100 text-primary font-semibold'
-									: 'text-gray-400 hover:text-gray-700 hover:bg-gray-50'
+									? 'bg-ui-hover text-primary font-semibold'
+									: 'text-text-subtle hover:text-text-muted hover:bg-main-bg'
 							}`}
 							title='List view'
 						>
@@ -182,8 +182,8 @@ export default function ProductsPage() {
 							onClick={() => toggleViewMode('grid')}
 							className={`p-1.5 rounded-[5px] transition-all cursor-pointer ${
 								viewMode === 'grid'
-									? 'bg-gray-100 text-primary font-semibold'
-									: 'text-gray-400 hover:text-gray-700 hover:bg-gray-50'
+									? 'bg-ui-hover text-primary font-semibold'
+									: 'text-text-subtle hover:text-text-muted hover:bg-main-bg'
 							}`}
 							title='Grid view'
 						>
@@ -194,11 +194,11 @@ export default function ProductsPage() {
 					<button
 						type='button'
 						onClick={toggleDesktopFilter}
-						className='hidden xl:flex items-center justify-center gap-2 border border-gray-300 rounded-md h-10 w-fit px-4 py-2 bg-white text-black font-medium text-sm shadow-sm hover:bg-gray-100 transition-all select-none cursor-pointer'
+						className='hidden xl:flex items-center justify-center gap-2 border border-border-strong rounded-md h-10 w-fit px-4 py-2 bg-card-bg text-text-main font-medium text-sm shadow-sm hover:bg-ui-hover transition-all select-none cursor-pointer'
 					>
 						<SlidersHorizontal
 							size={16}
-							className={`transition-colors duration-200 ${isDesktopFilterOpen ? 'text-primary' : 'text-gray-500'}`}
+							className={`transition-colors duration-200 ${isDesktopFilterOpen ? 'text-primary' : 'text-text-muted'}`}
 						/>
 						<span className='w-24 text-center'>
 							{isDesktopFilterOpen ? 'Hide Filters' : 'Show Filters'}
@@ -211,18 +211,18 @@ export default function ProductsPage() {
 					>
 						<div
 							onClick={() => setIsSortOpen(!isSortOpen)}
-							className='flex flex-row items-center justify-between border border-gray-300 rounded-md h-10 px-4 py-2 cursor-pointer relative select-none bg-white min-w-44 sm:min-w-56 text-black shadow-sm transition-all focus-within:border-primary hover:bg-gray-100'
+							className='flex flex-row items-center justify-between border border-border-strong rounded-md h-10 px-4 py-2 cursor-pointer relative select-none bg-card-bg min-w-44 sm:min-w-56 text-text-main shadow-sm transition-all focus-within:border-primary hover:bg-ui-hover'
 						>
-							<p className='text-[13px] font-medium whitespace-nowrap mr-2 text-gray-700'>
+							<p className='text-[13px] font-medium whitespace-nowrap mr-2 text-text-muted'>
 								{sortLabels[sortBy]}
 							</p>
 							<ChevronDown
-								className={`transition-transform duration-300 text-gray-500 ${isSortOpen ? 'rotate-180' : ''}`}
+								className={`transition-transform duration-300 text-text-muted ${isSortOpen ? 'rotate-180' : ''}`}
 								size={18}
 							/>
 
 							{isSortOpen && (
-								<ul className='absolute right-0 w-full mt-1 top-full z-50 rounded-md border border-gray-100 bg-white p-1.5 shadow-lg left-0'>
+								<ul className='absolute right-0 w-full mt-1 top-full z-50 rounded-md border border-border-main bg-card-bg p-1.5 shadow-lg left-0'>
 									{(Object.keys(sortLabels) as SortOption[]).map(option => (
 										<li key={option}>
 											<button
@@ -234,8 +234,8 @@ export default function ProductsPage() {
 												}}
 												className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm transition-colors ${
 													sortBy === option
-														? 'bg-gray-50 text-primary font-semibold'
-														: 'text-gray-700 hover:bg-gray-100'
+														? 'bg-main-bg text-primary font-semibold'
+														: 'text-text-muted hover:bg-ui-hover'
 												}`}
 											>
 												{sortLabels[option]}
@@ -256,18 +256,18 @@ export default function ProductsPage() {
 					</aside>
 				)}
 
-				<main
+				<div
 					className={`w-full transition-all duration-300 ${
 						isDesktopFilterOpen ? 'xl:col-span-3' : 'xl:col-span-4'
 					}`}
 				>
 					{isLoading && products.length === 0 ? (
-						<div className='text-center py-20 text-gray-500'>
+						<div className='text-center py-20 text-text-muted'>
 							Loading products...
 						</div>
 					) : products.length === 0 ? (
-						<div className='text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-200'>
-							<p className='text-gray-500 text-lg'>
+						<div className='text-center py-20 bg-main-bg rounded-xl border border-dashed border-border-main'>
+							<p className='text-text-muted text-lg'>
 								We couldn&apos;t find anything matching your request.
 							</p>
 							<Link
@@ -305,12 +305,12 @@ export default function ProductsPage() {
 										type='button'
 										onClick={() => setPage(prev => Math.max(1, prev - 1))}
 										disabled={page === 1}
-										className='p-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-700 hover:bg-gray-200/75 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-gray-200/75 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
 									>
 										<ChevronLeft />
 									</button>
 
-									<span className='text-sm text-gray-700'>
+									<span className='text-sm text-text-muted'>
 										Page <strong className='font-semibold'>{page}</strong> of{' '}
 										<strong className='font-semibold'>{meta.pages}</strong>
 									</span>
@@ -321,7 +321,7 @@ export default function ProductsPage() {
 											setPage(prev => Math.min(meta.pages, prev + 1))
 										}
 										disabled={page === meta.pages}
-										className='p-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-700 hover:bg-gray-200/75 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-gray-200/75 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
 									>
 										<ChevronRight />
 									</button>
@@ -329,7 +329,7 @@ export default function ProductsPage() {
 							)}
 						</>
 					)}
-				</main>
+				</div>
 			</div>
 		</div>
 	)

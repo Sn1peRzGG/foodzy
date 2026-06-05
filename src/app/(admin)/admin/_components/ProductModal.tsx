@@ -314,11 +314,11 @@ export default function ProductModal({
 					disabled={isLoading}
 					checked={isAvailable}
 					onChange={e => setIsAvailable(e.target.checked)}
-					className='w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-900 accent-gray-900 cursor-pointer'
+					className='w-4 h-4 text-text-main bg-main-bg border-border-main rounded focus:ring-primary focus:ring-offset-0 accent-primary cursor-pointer transition-colors'
 				/>
 				<label
 					htmlFor='isAvailableCheckbox'
-					className='text-sm text-gray-700 font-semibold select-none cursor-pointer'
+					className='text-sm text-text-muted font-semibold select-none cursor-pointer'
 				>
 					Product In Stock
 				</label>

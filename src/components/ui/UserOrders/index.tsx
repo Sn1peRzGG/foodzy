@@ -50,12 +50,12 @@ export default function UserOrders() {
 
 	if (!orders || orders.length === 0) {
 		return (
-			<div className='mt-8 p-10 bg-white border border-gray-100 rounded-2xl shadow-xs w-full text-center flex flex-col items-center justify-center gap-3'>
-				<div className='p-3 bg-gray-50 rounded-full text-gray-400'>
+			<div className='mt-8 p-10 bg-card-bg border border-border-main rounded-2xl shadow-md dark:shadow-black/40'>
+				<div className='p-3 bg-main-bg rounded-full text-text-subtle'>
 					<ClipboardList size={26} />
 				</div>
-				<p className='text-gray-900 font-bold text-lg'>No orders yet</p>
-				<p className='text-gray-500 text-sm max-w-xs leading-relaxed'>
+				<p className='text-text-main font-bold text-lg'>No orders yet</p>
+				<p className='text-text-muted text-sm max-w-xs leading-relaxed'>
 					Your order history is empty. Once you make a purchase, your orders
 					will appear right here.
 				</p>
@@ -65,15 +65,15 @@ export default function UserOrders() {
 
 	return (
 		<div className='w-full space-y-5'>
-			<h3 className='text-xl font-bold text-gray-900 flex items-center gap-2.5 tracking-tight pl-1'>
+			<h3 className='text-xl font-bold text-text-main flex items-center gap-2.5 tracking-tight pl-1'>
 				<ClipboardList size={22} className='text-primary' />
 				My Orders
-				<span className='text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full tabular-nums'>
+				<span className='text-xs font-semibold px-2 py-0.5 bg-ui-hover text-text-muted rounded-full tabular-nums'>
 					{orders.length}
 				</span>
 			</h3>
 
-			<div className='flex flex-wrap gap-2 pb-2 w-full border-b border-gray-100'>
+			<div className='flex flex-wrap gap-2 pb-2 w-full border-b border-border-main'>
 				{filterStatuses.map(status => {
 					const isActive = activeFilter === status
 					const count = getCountByStatus(status)
@@ -87,13 +87,13 @@ export default function UserOrders() {
           ${
 						isActive
 							? filterActiveStyles[status]
-							: 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300'
+							: 'bg-card-bg border-border-main text-text-muted hover:bg-main-bg hover:border-border-strong'
 					}`}
 						>
 							<span>{status === 'ALL' ? 'All' : status}</span>
 							<span
 								className={`text-[10px] px-1.5 py-0.5 rounded-full transition-colors duration-150
-            ${isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'}`}
+            ${isActive ? 'bg-card-bg/20 text-text-main' : 'bg-ui-hover text-text-muted'}`}
 							>
 								{count}
 							</span>
@@ -104,23 +104,23 @@ export default function UserOrders() {
 
 			<div className='space-y-5 w-full animate-fade-in'>
 				{filteredOrders.length === 0 && (
-					<div className='flex flex-col items-center justify-center text-center py-14 px-4 bg-gray-50/50 border border-dashed border-gray-200 rounded-2xl w-full'>
-						<div className='flex items-center justify-center w-14 h-14 bg-gray-100 rounded-full text-gray-400 mb-4 shadow-3xs'>
+					<div className='flex flex-col items-center justify-center text-center py-14 px-4 bg-main-bg/50 border border-dashed border-border-main rounded-2xl w-full'>
+						<div className='flex items-center justify-center w-14 h-14 bg-ui-hover rounded-full text-text-subtle mb-4 shadow-md dark:shadow-black/40'>
 							<ShoppingBag size={24} strokeWidth={1.5} />
 						</div>
 
-						<h3 className='text-sm font-bold text-gray-900 mb-1 uppercase tracking-wide'>
+						<h3 className='text-sm font-bold text-text-main mb-1 uppercase tracking-wide'>
 							No Orders Found
 						</h3>
 
-						<p className='text-xs md:text-sm text-gray-500 max-w-xs mb-5 leading-relaxed'>
+						<p className='text-xs md:text-sm text-text-muted max-w-xs mb-5 leading-relaxed'>
 							We couldn&apos;t find any orders matching the selected filter.
 							Maybe it&apos;s time to look for something new?
 						</p>
 
 						<Link
 							href='/products'
-							className='inline-flex items-center justify-center px-5 h-9 rounded-xl bg-primary text-white font-semibold text-xs uppercase tracking-wider shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-98 transition-all duration-200 cursor-pointer'
+							className='inline-flex items-center justify-center px-5 h-9 rounded-xl bg-primary text-text-main font-semibold text-xs uppercase tracking-wider shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-98 transition-all duration-200 cursor-pointer'
 						>
 							Explore Products
 						</Link>

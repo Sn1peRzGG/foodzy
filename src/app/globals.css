@@ -6,11 +6,97 @@
 	--font-nunito: var(--font-nunito);
 
 	--color-primary: #64b496;
-	--color-primary-hover: color-mix(in srgb, #64b496 90%, black);
-
-	--color-accent: #ff6868;
+	--color-primary-hover: #58a78a;
+	--color-accent: #f53e32;
+	--color-accent-hover: #d62f24;
 
 	--color-main-bg: #f8fafc;
+	--color-card-bg: #ffffff;
+	--color-card-dark: #2b2b2d;
+
+	--color-brand-gold: #cbb777;
+	--color-brand-cream: #fff6dc;
+	--color-brand-cream-hover: #ffe9a9;
+	--color-brand-choco: #402f25;
+
+	--color-text-main: #212529;
+	--color-text-muted: #444444;
+	--color-text-subtle: #777777;
+
+	--color-border-main: #e9e9e9;
+	--color-border-strong: #cbd5e1;
+
+	--color-ui-hover: #f1f5f9;
+	--color-ui-active: #e2e8f0;
+
+	@keyframes accordion-down {
+		from {
+			height: 0;
+		}
+		to {
+			height: var(--radix-accordion-content-height);
+		}
+	}
+	@keyframes accordion-up {
+		from {
+			height: var(--radix-accordion-content-height);
+		}
+		to {
+			height: 0;
+		}
+	}
+
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+.dark {
+	--color-primary: #76c7a9;
+	--color-primary-hover: #64b496;
+	--color-accent: #ff5c52;
+	--color-accent-hover: #ff7878;
+
+	--color-main-bg: #0b0f19;
+	--color-card-bg: #151b2c;
+	--color-card-dark: #1e2638;
+
+	--color-brand-gold: #e2d19e;
+	--color-brand-cream: #22293a;
+	--color-brand-cream-hover: #2c354a;
+	--color-brand-choco: #f1f5f9;
+
+	--color-text-main: #f8fafc;
+	--color-text-muted: #cbd5e1;
+	--color-text-subtle: #64748b;
+
+	--color-border-main: #1e293b;
+	--color-border-strong: #334155;
+
+	--color-ui-hover: #1e293b;
+	--color-ui-active: #334155;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not(.light) {
+		--color-primary: #76c7a9;
+		--color-primary-hover: #64b496;
+		--color-accent: #ff5c52;
+		--color-accent-hover: #ff7878;
+		--color-main-bg: #0b0f19;
+		--color-card-bg: #151b2c;
+		--color-card-dark: #1e2638;
+		--color-brand-gold: #e2d19e;
+		--color-brand-cream: #22293a;
+		--color-brand-cream-hover: #2c354a;
+		--color-brand-choco: #f1f5f9;
+		--color-text-main: #f8fafc;
+		--color-text-muted: #cbd5e1;
+		--color-text-subtle: #64748b;
+		--color-border-main: #1e293b;
+		--color-border-strong: #334155;
+		--color-ui-hover: #1e293b;
+		--color-ui-active: #334155;
+	}
 }
 
 @layer components {
@@ -28,7 +114,34 @@ html {
 }
 
 body {
-	background: #fff;
-	color: #000;
+	background: var(--color-main-bg);
+	color: var(--color-text-main);
 	font-family: var(--font-poppins), ui-sans-serif, system-ui;
+	transition:
+		background-color 0.3s ease,
+		border-color 0.3s ease,
+		color 0.3s ease;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--card-bg, #111827);
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.25);
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }

@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
 import ControlButton from '@/src/components/ui/ControlButton'
-import SpecialSlider from '../ui/SpecialSlider'
 import { useSpecialProducts } from '@/src/hooks/useSpecialProducts'
+import { useRef } from 'react'
+import SpecialSlider from '../ui/SpecialSlider'
 
 export default function SpecialSection() {
 	const { specialProducts, isLoading } = useSpecialProducts()
@@ -13,7 +13,7 @@ export default function SpecialSection() {
 	if (isLoading) {
 		return (
 			<div className='w-full py-12 flex items-center justify-center'>
-				<div className='text-sm font-medium text-gray-400 animate-pulse uppercase tracking-widest'>
+				<div className='text-sm font-medium text-text-subtle animate-pulse uppercase tracking-widest'>
 					Loading Special Menu...
 				</div>
 			</div>

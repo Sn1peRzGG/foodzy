@@ -26,18 +26,18 @@ export default function AccountPage() {
 		return (
 			<div className='flex min-h-[50vh] flex-col items-center justify-center gap-4'>
 				<h2 className='text-2xl font-bold'>You are not authorized</h2>
-				<p className='text-gray-500'>Please sign in to access your account</p>
+				<p className='text-text-muted'>Please sign in to access your account</p>
 
 				<div className='flex flex-row gap-4'>
 					<Link
 						href={'/login'}
-						className='bg-primary text-white text-[18px] rounded-[5px] px-4 py-2 hover:bg-primary-hover transition-all duration-200'
+						className='bg-primary text-text-main text-[18px] rounded-[5px] px-4 py-2 hover:bg-primary-hover transition-all duration-200'
 					>
 						Login
 					</Link>
 					<Link
 						href={'/signup'}
-						className='bg-primary text-white text-[18px] rounded-[5px] px-4 py-2 hover:bg-primary-hover transition-all duration-200'
+						className='bg-primary text-text-main text-[18px] rounded-[5px] px-4 py-2 hover:bg-primary-hover transition-all duration-200'
 					>
 						Signup
 					</Link>

@@ -64,11 +64,11 @@ export default function ProductCard({
 		return (
 			<Link
 				href={`/products/${product._id}`}
-				className={`relative border border-gray-100 rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-row items-center gap-5 bg-white group ${
+				className={`relative border border-border-main rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-row items-center gap-5 bg-card-bg group ${
 					!product.isAvailable ? 'opacity-80' : 'hover:shadow-md'
 				}`}
 			>
-				<div className='w-32 h-32 sm:w-40 sm:h-40 bg-gray-50 rounded-lg overflow-hidden relative shrink-0 z-10'>
+				<div className='w-32 h-32 sm:w-40 sm:h-40 bg-main-bg rounded-lg overflow-hidden relative shrink-0 z-10'>
 					{discountPercent && (
 						<span className='absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-md z-20 shadow-sm'>
 							-{discountPercent}%
@@ -76,8 +76,8 @@ export default function ProductCard({
 					)}
 
 					{!product.isAvailable && (
-						<div className='absolute inset-0 bg-white/40 z-20 flex items-center justify-center'>
-							<span className='bg-gray-800 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-widest shadow-xl'>
+						<div className='absolute inset-0 bg-card-bg/40 z-20 flex items-center justify-center'>
+							<span className='bg-main-bg text-text-main text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-widest shadow-xl'>
 								Out of Stock
 							</span>
 						</div>
@@ -100,30 +100,31 @@ export default function ProductCard({
 						<span className='text-xs text-primary font-bold uppercase tracking-wider'>
 							{product.category.name}
 						</span>
-						<span className='text-[14px] font-semibold text-[#F5885F] flex items-center gap-1'>
-							<Star size={16} fill='#F5885F' /> {product.rating}
+						<span className='text-[14px] font-semibold text-amber-500 flex items-center gap-1'>
+							<Star size={16} fill='currentColor' className='text-amber-500' />
+							{product.rating}
 						</span>
 					</div>
 
 					<h2
-						className={`font-bold text-base sm:text-lg mb-1 line-clamp-1 ${!product.isAvailable ? 'text-gray-500' : 'text-black'}`}
+						className={`font-bold text-base sm:text-lg mb-1 line-clamp-1 ${!product.isAvailable ? 'text-text-muted' : 'text-text-main'}`}
 					>
 						{product.name}
 					</h2>
 
-					<p className='text-xs sm:text-sm text-gray-500 line-clamp-2 mb-3 italic max-w-xl'>
+					<p className='text-xs sm:text-sm text-text-muted line-clamp-2 mb-3 italic max-w-xl'>
 						{product.description}
 					</p>
 
-					<div className='flex items-center justify-between border-t border-gray-50 pt-3 mt-auto'>
+					<div className='flex items-center justify-between border-t border-border-main pt-3 mt-auto'>
 						<div className='flex items-baseline gap-2'>
 							<span
-								className={`text-lg sm:text-xl font-black ${!product.isAvailable ? 'text-gray-400' : 'text-black'}`}
+								className={`text-lg sm:text-xl font-black ${!product.isAvailable ? 'text-text-subtle' : 'text-text-main'}`}
 							>
 								${product.price}
 							</span>
 							{product.oldPrice && product.isAvailable && (
-								<span className='text-xs sm:text-sm font-bold text-gray-400 line-through'>
+								<span className='text-xs sm:text-sm font-bold text-text-subtle line-through'>
 									${product.oldPrice}
 								</span>
 							)}
@@ -136,8 +137,8 @@ export default function ProductCard({
 								onClick={handleToggleWishlist}
 								className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-all border active:scale-90 cursor-pointer ${
 									isInWishlist
-										? 'bg-red-50 border-red-200 text-red-500'
-										: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-red-500'
+										? 'bg-red-500/10 border-red-500/30 text-red-500 dark:bg-red-500/20'
+										: 'bg-main-bg border-border-main text-text-subtle hover:text-red-500'
 								}`}
 							>
 								{loadingStates[targetId] === 'wishlist' ? (
@@ -156,10 +157,10 @@ export default function ProductCard({
 								onClick={handleToggleCart}
 								className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-all border active:scale-90 ${
 									!product.isAvailable
-										? 'bg-gray-100 border-gray-200 text-gray-300 cursor-not-allowed shadow-none'
+										? 'bg-ui-hover border-border-main text-text-subtle cursor-not-allowed'
 										: isInCart
-											? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 cursor-pointer'
-											: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-primary cursor-pointer'
+											? 'bg-primary border-primary text-white shadow-md shadow-primary/20 dark:shadow-none cursor-pointer'
+											: 'bg-main-bg border-border-main text-text-subtle hover:text-primary cursor-pointer'
 								}`}
 							>
 								{loadingStates[targetId] === 'cart' ||
@@ -182,8 +183,10 @@ export default function ProductCard({
 	return (
 		<Link
 			href={`/products/${product._id}`}
-			className={`relative border border-gray-100 rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-col justify-between bg-white group transform ${
-				!product.isAvailable ? 'opacity-80' : 'hover:shadow-md hover:scale-105'
+			className={`relative border border-border-main rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-col justify-between bg-card-bg group transform ${
+				!product.isAvailable
+					? 'opacity-80'
+					: 'hover:shadow-md hover:scale-[1.02]'
 			}`}
 		>
 			{discountPercent && (
@@ -192,10 +195,10 @@ export default function ProductCard({
 				</span>
 			)}
 
-			<div className='w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-4 relative z-10'>
+			<div className='w-full aspect-square bg-main-bg rounded-lg overflow-hidden mb-4 relative z-10'>
 				{!product.isAvailable && (
-					<div className='absolute inset-0 bg-white/40 z-20 flex items-center justify-center'>
-						<span className='bg-gray-800 text-white text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-xl'>
+					<div className='absolute inset-0 bg-card-bg/40 z-20 flex items-center justify-center'>
+						<span className='bg-main-bg text-text-main text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-xl'>
 							Out of Stock
 						</span>
 					</div>
@@ -213,33 +216,34 @@ export default function ProductCard({
 				/>
 			</div>
 
-			<div className='flex items-center justify-between mb-1'>
+			<div className='flex items-center justify-between gap-2 mb-1'>
 				<span className='text-xs text-primary font-bold uppercase tracking-wider'>
 					{product.category.name}
 				</span>
-				<span className='text-[14px] font-semibold text-[#F5885F] flex items-center gap-1'>
-					<Star size={18} fill='#F5885F' /> {product.rating}
+				<span className='text-[14px] font-semibold text-amber-500 flex items-center gap-1'>
+					<Star size={16} fill='currentColor' className='text-amber-500' />
+					{product.rating}
 				</span>
 			</div>
 
 			<h2
-				className={`font-bold text-lg mb-1 ${!product.isAvailable ? 'text-gray-500' : 'text-black'}`}
+				className={`font-bold text-lg mb-1 ${!product.isAvailable ? 'text-text-muted' : 'text-text-main'}`}
 			>
 				{product.name}
 			</h2>
-			<p className='text-sm text-gray-500 line-clamp-2 mb-4 italic'>
+			<p className='text-sm text-text-muted line-clamp-2 mb-4 italic'>
 				{product.description}
 			</p>
 
-			<div className='flex items-center justify-between border-t border-gray-100 pt-3 mt-auto'>
+			<div className='flex items-center justify-between border-t border-border-main pt-3 mt-auto'>
 				<div className='flex items-baseline gap-2'>
 					<span
-						className={`text-xl font-black ${!product.isAvailable ? 'text-gray-400' : 'text-black'}`}
+						className={`text-xl font-black ${!product.isAvailable ? 'text-text-subtle' : 'text-text-main'}`}
 					>
 						${product.price}
 					</span>
 					{product.oldPrice && product.isAvailable && (
-						<span className='text-sm font-bold text-gray-400 line-through'>
+						<span className='text-sm font-bold text-text-subtle line-through'>
 							${product.oldPrice}
 						</span>
 					)}
@@ -252,8 +256,8 @@ export default function ProductCard({
 						onClick={handleToggleWishlist}
 						className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all border active:scale-90 cursor-pointer ${
 							isInWishlist
-								? 'bg-red-50 border-red-200 text-red-500'
-								: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-red-500'
+								? 'bg-red-500/10 border-red-500/30 text-red-500 dark:bg-red-500/20'
+								: 'bg-main-bg border-border-main text-text-subtle hover:text-red-500'
 						}`}
 					>
 						{loadingStates[targetId] === 'wishlist' ? (
@@ -269,10 +273,10 @@ export default function ProductCard({
 						onClick={handleToggleCart}
 						className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all border active:scale-90 ${
 							!product.isAvailable
-								? 'bg-gray-100 border-gray-200 text-gray-300 cursor-not-allowed shadow-none'
+								? 'bg-ui-hover border-border-main text-text-subtle cursor-not-allowed'
 								: isInCart
-									? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 cursor-pointer'
-									: 'bg-gray-50 border-gray-200 text-gray-400 hover:text-primary cursor-pointer'
+									? 'bg-primary border-primary text-white shadow-md shadow-primary/20 dark:shadow-none cursor-pointer'
+									: 'bg-main-bg border-border-main text-text-subtle hover:text-primary cursor-pointer'
 						}`}
 					>
 						{loadingStates[targetId] === 'cart' ||

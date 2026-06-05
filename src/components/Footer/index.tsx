@@ -1,12 +1,12 @@
 'use client'
 
+import socialData from '@/constants/socialItems.json'
 import api from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import { useQuery } from '@tanstack/react-query'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import socialData from '@/constants/socialItems.json'
 
 interface ContactItem {
 	icon: React.ComponentType<{ size?: number; color?: string }>
@@ -63,25 +63,25 @@ export default function Footer() {
 	})
 
 	return (
-		<footer className='flex flex-col relative h-auto 2xl:h-120 w-full bg-[#F7F7F8] border-t border-[#E9E9E9] pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
+		<footer className='flex flex-col relative h-auto 2xl:h-120 w-full bg-main-bg border-t border-border-main pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
 			<div className='hidden 2xl:block grow'></div>
 
 			<div className='w-full px-6 sm:px-12 2xl:px-0 2xl:w-2/3 h-auto 2xl:h-102 flex flex-col items-center 2xl:items-end justify-center mx-auto max-w-360'>
 				<div className='w-full h-full flex flex-col xl:flex-row gap-12 xl:gap-6 2xl:gap-0'>
 					<div className='w-full xl:w-[30%] 2xl:w-1/3 xl:pr-4 flex flex-col items-start'>
 						<div className='flex flex-row items-center justify-start gap-2'>
-							<div className='rounded-[14px] bg-white w-10 h-10 flex items-center justify-center shadow-sm'>
+							<div className='rounded-[14px] bg-card-bg w-10 h-10 flex items-center justify-center shadow-sm'>
 								<Image src='/logo.png' alt='Logo' width={40} height={40} />
 							</div>
 							<div className='flex flex-col justify-center'>
 								<h2 className='text-[18px] font-bold'>Foodzy</h2>
-								<p className='text-[10px] text-[#818181] font-semibold'>
+								<p className='text-[10px] text-text-subtle font-semibold'>
 									A Treasure of Tastes
 								</p>
 							</div>
 						</div>
 
-						<p className='text-sm text-[#7A7A7A] mt-3 flex flex-col'>
+						<p className='text-sm text-text-subtle mt-3 flex flex-col'>
 							<span>Foodzy is the biggest market of grocery products.</span>
 							<span>Get your daily needs from our store.</span>
 						</p>
@@ -97,7 +97,7 @@ export default function Footer() {
 										<div className='w-5 h-5 mt-0.5 sm:mt-0 shrink-0'>
 											<IconComponent size={20} color='#F53E32' />
 										</div>
-										<span className='text-[#777777] text-sm tracking-[0.48px]'>
+										<span className='text-text-subtle text-sm tracking-[0.48px]'>
 											{contact.label}
 										</span>
 									</div>
@@ -114,7 +114,7 @@ export default function Footer() {
 							<div className='flex flex-col gap-2.5 2xl:gap-4'>
 								{companyData.map(company => (
 									<span
-										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap cursor-pointer hover:text-black'
+										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-text-subtle whitespace-nowrap cursor-pointer hover:text-text-main'
 										key={company}
 									>
 										{company}
@@ -124,7 +124,7 @@ export default function Footer() {
 						</div>
 
 						<div className='flex flex-col gap-4'>
-							<h2 className='font-bold text-[18px] whitespace-nowrap'>
+							<h2 className='font-bold text-[18px] whitespace-nowrap '>
 								Category
 							</h2>
 							<div className='flex flex-col gap-2.5 2xl:gap-4'>
@@ -133,13 +133,13 @@ export default function Footer() {
 										<Link
 											href={`/products?search=&category=${encodeURIComponent(category._id)}`}
 											key={category._id}
-											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-[#777777] whitespace-nowrap hover:text-black'
+											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-text-subtle whitespace-nowrap hover:text-text-main'
 										>
 											{category.name}
 										</Link>
 									))
 								) : (
-									<span className='text-xs text-gray-400'>Loading...</span>
+									<span className='text-xs text-text-subtle'>Loading...</span>
 								)}
 							</div>
 						</div>
@@ -149,11 +149,11 @@ export default function Footer() {
 								Subscribe Our Newsletter
 							</h2>
 
-							<div className='h-11 w-full xl:max-w-95 2xl:w-104 mt-4 rounded-[5px] border border-[#E9E9E9] bg-white flex items-center justify-between px-4 focus-within:border-gray-400 transition-colors'>
+							<div className='h-11 w-full xl:max-w-95 2xl:w-104 mt-4 rounded-[5px] border border-border-main bg-card-bg flex items-center justify-between px-4 focus-within:border-border-strong transition-colors'>
 								<input
 									type='email'
 									placeholder='Your email...'
-									className='h-full flex-1 text-[14px] text-black focus:outline-none bg-transparent placeholder:text-gray-400'
+									className='h-full flex-1 text-[14px] text-text-main focus:outline-none bg-transparent placeholder:text-text-subtle'
 								/>
 								<button className='cursor-pointer pl-2'>
 									<Send
@@ -169,11 +169,11 @@ export default function Footer() {
 										key={social.name}
 										href={social.href}
 										target='_blank'
-										className='rounded-[5px] border border-[#E1DFDF] w-9 h-9 flex items-center justify-center hover:bg-gray-200 transition-colors'
+										className='rounded-[5px] border boborder-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
 									>
 										<svg
 											viewBox='0 0 24 24'
-											className='w-5 h-5 fill-current text-black'
+											className='w-5 h-5 fill-current text-text-main'
 										>
 											<path d={social.path} />
 										</svg>
@@ -197,11 +197,11 @@ export default function Footer() {
 					</div>
 				</div>
 
-				<div className='w-full h-14 border-t border-[#E9E9E9] flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 mt-12 2xl:mt-0'>
-					<p className='text-sm text-[#777777] sm:text-black'>© 2026</p>
+				<div className='w-full h-14 border-t border-border-main flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 mt-12 2xl:mt-0'>
+					<p className='text-sm text-text-subtle sm:text-text-main'>© 2026</p>
 					<div className='flex'>
-						<span className='text-sm text-[#F53E32] font-medium'>Foodzy</span>
-						<p className='text-sm text-[#777777] sm:text-black'>
+						<span className='text-sm text-accent font-medium'>Foodzy</span>
+						<p className='text-sm text-text-subtle sm:text-text-main'>
 							, All rights reserved.
 						</p>
 					</div>

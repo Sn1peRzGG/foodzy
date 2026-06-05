@@ -55,7 +55,7 @@ export default function SearchBar({
 			icon: <User size={20} />,
 			customColor: userRoleConfig
 				? userRoleConfig.nameColor
-				: 'text-black hover:text-primary',
+				: 'text-text-main hover:text-primary',
 		},
 		{
 			label: 'Wishlist',
@@ -86,9 +86,9 @@ export default function SearchBar({
 				<button
 					type='button'
 					onClick={() => setIsMenuOpen(!isMenuOpen)}
-					className='p-2 border border-gray-200 rounded-[5px] bg-white active:bg-gray-50 cursor-pointer'
+					className='p-2 border border-border-main rounded-[5px] bg-card-bg active:bg-ui-active cursor-pointer'
 				>
-					<Menu className='w-5 h-5 text-black' />
+					<Menu className='w-5 h-5 text-text-main' />
 				</button>
 			</div>
 
@@ -105,13 +105,13 @@ export default function SearchBar({
 				/>
 				<div className='flex flex-col justify-center -ml-2'>
 					<h2 className='text-[24px] font-black leading-tight'>Foodzy</h2>
-					<p className='text-[12px] font-semibold -mt-0.5 text-black'>
+					<p className='text-[12px] font-semibold -mt-0.5 text-text-main'>
 						A Treasure of Tastes
 					</p>
 				</div>
 			</Link>
 
-			<div className='flex flex-1 xl:flex-none 2xl:w-125 h-10 xl:h-11.25 rounded-[5px] border border-primary flex-row justify-between items-center relative bg-white'>
+			<div className='flex flex-1 xl:flex-none 2xl:w-125 h-10 xl:h-11.25 rounded-[5px] border border-primary flex-row justify-between items-center relative bg-card-bg'>
 				<div className='pl-3 xl:pl-4 py-2 flex-1 flex items-center gap-2'>
 					<input
 						type='text'
@@ -123,13 +123,13 @@ export default function SearchBar({
 						}}
 						onFocus={() => setIsSearchOpen(true)}
 						onKeyDown={e => e.key === 'Enter' && handleSearchSubmit()}
-						className='focus:outline-none w-full text-sm text-black bg-transparent'
+						className='focus:outline-none w-full text-sm text-text-main bg-transparent'
 					/>
 					{query && (
 						<button
 							type='button'
 							onClick={() => setQuery('')}
-							className='text-gray-400 hover:text-black mr-1 cursor-pointer'
+							className='text-text-subtle hover:text-text-main mr-1 cursor-pointer'
 						>
 							<X size={16} />
 						</button>
@@ -140,7 +140,7 @@ export default function SearchBar({
 					className='hidden 2xl:flex flex-row items-center justify-center border-l border-l-primary h-full p-3 cursor-pointer relative select-none'
 					onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 				>
-					<p className='text-[13px] font-regular whitespace-nowrap mr-1 text-gray-700'>
+					<p className='text-[13px] font-regular whitespace-nowrap mr-1 text-text-muted'>
 						{currentCategoryName}
 					</p>
 					<ChevronDown
@@ -148,7 +148,7 @@ export default function SearchBar({
 						size={18}
 					/>
 					{isDropdownOpen && (
-						<ul className='absolute right-0 w-64 mt-1 top-full z-100 rounded-md border border-gray-100 bg-white p-2 shadow-lg'>
+						<ul className='absolute right-0 w-64 mt-1 top-full z-100 rounded-md border border-border-main bg-card-bg p-2 shadow-lg'>
 							<li>
 								<button
 									type='button'
@@ -157,12 +157,12 @@ export default function SearchBar({
 										setSelectedCategory('all')
 										setIsDropdownOpen(false)
 									}}
-									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'all' ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+									className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === 'all' ? 'bg-main-bg text-primary font-semibold' : 'text-text-muted hover:bg-ui-hover'}`}
 								>
 									All Categories
 								</button>
 							</li>
-							<div className='h-px bg-gray-100 my-1' />
+							<div className='h-px bg-ui-hover my-1' />
 							{categories.map(category => (
 								<li key={category._id} className='cursor-pointer'>
 									<button
@@ -172,7 +172,7 @@ export default function SearchBar({
 											setSelectedCategory(category._id)
 											setIsDropdownOpen(false)
 										}}
-										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category._id ? 'bg-gray-50 text-primary font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
+										className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm ${selectedCategory === category._id ? 'bg-main-bg text-primary font-semibold' : 'text-text-muted hover:bg-ui-hover'}`}
 									>
 										{category.name}
 									</button>
@@ -185,24 +185,24 @@ export default function SearchBar({
 				<button
 					type='button'
 					onClick={handleSearchSubmit}
-					className='w-10 h-10 xl:w-11.25 xl:h-11.25 rounded-r-sm bg-[#2B2B2D] flex items-center justify-center cursor-pointer hover:opacity-90 border-none shrink-0'
+					className='w-10 h-10 xl:w-11.25 xl:h-11.25 rounded-r-sm bg-primary hover:bg-primary-hover flex items-center justify-center cursor-pointer border-none shrink-0 transition-colors'
 				>
 					<Search color='white' size={18} />
 				</button>
 
 				{isSearchOpen && query && (
-					<div className='absolute left-0 mt-2 top-full w-full bg-white border border-gray-200 rounded-md shadow-xl overflow-hidden z-50'>
+					<div className='absolute left-0 mt-2 top-full w-full bg-card-bg border border-border-main rounded-md shadow-xl overflow-hidden z-50'>
 						{searchResults.length > 0 ? (
 							<>
-								<ul className='max-h-80 overflow-y-auto divide-y divide-gray-100'>
+								<ul className='max-h-80 overflow-y-auto divide-y divide-border-main/50'>
 									{searchResults.slice(0, 5).map(product => (
 										<li key={product._id}>
 											<Link
 												href={`/products/${product._id}`}
 												onClick={() => setIsSearchOpen(false)}
-												className='flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50'
+												className='flex items-center gap-3 px-4 py-2.5 hover:bg-main-bg'
 											>
-												<div className='relative w-10 h-10 shrink-0 bg-gray-50 rounded-md overflow-hidden'>
+												<div className='relative w-10 h-10 shrink-0 rounded-md overflow-hidden'>
 													<Image
 														src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
 														alt={product.name}
@@ -212,10 +212,10 @@ export default function SearchBar({
 													/>
 												</div>
 												<div className='overflow-hidden flex-1'>
-													<p className='text-sm font-medium text-black truncate'>
+													<p className='text-sm font-medium text-text-main truncate'>
 														{product.name}
 													</p>
-													<p className='text-xs text-gray-500 truncate'>
+													<p className='text-xs text-text-muted truncate'>
 														{product.description}
 													</p>
 												</div>
@@ -229,13 +229,13 @@ export default function SearchBar({
 								<button
 									type='button'
 									onClick={handleSearchSubmit}
-									className='w-full text-center block bg-gray-50 py-2.5 text-xs font-bold text-primary border-t border-gray-100 uppercase tracking-wider cursor-pointer'
+									className='w-full text-center block bg-main-bg py-2.5 text-xs font-bold text-primary border-t border-border-main uppercase tracking-wider cursor-pointer'
 								>
 									View All Results ({totalResults})
 								</button>
 							</>
 						) : (
-							<div className='px-4 py-4 text-sm text-gray-500 text-center'>
+							<div className='px-4 py-4 text-sm text-text-muted text-center'>
 								No products found
 							</div>
 						)}
@@ -253,7 +253,7 @@ export default function SearchBar({
 							<li key={item.href} className='relative h-full flex items-center'>
 								<Link
 									href={item.href}
-									className={`group relative flex items-center py-4 transition-colors duration-200 text-black hover:text-primary ${
+									className={`group relative flex items-center py-4 transition-colors duration-200 text-text-main hover:text-primary ${
 										isProfile ? 'gap-1.5' : 'gap-2.5'
 									}`}
 								>
@@ -267,7 +267,7 @@ export default function SearchBar({
 										{item.length !== undefined &&
 											item.length !== null &&
 											item.length > 0 && (
-												<span className='absolute -top-1.5 -right-2 inline-flex items-center justify-center min-w-4 h-4 px-1 text-[9.5px] font-black tabular-nums text-white bg-primary rounded-full ring-2 ring-white select-none shadow-xs antialiased'>
+												<span className='absolute -top-1.5 -right-2 inline-flex items-center justify-center min-w-4 h-4 px-1 text-[9.5px] font-black tabular-nums text-white bg-primary rounded-full ring-2 ring-card-bg select-none shadow-md dark:shadow-black/40'>
 													{item.length}
 												</span>
 											)}

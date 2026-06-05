@@ -45,36 +45,36 @@ export default function FormModal({
 	return createPortal(
 		<div className='fixed inset-0 z-100 flex items-center justify-center p-4 animate-fade-in'>
 			<div
-				className='fixed inset-0 bg-gray-950/60 backdrop-blur-md'
+				className='fixed inset-0 bg-black/40 dark:bg-main-bg/60 backdrop-blur-md'
 				onClick={isLoading ? undefined : onClose}
 			/>
 
-			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl border border-gray-100 animate-scale-up'>
-				<div className='flex items-center justify-between mb-5 pb-3 border-b border-gray-50'>
-					<h3 className='text-lg font-bold text-gray-900 tracking-tight'>
+			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-card-bg p-6 text-left align-middle shadow-xl border border-border-main/80 animate-scale-up'>
+				<div className='flex items-center justify-between mb-5 pb-3 border-b border-border-main/60'>
+					<h3 className='text-lg font-bold text-text-main tracking-tight'>
 						{title}
 					</h3>
 					<button
 						type='button'
 						disabled={isLoading}
 						onClick={onClose}
-						className='text-gray-400 hover:text-gray-600 transition-colors cursor-pointer disabled:opacity-50'
+						className='text-text-subtle hover:text-text-main p-1 rounded-lg hover:bg-main-bg/50 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed'
 					>
 						<X size={20} />
 					</button>
 				</div>
 
 				<form onSubmit={onSubmit} className='space-y-4'>
-					<div className='space-y-4 max-h-[60vh] overflow-y-auto px-1 pr-1.5'>
+					<div className='space-y-4 max-h-[60vh] overflow-y-auto px-1 pr-1.5 scrollbar-thin scrollbar-thumb-border-main scrollbar-track-transparent'>
 						{children}
 					</div>
 
-					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-gray-50'>
+					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-border-main/60'>
 						<button
 							type='button'
 							disabled={isLoading}
 							onClick={onClose}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-all cursor-pointer disabled:opacity-50'
+							className='inline-flex justify-center items-center h-10 px-4 rounded-xl border border-border-main bg-main-bg/30 text-sm font-semibold text-text-muted hover:bg-main-bg hover:text-text-main active:scale-98 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
 						>
 							{cancelText}
 						</button>
@@ -82,7 +82,7 @@ export default function FormModal({
 						<button
 							type='submit'
 							disabled={isLoading || isDisabled}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 transition-all cursor-pointer disabled:opacity-50 min-w-22.5 disabled:cursor-not-allowed'
+							className='inline-flex justify-center items-center h-10 px-5 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary-hover disabled:bg-border-main/40 disabled:text-text-subtle active:scale-98 transition-all cursor-pointer min-w-24 disabled:cursor-not-allowed shadow-md shadow-primary/10 disabled:shadow-none'
 						>
 							{isLoading ? (
 								<Loader2 className='animate-spin' size={16} />

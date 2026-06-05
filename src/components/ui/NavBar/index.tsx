@@ -29,9 +29,9 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 
 	return (
 		<>
-			<div className='w-full h-full shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] hidden xl:block'>
+			<div className='w-full h-full shadow-md dark:shadow-black/40(0,0,0,0.1)] hidden xl:block'>
 				<div className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full flex items-center justify-between mx-auto max-w-360'>
-					<div className='w-8.75 h-8.75 border border-[#E9E9E9] rounded-[5px] flex items-center pl-1 cursor-pointer hover:bg-gray-50 transition-colors'>
+					<div className='w-8.75 h-8.75 border border-border-main rounded-[5px] flex items-center pl-1 cursor-pointer hover:bg-main-bg transition-colors'>
 						<TextAlignJustify className='w-5.5 h-5.5' />
 					</div>
 
@@ -57,14 +57,16 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 										{hasDropdown ? (
 											<div className='group relative flex cursor-pointer items-center gap-1 transition-colors duration-300'>
 												<span
-													className={isActive ? 'text-black' : 'text-gray-600'}
+													className={
+														isActive ? 'text-text-main' : 'text-text-muted'
+													}
 												>
 													{item.label}
 												</span>
 												<ChevronDown
 													className={`w-4 h-4 transition-all duration-300 ${
 														openDropdown === item.label ? 'rotate-180' : ''
-													} ${isActive ? 'text-black' : 'text-gray-600'}`}
+													} ${isActive ? 'text-text-main' : 'text-text-muted'}`}
 												/>
 												<span
 													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
@@ -78,7 +80,9 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 												className='group relative flex items-center gap-1 transition-colors duration-300'
 											>
 												<span
-													className={isActive ? 'text-black' : 'text-gray-600'}
+													className={
+														isActive ? 'text-text-main' : 'text-text-muted'
+													}
 												>
 													{item.label}
 												</span>
@@ -91,7 +95,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 										)}
 
 										{hasDropdown && openDropdown === item.label && (
-											<ul className='absolute left-0 top-full z-10 min-w-50 rounded-md border border-gray-100 bg-white p-2 shadow-lg animate-in fade-in slide-in-from-top-2'>
+											<ul className='absolute left-0 top-full z-10 min-w-50 rounded-md border border-border-main bg-card-bg p-2 shadow-lg animate-in fade-in slide-in-from-top-2'>
 												{item.subItems.map(sub => {
 													const isSubActive = pathname === sub.href
 													return (
@@ -100,8 +104,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 																href={sub.href}
 																className={`block rounded-sm px-4 py-2 text-sm transition-colors ${
 																	isSubActive
-																		? 'bg-gray-50 text-black font-semibold'
-																		: 'text-gray-700 hover:bg-gray-100 hover:text-black'
+																		? 'bg-main-bg text-text-main font-semibold'
+																		: 'text-text-muted hover:bg-ui-hover hover:text-text-main'
 																}`}
 															>
 																{sub.label}
@@ -128,22 +132,22 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 
 			{isMenuOpen && (
 				<div
-					className='xl:hidden fixed inset-0 bg-black/40 z-150 animate-in fade-in duration-200'
+					className='xl:hidden fixed inset-0 bg-main-bg/40 z-150 animate-in fade-in duration-200'
 					onClick={() => setIsMenuOpen(false)}
 				/>
 			)}
 
 			<div
-				className={`xl:hidden fixed top-0 left-0 h-full w-72 bg-white z-200 shadow-2xl transform transition-transform duration-300 flex flex-col ${
+				className={`xl:hidden fixed top-0 left-0 h-full w-72 bg-card-bg z-200 shadow-2xl transform transition-transform duration-300 flex flex-col ${
 					isMenuOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}
 			>
-				<div className='p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50'>
+				<div className='p-4 border-b border-border-main flex items-center justify-between bg-main-bg'>
 					<div className='flex items-center gap-2'>
-						<div className='w-8.75 h-8.75 border border-[#E9E9E9] rounded-[5px] flex items-center justify-center bg-white'>
+						<div className='w-8.75 h-8.75 border border-border-main rounded-[5px] flex items-center justify-center bg-card-bg'>
 							<TextAlignJustify className='w-4 h-4' />
 						</div>
-						<span className='font-bold text-gray-800 text-base'>
+						<span className='font-bold text-text-muted text-base'>
 							Navigation
 						</span>
 					</div>
@@ -151,7 +155,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 						onClick={() => setIsMenuOpen(false)}
 						className='p-1 hover:bg-gray-200 rounded-md transition-colors cursor-pointer'
 					>
-						<X className='w-5 h-5 text-gray-600' />
+						<X className='w-5 h-5 text-text-muted' />
 					</button>
 				</div>
 
@@ -170,7 +174,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 						<h2 className='text-lg xl:text-[24px] font-black leading-tight'>
 							Foodzy
 						</h2>
-						<p className='text-[10px] xl:text-[12px] font-semibold -mt-0.5 text-black'>
+						<p className='text-[10px] xl:text-[12px] font-semibold -mt-0.5 text-text-main'>
 							A Treasure of Tastes
 						</p>
 					</div>
@@ -190,7 +194,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 							return (
 								<li
 									key={item.href}
-									className='border-b border-gray-50 pb-1 last:border-none'
+									className='border-b border-border-main pb-1 last:border-none'
 								>
 									{hasDropdown ? (
 										<div>
@@ -200,8 +204,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 												}
 												className={`w-full flex items-center justify-between py-2.5 px-2 rounded-md transition-colors cursor-pointer ${
 													isActive
-														? 'bg-gray-50 text-primary font-semibold'
-														: 'text-gray-700 active:bg-gray-50'
+														? 'bg-main-bg text-primary font-semibold'
+														: 'text-text-muted active:bg-ui-active'
 												}`}
 											>
 												<span>{item.label}</span>
@@ -211,7 +215,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 											</button>
 
 											{isDropdownToggled && (
-												<ul className='mt-1 ml-4 border-l-2 border-gray-100 pl-2 flex flex-col gap-0.5 bg-gray-50/50 rounded-r-md p-1'>
+												<ul className='mt-1 ml-4 border-l-2 border-border-main pl-2 flex flex-col gap-0.5 bg-main-bg/50 rounded-r-md p-1'>
 													{item.subItems.map(sub => {
 														const isSubActive = pathname === sub.href
 														return (
@@ -221,8 +225,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 																	onClick={() => setIsMenuOpen(false)}
 																	className={`block rounded-md px-3 py-2 text-sm transition-colors ${
 																		isSubActive
-																			? 'text-primary font-semibold bg-white shadow-sm'
-																			: 'text-gray-600 active:bg-gray-100'
+																			? 'text-primary font-semibold bg-card-bg shadow-sm'
+																			: 'text-text-muted active:bg-ui-active'
 																	}`}
 																>
 																	{sub.label}
@@ -239,8 +243,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 											onClick={() => setIsMenuOpen(false)}
 											className={`block py-2.5 px-2 rounded-md transition-colors ${
 												isActive
-													? 'bg-gray-50 text-primary font-semibold'
-													: 'text-gray-700 active:bg-gray-50'
+													? 'bg-main-bg text-primary font-semibold'
+													: 'text-text-muted active:bg-ui-active'
 											}`}
 										>
 											{item.label}
@@ -252,7 +256,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 					</ul>
 				</nav>
 
-				<div className='p-4 border-t border-gray-100 bg-gray-50 flex items-center gap-2 justify-center text-gray-700'>
+				<div className='p-4 border-t border-border-main bg-main-bg flex items-center gap-2 justify-center text-text-muted'>
 					<Phone className='w-4 h-4' />
 					<span className='text-sm font-semibold'>+1 (555) 123-4567</span>
 				</div>

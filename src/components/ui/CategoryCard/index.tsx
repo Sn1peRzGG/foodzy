@@ -10,13 +10,13 @@ export default function CategoryCard(category: CategoryType) {
 			className='
         flex flex-col items-center justify-start 
         w-70 h-75 aspect-square 
-        rounded-[20px] bg-white 
-        shadow-[2px_10px_30px_0px_rgba(0,0,0,0.1)] 
-        transition-all duration-300 hover:scale-105 hover:shadow-[2px_10px_40px_0px_rgba(0,0,0,0.15)] 
+        rounded-[20px] bg-card-bg 
+        shadow-md dark:shadow-black/40(0,0,0,0.1)] 
+        transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-black/60(0,0,0,0.15)] 
         cursor-pointer gap-3 px-5 pt-6 pb-8
       '
 		>
-			<div className='w-30 h-30 rounded-full bg-[#C0B263]/17 flex items-center justify-center shrink-0 overflow-hidden'>
+			<div className='w-30 h-30 rounded-full bg-brand-gold/17 flex items-center justify-center shrink-0 overflow-hidden'>
 				<div className='relative w-30 h-30'>
 					<Image
 						src={`${process.env.NEXT_PUBLIC_API_URL}${category.imageUrl}`}
@@ -34,7 +34,7 @@ export default function CategoryCard(category: CategoryType) {
 				{category.name}
 			</h3>
 
-			<p className='text-gray-600 text-[22px] font-medium text-center'>
+			<p className='text-text-muted text-[22px] font-medium text-center'>
 				({category.count} dishes)
 			</p>
 		</Link>

@@ -1,15 +1,15 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import {
 	ArrowLeftRight,
-	Package,
 	FolderTree,
-	Users,
-	ShoppingBag,
 	LayoutDashboard,
+	Package,
+	ShoppingBag,
+	Users,
 } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 export default function Sidebar() {
 	const pathname = usePathname()
@@ -23,19 +23,19 @@ export default function Sidebar() {
 	]
 
 	return (
-		<aside className='fixed inset-y-0 left-0 z-20 flex flex-col w-64 h-screen bg-white text-gray-600 border-r border-gray-200/80 shrink-0 select-none'>
-			<div className='flex items-center gap-3 px-6 h-16 border-b border-gray-100 text-gray-900'>
+		<aside className='fixed inset-y-0 left-0 z-20 flex flex-col w-64 h-screen bg-card-bg text-text-muted border-r border-border-main/80 shrink-0 select-none'>
+			<div className='flex items-center gap-3 px-6 h-16 border-b border-border-main text-text-main'>
 				<div className='flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary shrink-0'>
 					<LayoutDashboard size={18} strokeWidth={2.5} />
 				</div>
-				<span className='font-bold text-sm tracking-wider uppercase text-gray-800'>
+				<span className='font-bold text-sm tracking-wider uppercase text-text-muted'>
 					Admin Panel
 				</span>
 			</div>
 
 			<nav className='flex-1 py-4 px-4 flex flex-col justify-between w-full'>
 				<div className='space-y-1 w-full'>
-					<div className='px-4 mb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider'>
+					<div className='px-4 mb-2 text-[10px] font-bold text-text-subtle uppercase tracking-wider'>
 						Management
 					</div>
 
@@ -54,7 +54,7 @@ export default function Sidebar() {
 								className={`flex items-center gap-3 px-4 h-10.5 rounded-xl font-semibold text-sm transition-all duration-200 group relative ${
 									isActive
 										? 'bg-primary/8 text-primary'
-										: 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+										: 'text-text-muted hover:bg-main-bg hover:text-text-main'
 								}`}
 							>
 								<Icon
@@ -62,7 +62,7 @@ export default function Sidebar() {
 									className={`shrink-0 transition-transform duration-200 group-hover:scale-102 ${
 										isActive
 											? 'text-primary'
-											: 'text-gray-400 group-hover:text-gray-500'
+											: 'text-text-subtle group-hover:text-text-muted'
 									}`}
 								/>
 								<span className='tracking-wide'>{item.name}</span>
@@ -75,10 +75,10 @@ export default function Sidebar() {
 					})}
 				</div>
 
-				<div className='pt-4 border-t border-gray-100 w-full'>
+				<div className='pt-4 border-t border-border-main w-full'>
 					<Link
 						href='/'
-						className='flex items-center gap-3 px-4 h-10.5 rounded-xl font-semibold text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-950 transition-all duration-200 group'
+						className='flex items-center gap-3 px-4 h-10.5 rounded-xl font-semibold text-sm text-text-muted hover:bg-main-bg hover:text-text-main transition-all duration-200 group'
 					>
 						<ArrowLeftRight size={18} className='shrink-0' />
 						<span className='tracking-wide'>Back to Website</span>
@@ -86,7 +86,7 @@ export default function Sidebar() {
 				</div>
 			</nav>
 
-			<div className='p-4 border-t border-gray-100 text-center text-[11px] text-gray-400 font-medium tracking-wide tabular-nums bg-gray-50/50'>
+			<div className='p-4 border-t border-border-main text-center text-[11px] text-text-subtle font-medium tracking-wide tabular-nums bg-main-bg/50'>
 				v1.0.0 - Dashboard
 			</div>
 		</aside>

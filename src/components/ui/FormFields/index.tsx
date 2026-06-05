@@ -31,13 +31,13 @@ export const FormInput = ({
 
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-gray-700'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
 				{label}
 			</label>
 
 			<div className='group relative'>
 				{icon && (
-					<div className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors group-focus-within:text-primary'>
+					<div className='absolute left-3 top-1/2 -translate-y-1/2 text-text-subtle transition-colors group-focus-within:text-primary'>
 						{icon}
 					</div>
 				)}
@@ -46,12 +46,12 @@ export const FormInput = ({
 					{...props}
 					type={inputType}
 					className={`
-            w-full rounded-xl border bg-white py-3 text-gray-900 outline-none transition-all text-sm font-medium
+            w-full rounded-xl border bg-card-bg py-3 text-text-main outline-none transition-all text-sm font-medium
             ${icon ? 'pl-10 pr-10' : 'px-4'}
             ${
 							error
 								? 'border-red-400 focus:ring-4 focus:ring-red-50'
-								: 'border-gray-200 focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
+								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
           `}
 				/>
@@ -60,7 +60,7 @@ export const FormInput = ({
 					<button
 						type='button'
 						onClick={() => setShowPassword(prev => !prev)}
-						className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-primary cursor-pointer'
+						className='absolute right-3 top-1/2 -translate-y-1/2 text-text-subtle transition-colors hover:text-primary cursor-pointer'
 					>
 						{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
 					</button>
@@ -91,18 +91,18 @@ export const FormFileField = ({
 }: FormFileFieldProps) => {
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-gray-700'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
 				{label}
 			</label>
 
 			<div
-				className={`flex items-center gap-4 p-3 bg-white rounded-xl border transition-all ${
+				className={`flex items-center gap-4 p-3 bg-card-bg rounded-xl border transition-all ${
 					error
 						? 'border-red-400 focus-within:ring-4 focus-within:ring-red-50'
-						: 'border-gray-200 focus-within:border-primary focus-within:ring-4 focus-within:ring-[#64B496]/15'
+						: 'border-border-main focus-within:border-primary focus-within:ring-4 focus-within:ring-[#64B496]/15'
 				}`}
 			>
-				<div className='w-14 h-14 rounded-xl bg-gray-50 border border-gray-200 overflow-hidden shrink-0 relative flex items-center justify-center text-gray-400 font-bold text-xs shadow-2xs'>
+				<div className='w-14 h-14 rounded-xl bg-main-bg border border-border-main overflow-hidden shrink-0 relative flex items-center justify-center text-text-subtle font-bold text-xs shadow-md dark:shadow-black/40'>
 					{previewUrl ? (
 						<Image
 							src={previewUrl}
@@ -112,12 +112,12 @@ export const FormFileField = ({
 							className='object-cover'
 						/>
 					) : (
-						<ImageIcon size={20} className='text-gray-300' />
+						<ImageIcon size={20} className='text-text-subtle' />
 					)}
 				</div>
 
 				<label
-					className={`inline-flex items-center justify-center py-2.5 px-4 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 shadow-2xs hover:bg-gray-50 transition-all cursor-pointer ${
+					className={`inline-flex items-center justify-center py-2.5 px-4 bg-card-bg border border-border-main rounded-xl text-sm font-semibold text-text-muted shadow-md dark:shadow-black/40:bg-main-bg transition-all cursor-pointer ${
 						disabled ? 'opacity-50 cursor-not-allowed' : ''
 					}`}
 				>
@@ -167,7 +167,7 @@ export function FormSelect({
 }: FormSelectProps) {
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-gray-700'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
 				{label}
 			</label>
 
@@ -180,19 +180,19 @@ export function FormSelect({
 			>
 				<Select.Trigger
 					className={`
-            w-full h-11.5 px-4 flex items-center justify-between rounded-xl border bg-white 
-            text-sm font-medium text-gray-900 outline-none transition-all duration-200
-            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group data-placeholder:text-gray-400
+            w-full h-11.5 px-4 flex items-center justify-between rounded-xl border bg-card-bg 
+            text-sm font-medium text-text-main outline-none transition-all duration-200
+            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group data-placeholder:text-text-subtle
             ${
 							error
 								? 'border-red-400 focus:ring-4 focus:ring-red-50'
-								: 'border-gray-200 focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
+								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
           `}
 				>
 					<Select.Value placeholder={placeholder} />
 					<Select.Icon>
-						<ChevronDown className='w-4 h-4 text-gray-400 transition-transform duration-200 group-data-[state=open]:rotate-180 shrink-0' />
+						<ChevronDown className='w-4 h-4 text-text-subtle transition-transform duration-200 group-data-[state=open]:rotate-180 shrink-0' />
 					</Select.Icon>
 				</Select.Trigger>
 
@@ -202,14 +202,14 @@ export function FormSelect({
 						sideOffset={6}
 						align='start'
 						style={{ width: 'var(--radix-select-trigger-width)' }}
-						className='z-100 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden will-change-[transform,opacity] animate-in fade-in slide-in-from-top-1 duration-150'
+						className='z-100 bg-card-bg border border-border-main rounded-xl shadow-lg overflow-hidden will-change-[transform,opacity] animate-in fade-in slide-in-from-top-1 duration-150'
 					>
 						<Select.Viewport className='p-1.5 space-y-0.5 max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent'>
 							{options.map(option => (
 								<Select.Item
 									key={option.value}
 									value={option.value}
-									className='w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 focus:bg-gray-50 outline-none cursor-pointer select-none data-[state=checked]:bg-primary data-[state=checked]:text-white transition-colors'
+									className='w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg text-text-muted hover:bg-main-bg focus:bg-main-bg outline-none cursor-pointer select-none data-[state=checked]:bg-primary data-[state=checked]:text-text-main transition-colors'
 								>
 									<Select.ItemText>{option.label}</Select.ItemText>
 

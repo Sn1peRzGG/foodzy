@@ -1,5 +1,6 @@
 import QueryProvider from '@/src/lib/QueryProvider'
 import type { Metadata } from 'next'
+import { ThemeProvider } from 'next-themes'
 import { Nunito, Poppins } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
@@ -27,40 +28,37 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en' className='h-full'>
+		<html lang='en' className='h-full' suppressHydrationWarning>
 			<body
 				className={`${poppins.variable} ${nunito.variable} min-h-screen flex flex-col antialiased`}
 			>
 				<QueryProvider>
-					<Toaster
-						position='top-right'
-						toastOptions={{
-							className:
-								'border border-gray-100 rounded-xl p-4 bg-white shadow-md text-sm font-medium text-black transition-all duration-300',
-							style: {
-								background: '#ffffff',
-								color: '#000000',
-								border: '1px solid #f3f4f6',
-								padding: '16px',
-								borderRadius: '0.75rem',
-								boxShadow:
-									'0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
-							},
-							success: {
-								iconTheme: {
-									primary: 'var(--primary, #10B981)',
-									secondary: '#ffffff',
+					<ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+						<Toaster
+							position='top-right'
+							toastOptions={{
+								className:
+									'border border-border-main rounded-xl p-4 shadow-lg text-sm font-semibold transition-all duration-300 backdrop-blur-md',
+								style: {
+									background: 'var(--color-card-bg)',
+									color: 'var(--color-text-main)',
 								},
-							},
-							error: {
-								iconTheme: {
-									primary: '#ef4444',
-									secondary: '#ffffff',
+								success: {
+									iconTheme: {
+										primary: 'var(--color-primary)',
+										secondary: 'var(--color-card-bg)',
+									},
 								},
-							},
-						}}
-					/>
-					{children}
+								error: {
+									iconTheme: {
+										primary: 'var(--color-accent)',
+										secondary: 'var(--color-card-bg)',
+									},
+								},
+							}}
+						/>
+						{children}
+					</ThemeProvider>
 				</QueryProvider>
 			</body>
 		</html>

@@ -17,20 +17,25 @@ export default function AccordionItem({
 	return (
 		<Accordion.Item
 			value={value}
-			className='border border-[#E9E9E9] rounded-[5px] overflow-hidden bg-white'
+			className='border border-border-main/80 rounded-xl overflow-hidden bg-card-bg transition-all duration-300 focus-within:border-primary/50'
 		>
 			<Accordion.Header className='flex'>
-				<Accordion.Trigger className='group relative flex w-full items-center justify-between gap-4 bg-white p-4 text-[16px] text-left font-normal hover:bg-gray-100 focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-gray-400 cursor-pointer transition-colors'>
-					<span className='text-black font-medium'>{label}</span>
+				<Accordion.Trigger className='group relative flex w-full items-center justify-between gap-4 bg-card-bg p-4 text-[16px] text-left font-normal hover:bg-main-bg/50 focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-primary cursor-pointer transition-colors'>
+					<span className='text-text-main font-semibold group-hover:text-primary group-data-[state=open]:text-primary transition-colors'>
+						{label}
+					</span>
+
 					<ChevronRight
-						size={20}
-						className='mr-2 shrink-0 text-gray-500 transition-transform duration-200 ease-out group-data-[state=open]:rotate-90'
+						size={18}
+						className='shrink-0 text-text-subtle transition-all duration-300 ease-in-out group-hover:text-primary group-data-[state=open]:rotate-90 group-data-[state=open]:text-primary'
 					/>
 				</Accordion.Trigger>
 			</Accordion.Header>
 
-			<Accordion.Content className='overflow-hidden text-base text-[#7A7A7A] bg-white border-t border-[#E9E9E9] data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp'>
-				<div className='p-4 text-[15px] leading-relaxed'>{content}</div>
+			<Accordion.Content className='overflow-hidden text-base text-text-subtle bg-main-bg/20 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up'>
+				<div className='p-4 text-[15px] leading-relaxed border-t border-border-main/40 text-text-muted'>
+					{content}
+				</div>
 			</Accordion.Content>
 		</Accordion.Item>
 	)

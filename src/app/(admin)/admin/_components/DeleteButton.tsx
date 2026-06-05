@@ -30,7 +30,7 @@ export default function DeleteButton<T>({
 			onClick={handleClick}
 			className={`
         inline-flex items-center justify-center p-1.5 
-        bg-white border border-gray-200 rounded-lg text-gray-400 shadow-sm 
+        bg-card-bg border border-border-main rounded-lg text-text-subtle shadow-sm 
         hover:text-red-600 hover:border-red-200 hover:bg-red-50 
         transition-colors disabled:opacity-50 disabled:cursor-not-allowed 
         shrink-0 cursor-pointer h-8.5 w-8.5 ${className}

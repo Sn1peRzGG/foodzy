@@ -32,10 +32,10 @@ export default function AdminDropdown({
 				<button
 					type='button'
 					disabled={disabled}
-					className={`min-w-37.5 flex items-center justify-between gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2 text-xs font-bold text-gray-700 shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer ${className}`}
+					className={`min-w-37.5 flex items-center justify-between gap-2 bg-card-bg border border-border-main rounded-lg px-3 py-2 text-xs font-bold text-text-muted shadow-sm hover:bg-main-bg hover:border-border-strong transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer ${className}`}
 				>
 					<span className='truncate'>{currentOption?.label}</span>
-					<ChevronDown className='w-4 h-4 text-gray-400 transition-transform duration-200 shrink-0 group-data-[state=open]:rotate-180' />
+					<ChevronDown className='w-4 h-4 text-text-subtle transition-transform duration-200 shrink-0 group-data-[state=open]:rotate-180' />
 				</button>
 			</DropdownMenu.Trigger>
 
@@ -44,7 +44,7 @@ export default function AdminDropdown({
 					sideOffset={8}
 					align='start'
 					style={{ width: 'var(--radix-dropdown-menu-trigger-width)' }}
-					className='z-100 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden will-change-[transform,opacity]'
+					className='z-100 bg-card-bg border border-border-main rounded-xl shadow-lg overflow-hidden will-change-[transform,opacity]'
 				>
 					<div className='max-h-60 overflow-y-auto p-1.5 space-y-0.5 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent'>
 						{options.map(option => {
@@ -57,8 +57,8 @@ export default function AdminDropdown({
 										onClick={() => onChange(option.value)}
 										className={`w-full flex items-center justify-between px-3 py-2.5 text-xs font-bold rounded-lg transition-colors cursor-pointer outline-none ${
 											isSelected
-												? 'bg-gray-900 text-white'
-												: 'text-gray-700 hover:bg-gray-100 focus:bg-gray-100'
+												? 'bg-main-bg text-text-main'
+												: 'text-text-muted hover:bg-ui-hover focus:bg-ui-hover'
 										}`}
 									>
 										<span>{option.label}</span>
@@ -69,7 +69,7 @@ export default function AdminDropdown({
 													option.badgeStyle.includes('green')
 														? 'bg-green-500'
 														: option.badgeStyle.includes('red')
-															? 'bg-red-500'
+															? 'bg-accent'
 															: option.badgeStyle.includes('blue')
 																? 'bg-blue-500'
 																: option.badgeStyle.includes('amber')

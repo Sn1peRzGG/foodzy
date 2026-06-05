@@ -37,7 +37,7 @@ export default function CartQuantityInput({
 	return (
 		<div className='flex justify-center'>
 			<div
-				className={`inline-flex items-center rounded-[5px] bg-white border border-[#E9E9E9] h-8 overflow-hidden text-black transition-opacity ${
+				className={`inline-flex items-center rounded-[5px] bg-card-bg border border-border-main h-8 overflow-hidden text-text-main transition-opacity ${
 					isLoading ? 'opacity-70 pointer-events-none' : ''
 				}`}
 			>
@@ -46,7 +46,7 @@ export default function CartQuantityInput({
 						type='button'
 						disabled={isLoading || isMin}
 						onClick={() => handleUpdate(localQuantity - 1)}
-						className='h-full px-2.5 flex items-center justify-center border-r border-[#E9E9E9] disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:bg-gray-100 cursor-pointer transition-colors'
+						className='h-full px-2.5 flex items-center justify-center border-r border-border-main disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:bg-ui-hover cursor-pointer transition-colors'
 					>
 						<Minus size={14} />
 					</button>
@@ -80,7 +80,7 @@ export default function CartQuantityInput({
 						type='button'
 						disabled={isLoading || isMax}
 						onClick={() => handleUpdate(localQuantity + 1)}
-						className='h-full px-2.5 flex items-center justify-center border-l border-[#E9E9E9] disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:bg-gray-100 cursor-pointer transition-colors'
+						className='h-full px-2.5 flex items-center justify-center border-l border-border-main disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:bg-ui-hover cursor-pointer transition-colors'
 					>
 						<Plus size={14} />
 					</button>

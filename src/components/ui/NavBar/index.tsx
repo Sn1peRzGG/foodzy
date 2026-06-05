@@ -124,7 +124,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 					<div className='flex flex-row gap-1 items-center'>
 						<Phone className='w-5 h-5' />
 						<span className='text-[15px] font-normal whitespace-nowrap'>
-							+1 (555) 123-4567
+							<a href='tel:+15551234567'>+1 (555) 123-4567</a>
 						</span>
 					</div>
 				</div>
@@ -153,7 +153,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 					</div>
 					<button
 						onClick={() => setIsMenuOpen(false)}
-						className='p-1 hover:bg-gray-200 rounded-md transition-colors cursor-pointer'
+						className='p-1 hover:bg-ui-hover rounded-md transition-colors cursor-pointer'
 					>
 						<X className='w-5 h-5 text-text-muted' />
 					</button>
@@ -258,7 +258,9 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 
 				<div className='p-4 border-t border-border-main bg-main-bg flex items-center gap-2 justify-center text-text-muted'>
 					<Phone className='w-4 h-4' />
-					<span className='text-sm font-semibold'>+1 (555) 123-4567</span>
+					<span className='text-sm font-semibold'>
+						<a href='tel:+15551234567'>+1 (555) 123-4567</a>
+					</span>
 				</div>
 			</div>
 		</>

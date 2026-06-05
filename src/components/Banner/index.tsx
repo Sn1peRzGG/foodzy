@@ -74,7 +74,9 @@ const Banner = () => {
 
 				<div className='flex flex-col justify-center items-end lg:items-center text-right lg:text-center'>
 					<span className='text-brand-gold text-[12px] lg:text-[14px] font-extrabold whitespace-nowrap'>
-						Call Us: +1 (555) 123-4567
+						<a href='tel:+15551234567' className='hover:underline'>
+							Call Us: +1 (555) 123-4567
+						</a>
 					</span>
 					<Link
 						href={'http://localhost:3000/'}

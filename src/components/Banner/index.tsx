@@ -79,7 +79,7 @@ const Banner = () => {
 						</a>
 					</span>
 					<Link
-						href={'http://localhost:3000/'}
+						href={'/'}
 						className='font-normal text-[11px] lg:text-[13px] text-[#FFF5DB] hover:underline'
 					>
 						foodzy.com

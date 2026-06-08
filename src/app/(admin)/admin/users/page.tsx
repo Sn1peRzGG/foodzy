@@ -19,6 +19,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import AdminDropdown from '../_components/AdminDropdown'
 import DeleteButton from '../_components/DeleteButton'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function UsersAdminPage() {
 	const {
@@ -131,7 +132,7 @@ export default function UsersAdminPage() {
 												<div className='w-12 h-12 rounded-full bg-card-dark overflow-hidden shrink-0 border border-border-strong relative flex items-center justify-center text-text-muted font-bold text-lg'>
 													{user.avatarUrl ? (
 														<Image
-															src={`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
+															src={`${BASE_URL}${user.avatarUrl}`}
 															alt={user.firstName || 'User'}
 															fill
 															unoptimized

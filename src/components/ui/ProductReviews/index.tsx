@@ -16,6 +16,7 @@ import Image from 'next/image'
 import { useMemo, useState } from 'react'
 import ConfirmModal from '../ConfirmModal'
 import UpdateReviewModal from '../UpdateReviewModal'
+import { BASE_URL } from '@/src/lib/api'
 
 interface ProductReviewsProps {
 	productId: string
@@ -206,7 +207,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
 												{review.user.avatarUrl ? (
 													<div className='relative w-7 h-7 rounded-full overflow-hidden border border-border-main bg-main-bg'>
 														<Image
-															src={`${process.env.NEXT_PUBLIC_API_URL}${review.user.avatarUrl}`}
+															src={`${BASE_URL}${review.user.avatarUrl}`}
 															alt={`${review.user.firstName} avatar`}
 															fill
 															unoptimized

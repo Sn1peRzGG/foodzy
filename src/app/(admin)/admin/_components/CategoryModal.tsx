@@ -2,6 +2,7 @@
 
 import FormModal from '@/src/components/FormModal'
 import { FormFileField, FormInput } from '@/src/components/ui/FormFields'
+import { BASE_URL } from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import { useEffect, useState } from 'react'
 
@@ -34,9 +35,7 @@ export default function CategoryModal({
 				setImageFile(null)
 				setFileError(null)
 				setPreviewUrl(
-					initialData.imageUrl
-						? `${process.env.NEXT_PUBLIC_API_URL}${initialData.imageUrl}`
-						: null,
+					initialData.imageUrl ? `${BASE_URL}${initialData.imageUrl}` : null,
 				)
 			} else {
 				setName('')

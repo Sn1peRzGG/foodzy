@@ -3,9 +3,11 @@
 import { useUserActions } from '@/src/hooks/useUserActions'
 import { ProductType } from '@/src/types/product'
 import {
+	FileText,
 	Flame,
 	Heart,
 	Loader2,
+	MessageSquare,
 	Minus,
 	Plus,
 	Scale,
@@ -13,12 +15,11 @@ import {
 	ShoppingCart,
 	Star,
 	Truck,
-	MessageSquare,
-	FileText,
 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import ProductReviews from '../ProductReviews'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function FullProductCard(product: ProductType) {
 	const [quantity, setQuantity] = useState(1)
@@ -76,7 +77,7 @@ export default function FullProductCard(product: ProductType) {
 					)}
 
 					<Image
-						src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+						src={`${BASE_URL}${product.imageUrl}`}
 						alt={product.name}
 						fill
 						priority

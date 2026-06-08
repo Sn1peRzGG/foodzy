@@ -10,6 +10,7 @@ import { useState } from 'react'
 import CategoryModal from '../_components/CategoryModal'
 import DeleteButton from '../_components/DeleteButton'
 import EditButton from '../_components/EditButton'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function CategoriesAdminPage() {
 	const {
@@ -149,7 +150,7 @@ export default function CategoriesAdminPage() {
 											<div className='w-12 h-12 rounded-xl bg-main-bg border border-border-main overflow-hidden shrink-0 relative flex items-center justify-center text-text-subtle font-bold text-xs'>
 												{category.imageUrl ? (
 													<Image
-														src={`${process.env.NEXT_PUBLIC_API_URL}${category.imageUrl}`}
+														src={`${BASE_URL}${category.imageUrl}`}
 														alt={category.name}
 														fill
 														unoptimized

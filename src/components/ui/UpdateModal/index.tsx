@@ -4,6 +4,7 @@ import { Folder, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { FormFileField, FormInput } from '../FormFields'
+import { BASE_URL } from '@/src/lib/api'
 
 interface UpdateModalProps {
 	isOpen: boolean
@@ -63,9 +64,7 @@ export default function UpdateModal({
 			setImageFile(null)
 			setFileError(null)
 			setPreviewUrl(
-				initialData.imageUrl
-					? `${process.env.NEXT_PUBLIC_API_URL}${initialData.imageUrl}`
-					: null,
+				initialData.imageUrl ? `${BASE_URL}${initialData.imageUrl}` : null,
 			)
 		}
 	}, [isOpen, initialData])

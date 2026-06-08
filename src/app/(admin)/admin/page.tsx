@@ -7,6 +7,7 @@ import { useAdminCategories } from '@/src/hooks/admin/useAdminCategories'
 import { useAdminOrders } from '@/src/hooks/admin/useAdminOrders'
 import { useAdminProducts } from '@/src/hooks/admin/useAdminProducts'
 import { useAdminUsers } from '@/src/hooks/admin/useAdminUsers'
+import { BASE_URL } from '@/src/lib/api'
 import { OrderStatus } from '@/src/types/order'
 import Image from 'next/image'
 
@@ -246,7 +247,7 @@ export default function AdminPage() {
 									<div className='w-10 h-10 rounded-full bg-primary/10 border border-primary/20 overflow-hidden shrink-0 flex items-center justify-center shadow-inner'>
 										{user.avatarUrl ? (
 											<Image
-												src={`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
+												src={`${BASE_URL}${user.avatarUrl}`}
 												alt={user.firstName}
 												width={40}
 												height={40}
@@ -301,7 +302,7 @@ export default function AdminPage() {
 								<div className='w-11 h-11 rounded-xl bg-ui-hover overflow-hidden shrink-0 border border-border-main/50 shadow-sm'>
 									{product.imageUrl && (
 										<Image
-											src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+											src={`${BASE_URL}${product.imageUrl}`}
 											alt={product.name}
 											width={44}
 											height={44}

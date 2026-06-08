@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,7 +20,7 @@ export default function CategoryCard(category: CategoryType) {
 			<div className='w-30 h-30 rounded-full bg-brand-gold/17 flex items-center justify-center shrink-0 overflow-hidden'>
 				<div className='relative w-30 h-30'>
 					<Image
-						src={`${process.env.NEXT_PUBLIC_API_URL}${category.imageUrl}`}
+						src={`${BASE_URL}${category.imageUrl}`}
 						alt={category.name}
 						fill
 						sizes='120px'

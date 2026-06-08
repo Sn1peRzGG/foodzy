@@ -1,6 +1,7 @@
 'use client'
 
 import { useUserActions } from '@/src/hooks/useUserActions'
+import { BASE_URL } from '@/src/lib/api'
 import { ProductType } from '@/src/types/product'
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
@@ -49,7 +50,7 @@ export default function SpecialCard(product: ProductType) {
 				<div className='flex flex-col flex-1 justify-start pt-5 sm:pt-6 md:pt-8 lg:pt-9 px-4 sm:px-5 md:px-6 lg:px-12 pb-5 sm:pb-6 md:pb-8 lg:pb-10'>
 					<div className='flex justify-center w-full pointer-events-none mb-4 overflow-hidden rounded-lg'>
 						<Image
-							src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+							src={`${BASE_URL}${product.imageUrl}`}
 							alt={product.name}
 							width={276}
 							height={276}

@@ -18,6 +18,7 @@ import { useState } from 'react'
 import DeleteButton from '../_components/DeleteButton'
 import EditButton from '../_components/EditButton'
 import ProductModal from '../_components/ProductModal'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function ProductsAdminPage() {
 	const {
@@ -184,7 +185,7 @@ export default function ProductsAdminPage() {
 											<div className='w-12 h-12 rounded-xl bg-main-bg border border-border-main overflow-hidden shrink-0 relative flex items-center justify-center text-text-subtle font-bold text-xs'>
 												{product.imageUrl && (
 													<Image
-														src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+														src={`${BASE_URL}${product.imageUrl}`}
 														alt={product.name}
 														fill
 														unoptimized

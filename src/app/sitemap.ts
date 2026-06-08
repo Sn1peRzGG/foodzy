@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { BASE_URL } from '../lib/api'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const baseUrl = 'https://foodzy-wheat.vercel.app'
@@ -21,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	}))
 
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`)
+		const res = await fetch(`${BASE_URL}/products`)
 		if (res.ok) {
 			const products = await res.json()
 			if (Array.isArray(products)) {

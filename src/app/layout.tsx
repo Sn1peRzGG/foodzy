@@ -38,7 +38,7 @@ export default function RootLayout({
 							position='top-right'
 							toastOptions={{
 								className:
-									'border border-border-main rounded-xl p-4 shadow-lg text-sm font-semibold transition-all duration-300 backdrop-blur-md',
+									'border border-border-main rounded-xl p-4 shadow-lg text-sm font-semibold transition-all duration-200 backdrop-blur-md',
 								style: {
 									background: 'var(--color-card-bg)',
 									color: 'var(--color-text-main)',

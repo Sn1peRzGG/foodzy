@@ -118,14 +118,14 @@ export default function UserCard({ user }: UserCardProps) {
 			<div className='w-full space-y-8'>
 				<div className='w-full bg-card-bg border border-border-main/80 rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-center md:justify-between gap-6 transition-all duration-200 hover:shadow-md'>
 					<div className='flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left min-w-0 w-full md:w-auto'>
-						<div className='relative flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-main-bg border border-border-main text-text-muted shadow-md dark:shadow-black/40'>
+						<div className='relative flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-main-bg border border-border-main text-text-muted shadow-md dark:shadow-black/40 pointer-events-none select-none'>
 							{user.avatarUrl ? (
 								<Image
 									src={`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
 									alt={user.firstName || 'User'}
 									fill
 									unoptimized
-									className='object-cover'
+									className='object-cover rounded-xl'
 								/>
 							) : (
 								<span className='text-3xl font-semibold'>
@@ -153,7 +153,7 @@ export default function UserCard({ user }: UserCardProps) {
 
 							<div className='flex justify-center sm:justify-start'>
 								<div
-									className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border text-xs font-bold uppercase tracking-wider select-none transition-all duration-300 ${currentRole.bg}`}
+									className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md border text-xs font-bold uppercase tracking-wider select-none transition-all duration-200 ${currentRole.bg}`}
 								>
 									<RoleIcon size={12} />
 									<span>{currentRole.label}</span>

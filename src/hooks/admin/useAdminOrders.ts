@@ -29,11 +29,11 @@ export function useAdminOrders() {
 			return res.data
 		},
 		onSuccess: () => {
-			toast.success('Order updated')
+			toast.success('Status updated')
 			queryClient.invalidateQueries({ queryKey: ['admin-orders'] })
 		},
 		onError: () => {
-			toast.error('Failed to update order')
+			toast.error('Failed to update status')
 		},
 	})
 

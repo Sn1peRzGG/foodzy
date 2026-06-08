@@ -1,6 +1,7 @@
 'use client'
 
 import ProductCard from '@/src/components/ui/ProductCard'
+import ProductCardSkeleton from '@/src/components/ui/ProductCardSkeleton'
 import ProductFilter from '@/src/components/ui/ProductFilter'
 import { SortOption, useProducts } from '@/src/hooks/useProducts'
 import {
@@ -32,6 +33,7 @@ export default function ProductsPage() {
 	const [isSortOpen, setIsSortOpen] = useState(false)
 	const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
 	const [isDesktopFilterOpen, setIsDesktopFilterOpen] = useState(false)
+	const [isMounted, setIsMounted] = useState(false)
 
 	const dropdownRef = useRef<HTMLDivElement>(null)
 	const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -47,13 +49,13 @@ export default function ProductsPage() {
 		if (savedState !== null) {
 			setIsDesktopFilterOpen(savedState === 'true')
 		}
-	}, [])
 
-	useEffect(() => {
 		const savedViewMode = window.sessionStorage.getItem('viewMode')
 		if (savedViewMode === 'grid' || savedViewMode === 'list') {
 			setViewMode(savedViewMode)
 		}
+
+		setIsMounted(true)
 	}, [])
 
 	const toggleViewMode = (viewMode: 'grid' | 'list') => {
@@ -96,6 +98,14 @@ export default function ProductsPage() {
 		}
 	}, [isMobileFilterOpen])
 
+	if (!isMounted) {
+		return (
+			<div className='w-full flex items-center justify-center py-20'>
+				<div className='text-text-muted animate-pulse'>Loading...</div>
+			</div>
+		)
+	}
+
 	if (error) {
 		return (
 			<div className='w-full flex items-center justify-center py-20'>
@@ -107,7 +117,7 @@ export default function ProductsPage() {
 	return (
 		<div className='container-responsive px-4 mx-auto max-w-7xl py-8'>
 			<div
-				className={`fixed inset-x-0 top-24 bottom-0 z-50 xl:hidden transition-opacity duration-300 backdrop-blur-md ${
+				className={`fixed inset-x-0 top-24 bottom-0 z-50 xl:hidden transition-opacity duration-200 backdrop-blur-md ${
 					isMobileFilterOpen
 						? 'pointer-events-auto opacity-100'
 						: 'pointer-events-none opacity-0'
@@ -119,7 +129,7 @@ export default function ProductsPage() {
 				/>
 
 				<aside
-					className={`absolute left-0 top-0 h-full w-[85%] max-w-xs bg-card-bg border-r border-border-main shadow-xl overflow-y-auto transition-transform duration-300 ease-out ${
+					className={`absolute left-0 top-0 h-full w-[85%] max-w-xs bg-card-bg border-r border-border-main shadow-xl overflow-y-auto transition-transform duration-200 ease-out ${
 						isMobileFilterOpen ? 'translate-x-0' : '-translate-x-full'
 					}`}
 				>
@@ -217,7 +227,7 @@ export default function ProductsPage() {
 								{sortLabels[sortBy]}
 							</p>
 							<ChevronDown
-								className={`transition-transform duration-300 text-text-muted ${isSortOpen ? 'rotate-180' : ''}`}
+								className={`transition-transform duration-200 text-text-muted ${isSortOpen ? 'rotate-180' : ''}`}
 								size={18}
 							/>
 
@@ -249,21 +259,37 @@ export default function ProductsPage() {
 				</div>
 			</div>
 
-			<div className='grid grid-cols-1 xl:grid-cols-4 gap-8 items-start'>
-				{isDesktopFilterOpen && (
-					<aside className='hidden xl:block xl:col-span-1 sticky top-40 animate-in fade-in duration-200'>
-						<ProductFilter />
-					</aside>
-				)}
-
-				<div
-					className={`w-full transition-all duration-300 ${
-						isDesktopFilterOpen ? 'xl:col-span-3' : 'xl:col-span-4'
+			<div className='flex flex-col xl:flex-row gap-8 items-start'>
+				<aside
+					className={`hidden xl:block sticky top-40 shrink-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+						isDesktopFilterOpen
+							? 'w-64 opacity-100 translate-x-0 blur-none mr-0 visible'
+							: 'w-0 opacity-0 -translate-x-10 blur-sm -mr-8 invisible pointer-events-none'
 					}`}
 				>
+					<div className='w-64'>
+						<ProductFilter />
+					</div>
+				</aside>
+
+				<div className='w-full transition-all duration-200 ease-in-out'>
 					{isLoading && products.length === 0 ? (
-						<div className='text-center py-20 text-text-muted'>
-							Loading products...
+						<div
+							className={`transition-all duration-200 ${
+								viewMode === 'grid'
+									? `grid grid-cols-1 sm:grid-cols-2 gap-6 ${
+											isDesktopFilterOpen
+												? 'lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3'
+												: 'lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4'
+										}`
+									: 'flex flex-col gap-4'
+							}`}
+						>
+							{Array.from({ length: viewMode === 'grid' ? 8 : 4 }).map(
+								(_, index) => (
+									<ProductCardSkeleton key={index} viewMode={viewMode} />
+								),
+							)}
 						</div>
 					) : products.length === 0 ? (
 						<div className='text-center py-20 bg-main-bg rounded-xl border border-dashed border-border-main'>
@@ -280,7 +306,7 @@ export default function ProductsPage() {
 					) : (
 						<>
 							<div
-								className={`transition-all duration-300 ${
+								className={`transition-all duration-200 ${
 									viewMode === 'grid'
 										? `grid grid-cols-1 sm:grid-cols-2 gap-6 ${
 												isDesktopFilterOpen
@@ -305,7 +331,7 @@ export default function ProductsPage() {
 										type='button'
 										onClick={() => setPage(prev => Math.max(1, prev - 1))}
 										disabled={page === 1}
-										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-gray-200/75 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-ui-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
 									>
 										<ChevronLeft />
 									</button>
@@ -321,7 +347,7 @@ export default function ProductsPage() {
 											setPage(prev => Math.min(meta.pages, prev + 1))
 										}
 										disabled={page === meta.pages}
-										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-gray-200/75 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
+										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-ui-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
 									>
 										<ChevronRight />
 									</button>

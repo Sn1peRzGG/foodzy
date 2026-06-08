@@ -1,4 +1,4 @@
-import { Crown, ShieldAlert, UserIcon } from 'lucide-react'
+import { Crown, ShieldCheck, UserIcon } from 'lucide-react'
 
 export const ROLE_CONFIG: Record<
 	string,
@@ -12,22 +12,22 @@ export const ROLE_CONFIG: Record<
 > = {
 	OWNER: {
 		label: 'Owner',
-		bg: 'bg-red-600 text-white border-red-700 shadow-xs',
-		nameColor: 'text-red-600 font-black',
+		bg: 'bg-accent/10 text-accent border border-accent/20 shadow-xs',
+		nameColor: 'text-accent font-black tracking-wide',
 		icon: Crown,
 		hasBadge: true,
 	},
 	ADMIN: {
 		label: 'Admin',
-		bg: 'bg-blue-600 text-white border-blue-700 shadow-xs',
-		nameColor: 'text-blue-600 font-extrabold',
-		icon: ShieldAlert,
+		bg: 'bg-primary/10 text-primary border border-primary/20 shadow-xs',
+		nameColor: 'text-primary font-extrabold tracking-wide',
+		icon: ShieldCheck,
 		hasBadge: true,
 	},
 	USER: {
 		label: 'Customer',
-		bg: 'bg-slate-100 text-slate-700 border-slate-200 shadow-xs',
-		nameColor: 'text-slate-800 font-bold',
+		bg: 'bg-ui-hover text-text-muted border border-border-main shadow-xs',
+		nameColor: 'text-text-main font-semibold',
 		icon: UserIcon,
 		hasBadge: false,
 	},

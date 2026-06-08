@@ -54,7 +54,7 @@ export default function ProductModal({
 	const [fileError, setFileError] = useState<string | null>(null)
 
 	const { data: categories = [] } = useQuery<CategoryType[]>({
-		queryKey: ['admin-categories-list'],
+		queryKey: ['admin-categories'],
 		queryFn: async () => {
 			const res = await api.get('/categories')
 			return res.data

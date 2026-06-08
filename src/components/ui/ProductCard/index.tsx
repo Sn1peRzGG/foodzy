@@ -64,7 +64,7 @@ export default function ProductCard({
 		return (
 			<Link
 				href={`/products/${product._id}`}
-				className={`relative border border-border-main rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-row items-center gap-5 bg-card-bg group ${
+				className={`relative border border-border-main rounded-xl p-4 shadow-sm transition-all duration-200 flex flex-row items-center gap-5 bg-card-bg group ${
 					!product.isAvailable ? 'opacity-80' : 'hover:shadow-md'
 				}`}
 			>
@@ -183,7 +183,7 @@ export default function ProductCard({
 	return (
 		<Link
 			href={`/products/${product._id}`}
-			className={`relative border border-border-main rounded-xl p-4 shadow-sm transition-all duration-300 flex flex-col justify-between bg-card-bg group transform ${
+			className={`relative border border-border-main rounded-xl p-4 shadow-sm transition-all duration-200 flex flex-col justify-between bg-card-bg group transform ${
 				!product.isAvailable
 					? 'opacity-80'
 					: 'hover:shadow-md hover:scale-[1.02]'

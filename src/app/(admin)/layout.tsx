@@ -16,6 +16,14 @@ export default function AdminLayout({
 	const router = useRouter()
 	const [mounted, setMounted] = useState(false)
 
+	const [isCollapsed, setIsCollapsed] = useState(() => {
+		if (typeof window !== 'undefined') {
+			const saved = sessionStorage.getItem('admin_sidebar_collapsed')
+			return saved === 'true'
+		}
+		return false
+	})
+
 	const canAccessAdmin = hasAccess(user?.role, 'ADMIN')
 
 	useEffect(() => {
@@ -29,6 +37,10 @@ export default function AdminLayout({
 	useEffect(() => {
 		setMounted(true)
 	}, [])
+
+	useEffect(() => {
+		sessionStorage.setItem('admin_sidebar_collapsed', String(isCollapsed))
+	}, [isCollapsed])
 
 	if (!mounted) {
 		return null
@@ -44,9 +56,13 @@ export default function AdminLayout({
 
 	return (
 		<div className='min-h-screen bg-main-bg/50 flex w-full'>
-			<Sidebar />
+			<Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
 
-			<div className='flex-1 pl-64 min-h-screen flex flex-col w-full'>
+			<div
+				className={`flex-1 min-h-screen flex flex-col w-full transition-all duration-300 ease-in-out ${
+					isCollapsed ? 'pl-20' : 'pl-64'
+				}`}
+			>
 				{children}
 			</div>
 		</div>

@@ -144,7 +144,7 @@ export default function SearchBar({
 						{currentCategoryName}
 					</p>
 					<ChevronDown
-						className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+						className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
 						size={18}
 					/>
 					{isDropdownOpen && (

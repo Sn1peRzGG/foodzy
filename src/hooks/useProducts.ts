@@ -28,14 +28,19 @@ export function useProducts() {
 	const pageParam = searchParams.get('page')
 	const page = pageParam ? parseInt(pageParam, 10) || 1 : 1
 
-	const [sortBy, setSortBy] = useState<SortOption>('default')
+	const [sortBy, setSortByState] = useState<SortOption>('default')
 
 	const setMultipleParams = (entries: Record<string, string | null>) => {
 		const params = new URLSearchParams(searchParams.toString())
 		let shouldResetPage = false
 
 		Object.entries(entries).forEach(([key, value]) => {
-			if (value === null || value === '' || value === 'all') {
+			if (
+				value === null ||
+				value === '' ||
+				value === 'all' ||
+				(key === 'page' && value === '1')
+			) {
 				params.delete(key)
 			} else {
 				params.set(key, value)
@@ -47,7 +52,7 @@ export function useProducts() {
 		})
 
 		if (shouldResetPage) {
-			params.set('page', '1')
+			params.delete('page')
 		}
 
 		router.push(`${pathname}?${params.toString()}`, { scroll: false })
@@ -65,6 +70,22 @@ export function useProducts() {
 		const targetPage =
 			typeof newPageOrFn === 'function' ? newPageOrFn(page) : newPageOrFn
 		setParam('page', targetPage.toString())
+	}
+
+	const setSortBy = (option: SortOption) => {
+		setSortByState(option)
+		setParam('page', '1')
+	}
+
+	const resetFilters = () => {
+		setSortByState('default')
+
+		const newParams = new URLSearchParams()
+		if (searchQuery) newParams.set('search', searchQuery)
+		if (searchCategory !== 'All Categories')
+			newParams.set('category', searchCategory)
+
+		router.push(`${pathname}?${newParams.toString()}`, { scroll: false })
 	}
 
 	const { data: categories = [] } = useQuery<CategoryType[]>({
@@ -88,6 +109,7 @@ export function useProducts() {
 			maxPriceParam,
 			minRatingParam,
 			maxRatingParam,
+			sortBy,
 		],
 		queryFn: async () => {
 			const res = await api.get('/products/search', {
@@ -103,6 +125,7 @@ export function useProducts() {
 					maxPrice: maxPriceParam,
 					minRating: minRatingParam,
 					maxRating: maxRatingParam,
+					sortBy,
 				},
 			})
 			return res.data
@@ -110,18 +133,7 @@ export function useProducts() {
 		placeholderData: previousData => previousData,
 	})
 
-	const rawProducts = Array.isArray(data?.data) ? data.data : []
-	const sortedProducts = [...rawProducts].sort((a, b) => {
-		if (a.isAvailable !== b.isAvailable) {
-			return a.isAvailable ? -1 : 1
-		}
-		if (sortBy === 'price-asc') return a.price - b.price
-		if (sortBy === 'price-desc') return b.price - a.price
-
-		const ratingA = a.rating || 0
-		const ratingB = b.rating || 0
-		return ratingB - ratingA
-	})
+	const products = Array.isArray(data?.data) ? data.data : []
 
 	const displayName =
 		searchCategory === 'All Categories'
@@ -129,7 +141,7 @@ export function useProducts() {
 			: categories.find(cat => cat._id === searchCategory)?.name || 'Category'
 
 	return {
-		products: sortedProducts,
+		products,
 		meta: data?.meta,
 		isLoading,
 		error,
@@ -143,5 +155,6 @@ export function useProducts() {
 		setParam,
 		setMultipleParams,
 		setCheckboxParam,
+		resetFilters,
 	}
 }

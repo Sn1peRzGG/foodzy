@@ -55,7 +55,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 										onMouseLeave={() => setOpenDropdown(null)}
 									>
 										{hasDropdown ? (
-											<div className='group relative flex cursor-pointer items-center gap-1 transition-colors duration-300'>
+											<div className='group relative flex cursor-pointer items-center gap-1 transition-colors duration-200'>
 												<span
 													className={
 														isActive ? 'text-text-main' : 'text-text-muted'
@@ -64,12 +64,12 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 													{item.label}
 												</span>
 												<ChevronDown
-													className={`w-4 h-4 transition-all duration-300 ${
+													className={`w-4 h-4 transition-all duration-200 ${
 														openDropdown === item.label ? 'rotate-180' : ''
 													} ${isActive ? 'text-text-main' : 'text-text-muted'}`}
 												/>
 												<span
-													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
+													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-200 group-hover:w-full ${
 														isActive ? 'w-full' : 'w-0'
 													}`}
 												/>
@@ -77,7 +77,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 										) : (
 											<Link
 												href={item.href}
-												className='group relative flex items-center gap-1 transition-colors duration-300'
+												className='group relative flex items-center gap-1 transition-colors duration-200'
 											>
 												<span
 													className={
@@ -87,7 +87,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 													{item.label}
 												</span>
 												<span
-													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full ${
+													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-200 group-hover:w-full ${
 														isActive ? 'w-full' : 'w-0'
 													}`}
 												/>
@@ -138,7 +138,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 			)}
 
 			<div
-				className={`xl:hidden fixed top-0 left-0 h-full w-72 bg-card-bg z-200 shadow-2xl transform transition-transform duration-300 flex flex-col ${
+				className={`xl:hidden fixed top-0 left-0 h-full w-72 bg-card-bg z-200 shadow-2xl transform transition-transform duration-200 flex flex-col ${
 					isMenuOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}
 			>

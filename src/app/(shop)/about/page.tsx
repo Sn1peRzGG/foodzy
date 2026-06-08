@@ -81,7 +81,7 @@ export default function AboutPage() {
 				{[...Array(4)].map((_, index) => (
 					<div
 						key={index}
-						className='bg-card-bg border border-border-main rounded-xl p-6 shadow-sm hover:bg-main-bg/50 hover:border-border-main/80 transition-all duration-300 group flex flex-col gap-3'
+						className='bg-card-bg border border-border-main rounded-xl p-6 shadow-sm hover:bg-main-bg/50 hover:border-border-main/80 transition-all duration-200 group flex flex-col gap-3'
 					>
 						<div className='flex items-center gap-3'>
 							<div className='w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors'>

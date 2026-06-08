@@ -35,7 +35,6 @@ export function useAdminCategories() {
 		onSuccess: () => {
 			toast.success('Category created')
 			queryClient.invalidateQueries({ queryKey: ['admin-categories'] })
-			queryClient.invalidateQueries({ queryKey: ['admin-categories-list'] })
 		},
 		onError: () => {
 			toast.error('Failed to create category')
@@ -58,7 +57,6 @@ export function useAdminCategories() {
 		onSuccess: () => {
 			toast.success('Category updated')
 			queryClient.invalidateQueries({ queryKey: ['admin-categories'] })
-			queryClient.invalidateQueries({ queryKey: ['admin-categories-list'] })
 		},
 		onError: () => {
 			toast.error('Failed to update category')
@@ -72,7 +70,6 @@ export function useAdminCategories() {
 		onSuccess: () => {
 			toast.success('Category deleted')
 			queryClient.invalidateQueries({ queryKey: ['admin-categories'] })
-			queryClient.invalidateQueries({ queryKey: ['admin-categories-list'] })
 		},
 		onError: () => {
 			toast.error('Failed to delete category')

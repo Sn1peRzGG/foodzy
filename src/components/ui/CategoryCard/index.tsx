@@ -12,7 +12,7 @@ export default function CategoryCard(category: CategoryType) {
         w-70 h-75 aspect-square 
         rounded-[20px] bg-card-bg 
         shadow-md dark:shadow-black/40(0,0,0,0.1)] 
-        transition-all duration-300 hover:scale-105 hover:shadow-lg dark:hover:shadow-black/60(0,0,0,0.15)] 
+        transition-all duration-200 hover:scale-105 hover:shadow-lg dark:hover:shadow-black/60(0,0,0,0.15)] 
         cursor-pointer gap-3 px-5 pt-6 pb-8
       '
 		>

@@ -10,7 +10,7 @@ export default function ControlButton(props: ControlButtonProps) {
 	return (
 		<button
 			style={{ backgroundColor: props.backgroundColor, color: props.textColor }}
-			className='w-14 h-14 md:w-20 md:h-20 flex items-center justify-center rounded-full transition-colors duration-300 cursor-pointer hover:opacity-80'
+			className='w-14 h-14 md:w-20 md:h-20 flex items-center justify-center rounded-full transition-colors duration-200 cursor-pointer hover:opacity-80'
 		>
 			{props.orientation === 'left' ? (
 				<ChevronLeft className='h-5 w-5 md:h-6 md:w-6' />

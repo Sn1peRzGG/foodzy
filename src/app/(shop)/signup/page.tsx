@@ -182,7 +182,7 @@ export default function SignupPage() {
 		<div className='container-responsive flex flex-1 items-center justify-center'>
 			<div className='w-full max-w-md'>
 				<div className='mb-8 text-center'>
-					<div className='mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-text-main shadow-xl shadow-md dark:shadow-black/40/30'>
+					<div className='mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-text-main shadow-xl shadow-primary/20'>
 						<LogIn size={28} />
 					</div>
 
@@ -197,7 +197,7 @@ export default function SignupPage() {
 
 				<form
 					onSubmit={handleSubmit}
-					className='space-y-6 rounded-2xl border border-border-main bg-card-bg p-8 shadow-xl shadow-md dark:shadow-black/40'
+					className='space-y-6 rounded-2xl border border-border-main bg-card-bg p-8 shadow-xl shadow-black/3 dark:shadow-black/20'
 				>
 					<FormInput
 						label='First Name'
@@ -331,7 +331,7 @@ export default function SignupPage() {
 							className='group relative inline-block font-semibold text-primary'
 						>
 							Forgot password?
-							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full' />
+							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-200 group-hover:w-full' />
 						</Link>
 					</div>
 
@@ -356,7 +356,7 @@ export default function SignupPage() {
 							className='group relative inline-block font-bold text-primary'
 						>
 							Sign in
-							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full' />
+							<span className='absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-200 group-hover:w-full' />
 						</Link>
 					</p>
 				</div>

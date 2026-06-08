@@ -59,7 +59,7 @@ export default function SpecialCard(product: ProductType) {
 						/>
 					</div>
 
-					<h3 className='text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-text-main leading-tight transition-colors duration-300 group-hover:text-accent'>
+					<h3 className='text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-text-main leading-tight transition-colors duration-200 group-hover:text-accent'>
 						{product.name}
 					</h3>
 

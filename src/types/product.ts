@@ -13,6 +13,7 @@ export type ProductType = {
 	calories?: number
 	isAvailable: boolean
 	isDeleted: boolean
+	createdAt: string
 }
 
 export interface PaginatedProducts {

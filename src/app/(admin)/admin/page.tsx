@@ -57,91 +57,135 @@ export default function AdminPage() {
 	const totalProducts = products?.length || 0
 	const totalUsers = users?.length || 0
 
-	const recentOrders = orders?.slice(-5).reverse() || []
+	const recentOrders = orders
+		? [...orders]
+				.sort(
+					(a, b) =>
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+				)
+				.slice(0, 5)
+		: []
+
 	const topCategories = categories?.slice(0, 4) || []
-	const recentUsers = users?.slice(-4).reverse() || []
-	const latestProducts = products?.slice(-4).reverse() || []
+
+	const recentUsers = users
+		? [...users]
+				.sort(
+					(a, b) =>
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+				)
+				.slice(0, 4)
+		: []
+
+	const latestProducts = products
+		? [...products]
+				.sort(
+					(a, b) =>
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+				)
+				.slice(0, 4)
+		: []
 
 	return (
-		<div className='p-6 space-y-8 bg-main-bg min-h-screen'>
+		<div className='p-6 space-y-8 bg-main-bg min-h-screen antialiased'>
 			<div>
 				<h1 className='text-3xl font-bold text-text-main tracking-tight'>
 					Dashboard
 				</h1>
-				<p className='text-text-muted text-sm'>
+				<p className='text-text-muted text-sm mt-1'>
 					Welcome back! Here is your business overview.
 				</p>
 			</div>
 
 			<div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm'>
-					<p className='text-sm font-medium text-text-muted uppercase tracking-wider'>
+				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm transition-all hover:border-border-main/80'>
+					<p className='text-xs font-semibold text-text-muted uppercase tracking-wider'>
 						Total Revenue
 					</p>
-					<p className='text-2xl font-bold text-text-main mt-2'>
+					<p className='text-2xl font-bold text-text-main mt-2 font-mono'>
 						${totalRevenue.toFixed(2)}
 					</p>
 				</div>
 
-				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm'>
-					<p className='text-sm font-medium text-text-muted uppercase tracking-wider'>
+				<div
+					className={`bg-card-bg p-6 rounded-xl border shadow-sm transition-all ${
+						pendingOrders > 0
+							? 'border-amber-500/40 bg-amber-500/2'
+							: 'border-border-main'
+					}`}
+				>
+					<p
+						className={`text-xs font-semibold uppercase tracking-wider ${
+							pendingOrders > 0 ? 'text-amber-500' : 'text-text-muted'
+						}`}
+					>
 						Pending Orders
 					</p>
-					<p className='text-2xl font-bold text-amber-600 mt-2'>
+					<p
+						className={`text-2xl font-bold mt-2 font-mono ${
+							pendingOrders > 0 ? 'text-amber-500' : 'text-text-main'
+						}`}
+					>
 						{pendingOrders}
 					</p>
 				</div>
 
-				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm'>
-					<p className='text-sm font-medium text-text-muted uppercase tracking-wider'>
+				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm transition-all hover:border-border-main/80'>
+					<p className='text-xs font-semibold text-text-muted uppercase tracking-wider'>
 						Total Products
 					</p>
-					<p className='text-2xl font-bold text-text-main mt-2'>
+					<p className='text-2xl font-bold text-text-main mt-2 font-mono'>
 						{totalProducts}
 					</p>
 				</div>
 
-				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm'>
-					<p className='text-sm font-medium text-text-muted uppercase tracking-wider'>
+				<div className='bg-card-bg p-6 rounded-xl border border-border-main shadow-sm transition-all hover:border-border-main/80'>
+					<p className='text-xs font-semibold text-text-muted uppercase tracking-wider'>
 						Total Users
 					</p>
-					<p className='text-2xl font-bold text-text-main mt-2'>{totalUsers}</p>
+					<p className='text-2xl font-bold text-text-main mt-2 font-mono'>
+						{totalUsers}
+					</p>
 				</div>
 			</div>
 
-			<div className='grid gap-6 lg:grid-cols-3'>
+			<div className='grid gap-6 lg:grid-cols-3 items-start'>
 				<div className='lg:col-span-2 bg-card-bg rounded-xl border border-border-main shadow-sm overflow-hidden'>
-					<div className='p-6 border-b border-border-main'>
-						<h2 className='text-lg font-bold text-text-main'>Recent Orders</h2>
+					<div className='p-5 border-b border-border-main bg-card-bg/50'>
+						<h2 className='text-base font-bold text-text-main'>
+							Recent Orders
+						</h2>
 					</div>
 					<div className='overflow-x-auto'>
 						<table className='w-full text-left border-collapse align-middle'>
 							<thead>
-								<tr className='bg-main-bg text-text-muted text-xs uppercase tracking-wider border-b border-border-main'>
-									<th className='p-4 font-medium'>Order ID</th>
-									<th className='p-4 font-medium'>Phone</th>
-									<th className='p-4 font-medium'>Price</th>
-									<th className='p-4 font-medium'>Status</th>
+								<tr className='bg-main-bg text-text-muted text-xs font-semibold uppercase tracking-wider border-b border-border-main/80'>
+									<th className='p-4 pl-6'>Order ID</th>
+									<th className='p-4'>Phone</th>
+									<th className='p-4'>Price</th>
+									<th className='p-4 pr-6 text-right'>Status</th>
 								</tr>
 							</thead>
-							<tbody className='divide-y divide-border-main/50 text-sm text-text-muted transition-colors'>
+							<tbody className='divide-y divide-border-main/40 text-sm text-text-muted transition-colors bg-card-bg'>
 								{recentOrders.map(order => (
 									<tr
 										key={order._id}
-										className='hover:bg-main-bg/70 transition-colors h-14'
+										className='hover:bg-main-bg/40 transition-colors h-14'
 									>
-										<td className='p-4 font-mono text-xs text-text-muted align-middle'>
+										<td className='p-4 pl-6 font-mono text-xs text-text-main align-middle'>
 											...{order._id.slice(-8)}
 										</td>
-										<td className='p-4 align-middle'>{order.phoneNumber}</td>
 										<td className='p-4 font-medium align-middle'>
+											{order.phoneNumber}
+										</td>
+										<td className='p-4 font-semibold text-text-main font-mono align-middle'>
 											${order.totalPrice.toFixed(2)}
 										</td>
-										<td className='p-4 align-middle'>
+										<td className='p-4 pr-6 text-right align-middle'>
 											<span
-												className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
+												className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold border uppercase tracking-wide ${
 													statusStyles[order.status as OrderStatus] ||
-													'bg-main-bg text-text-muted'
+													'bg-main-bg text-text-muted border-border-main'
 												}`}
 											>
 												{order.status}
@@ -154,31 +198,30 @@ export default function AdminPage() {
 					</div>
 				</div>
 
-				<div className='bg-card-bg rounded-xl border border-border-main shadow-sm p-6 space-y-6'>
+				<div className='bg-card-bg rounded-xl border border-border-main shadow-sm p-5 space-y-4 self-stretch flex flex-col justify-between'>
 					<div>
-						<h2 className='text-lg font-bold text-text-main'>
+						<h2 className='text-base font-bold text-text-main mb-1'>
 							Categories Items Count
 						</h2>
+						<p className='text-xs text-text-muted'>
+							Distribution of products by category
+						</p>
 					</div>
-					<div className='space-y-4'>
+					<div className='grid grid-cols-2 gap-3 flex-1 items-center'>
 						{topCategories.map(category => (
-							<div key={category._id} className='space-y-2'>
-								<div className='flex justify-between text-sm'>
-									<span className='font-medium text-text-muted'>
-										{category.name}
+							<div
+								key={category._id}
+								className='p-4 bg-main-bg/40 rounded-xl border border-border-main/60 flex flex-col justify-between h-24 hover:border-primary/40 hover:bg-main-bg/70 transition-all group'
+							>
+								<span className='text-xs font-semibold text-text-muted uppercase tracking-wider line-clamp-2 group-hover:text-text-main transition-colors'>
+									{category.name}
+								</span>
+								<span className='text-xl font-bold text-text-main font-mono mt-2 flex items-baseline gap-1'>
+									{category.count}
+									<span className='text-[10px] font-medium uppercase tracking-wider text-text-muted'>
+										items
 									</span>
-									<span className='text-text-muted font-mono'>
-										{category.count} items
-									</span>
-								</div>
-								<div className='w-full bg-ui-hover h-2 rounded-full overflow-hidden'>
-									<div
-										className='bg-primary h-full rounded-full'
-										style={{
-											width: `${Math.min((category.count / 20) * 100, 100)}%`,
-										}}
-									/>
-								</div>
+								</span>
 							</div>
 						))}
 					</div>
@@ -186,11 +229,11 @@ export default function AdminPage() {
 			</div>
 
 			<div className='grid gap-6 md:grid-cols-2'>
-				<div className='bg-card-bg rounded-xl border border-border-main shadow-sm p-6'>
-					<h2 className='text-lg font-bold text-text-main mb-4'>
+				<div className='bg-card-bg rounded-xl border border-border-main shadow-sm p-5 h-85 flex flex-col overflow-hidden'>
+					<h2 className='text-base font-bold text-text-main mb-2 shrink-0'>
 						Latest Registered Users
 					</h2>
-					<div className='divide-y divide-border-main/50'>
+					<div className='divide-y divide-border-main/40 overflow-y-auto pr-1 flex-1'>
 						{recentUsers.map(user => {
 							const roleInfo = ROLE_CONFIG[user.role] || ROLE_CONFIG.USER
 							const RoleIcon = roleInfo.icon
@@ -198,9 +241,9 @@ export default function AdminPage() {
 							return (
 								<div
 									key={user._id}
-									className='flex items-center gap-4 py-3 first:pt-0 last:pb-0'
+									className='flex items-center gap-4 py-3 first:pt-2 last:pb-0'
 								>
-									<div className='w-10 h-10 rounded-full bg-gray-200 overflow-hidden shrink-0'>
+									<div className='w-10 h-10 rounded-full bg-primary/10 border border-primary/20 overflow-hidden shrink-0 flex items-center justify-center shadow-inner'>
 										{user.avatarUrl ? (
 											<Image
 												src={`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
@@ -211,75 +254,90 @@ export default function AdminPage() {
 												className='w-full h-full object-cover'
 											/>
 										) : (
-											<div className='w-full h-full flex items-center justify-center text-text-muted font-bold'>
+											<div className='text-primary font-bold text-sm uppercase tracking-wide'>
 												{user.firstName[0]}
 											</div>
 										)}
 									</div>
 
 									<div className='flex-1 min-w-0'>
-										<p className={`text-sm truncate ${roleInfo.nameColor}`}>
+										<p
+											className={`text-sm font-semibold truncate ${roleInfo.nameColor}`}
+										>
 											{user.firstName} {user.lastName}
 										</p>
-										<p className='text-xs text-text-muted truncate'>
+										<p className='text-xs text-text-muted truncate mt-0.5'>
 											{user.email}
 										</p>
 									</div>
 
 									<span
-										className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs uppercase font-mono tracking-wider border-2 shadow-sm shrink-0 ${roleInfo.bg}`}
+										className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] uppercase font-bold tracking-wider border shadow-sm shrink-0 ${roleInfo.bg}`}
 									>
-										<RoleIcon className='w-3.5 h-3.5' />
+										<RoleIcon className='w-3 h-3' />
 										{roleInfo.label}
 									</span>
 								</div>
 							)
 						})}
+						{recentUsers.length === 0 && (
+							<p className='text-xs text-text-muted py-4'>
+								No users registered yet.
+							</p>
+						)}
 					</div>
 				</div>
 
-				<div className='bg-card-bg rounded-xl border border-border-main shadow-sm p-6'>
-					<h2 className='text-lg font-bold text-text-main mb-4'>
+				<div className='bg-card-bg rounded-xl border border-border-main shadow-sm p-5 h-85 flex flex-col overflow-hidden'>
+					<h2 className='text-base font-bold text-text-main mb-2 shrink-0'>
 						Recently Added Products
 					</h2>
-					<div className='divide-y divide-border-main/50'>
+					<div className='divide-y divide-border-main/40 overflow-y-auto pr-1 flex-1'>
 						{latestProducts.map(product => (
 							<div
 								key={product._id}
-								className='flex items-center gap-4 py-3 first:pt-0 last:pb-0'
+								className='flex items-center gap-4 py-3 first:pt-2 last:pb-0'
 							>
-								<div className='w-10 h-10 rounded-lg bg-ui-hover overflow-hidden shrink-0'>
+								<div className='w-11 h-11 rounded-xl bg-ui-hover overflow-hidden shrink-0 border border-border-main/50 shadow-sm'>
 									{product.imageUrl && (
 										<Image
 											src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
 											alt={product.name}
-											width={40}
-											height={40}
+											width={44}
+											height={44}
 											unoptimized
 											className='w-full h-full object-cover'
 										/>
 									)}
 								</div>
 								<div className='flex-1 min-w-0'>
-									<p className='text-sm font-semibold text-text-main truncate'>
+									<p className='text-sm font-bold text-text-main truncate'>
 										{product.name}
 									</p>
-									<p className='text-xs text-text-muted truncate'>
-										{product.weight} • {product.calories} kcal
+									<p className='text-xs text-text-muted truncate mt-0.5 font-medium'>
+										{product.weight ? `${product.weight} • ` : ''}
+										{product.calories} kcal
 									</p>
 								</div>
-								<div className='text-right shrink-0'>
-									<p className='text-sm font-bold text-text-main'>
-										${product.price}
-									</p>
-									{product.oldPrice && (
-										<p className='text-xs text-text-subtle line-through'>
-											${product.oldPrice}
-										</p>
-									)}
+								<div className='text-right shrink-0 flex flex-col items-end justify-center'>
+									<div className='flex items-baseline gap-1.5'>
+										{product.oldPrice && (
+											<span className='text-xs text-text-subtle line-through font-mono'>
+												${product.oldPrice.toFixed(2)}
+											</span>
+										)}
+										<span className='text-sm font-bold text-text-main font-mono'>
+											${product.price.toFixed(2)}
+										</span>
+									</div>
 								</div>
 							</div>
 						))}
+						{latestProducts.length === 0 && (
+							<p className='text-xs text-text-muted py-4'>
+								No products added yet.
+							</p>
+						)}
 					</div>
 				</div>
 			</div>

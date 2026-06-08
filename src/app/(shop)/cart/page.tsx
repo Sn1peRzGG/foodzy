@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import Loading from '../../loading'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function CartPage() {
 	const [mounted, setMounted] = useState(false)
@@ -59,7 +60,7 @@ export default function CartPage() {
 										<td className='py-5 px-6 flex flex-row items-center overflow-hidden'>
 											<div className='relative w-16 h-16 border border-border-main rounded-lg overflow-hidden bg-card-bg shrink-0 shadow-sm'>
 												<Image
-													src={`${process.env.NEXT_PUBLIC_API_URL}${item.product.imageUrl}`}
+													src={`${BASE_URL}${item.product.imageUrl}`}
 													alt={item.product.name}
 													fill
 													className='object-contain p-1 pointer-events-none'

@@ -1,5 +1,6 @@
 'use client'
 
+import { BASE_URL } from '@/src/lib/api'
 import Image from 'next/image'
 
 type OrderItemRowProps = {
@@ -26,7 +27,7 @@ export default function OrderItemRow({ item }: OrderItemRowProps) {
 			<div className='flex items-center gap-3.5 min-w-0 flex-1'>
 				<div className='relative w-12 h-12 border border-border-main rounded-lg overflow-hidden bg-card-bg shrink-0 p-1 flex items-center justify-center shadow-md dark:shadow-black/40'>
 					<Image
-						src={`${process.env.NEXT_PUBLIC_API_URL}${item.product.imageUrl}`}
+						src={`${BASE_URL}${item.product.imageUrl}`}
 						alt={item.product.name || 'Product'}
 						fill
 						className='object-contain p-1 pointer-events-none'

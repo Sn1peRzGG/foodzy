@@ -1,6 +1,7 @@
 'use client'
 
 import { useProducts } from '@/src/hooks/useProducts'
+import { BASE_URL } from '@/src/lib/api'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
@@ -16,9 +17,7 @@ export default function CategoryFilter() {
 	const { data: categories = [], isLoading } = useQuery<Category[]>({
 		queryKey: ['categories'],
 		queryFn: async () => {
-			const { data } = await axios.get<Category[]>(
-				`${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
-			)
+			const { data } = await axios.get<Category[]>(`${BASE_URL}/api/categories`)
 			return data
 		},
 		staleTime: 1000 * 60 * 10,

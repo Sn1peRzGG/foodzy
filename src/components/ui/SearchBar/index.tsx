@@ -3,6 +3,7 @@
 import { ROLE_CONFIG } from '@/constants/roleConfig'
 import { useProductSearch } from '@/src/hooks/useProductSearch'
 import { useUser } from '@/src/hooks/useUser'
+import { BASE_URL } from '@/src/lib/api'
 import {
 	ChevronDown,
 	Heart,
@@ -204,7 +205,7 @@ export default function SearchBar({
 											>
 												<div className='relative w-10 h-10 shrink-0 rounded-md overflow-hidden'>
 													<Image
-														src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+														src={`${BASE_URL}${product.imageUrl}`}
 														alt={product.name}
 														fill
 														className='object-cover pointer-events-none'

@@ -1,5 +1,6 @@
 'use client'
 
+import { statusStyles } from '@/constants/orderStatusStyles'
 import Loading from '@/src/app/loading'
 import { useAdminOrders } from '@/src/hooks/admin/useAdminOrders'
 import { OrderStatus } from '@/src/types/order'
@@ -15,7 +16,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import AdminDropdown from '../_components/AdminDropdown'
-import { statusStyles } from '@/constants/orderStatusStyles'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function OrdersAdminPage() {
 	const { orders, isLoading, isError, error, updateOrder, isUpdating } =
@@ -153,7 +154,7 @@ export default function OrdersAdminPage() {
 															<div className='w-10 h-10 rounded-lg bg-main-bg overflow-hidden border border-border-main shrink-0 relative'>
 																{img && (
 																	<Image
-																		src={`${process.env.NEXT_PUBLIC_API_URL}${img}`}
+																		src={`${BASE_URL}${img}`}
 																		alt={name}
 																		fill
 																		unoptimized

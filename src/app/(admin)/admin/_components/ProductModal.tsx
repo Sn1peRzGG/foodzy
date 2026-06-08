@@ -6,7 +6,7 @@ import {
 	FormInput,
 	FormSelect,
 } from '@/src/components/ui/FormFields'
-import api from '@/src/lib/api'
+import api, { BASE_URL } from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import { ProductType } from '@/src/types/product'
 import { useQuery } from '@tanstack/react-query'
@@ -88,9 +88,7 @@ export default function ProductModal({
 		setImageFile(null)
 		setFileError(null)
 		setPreviewUrl(
-			initialData?.imageUrl
-				? `${process.env.NEXT_PUBLIC_API_URL}${initialData.imageUrl}`
-				: null,
+			initialData?.imageUrl ? `${BASE_URL}${initialData.imageUrl}` : null,
 		)
 
 		if (mode === 'update' && initialData?.category) {

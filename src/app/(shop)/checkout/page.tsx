@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Loading from '../../loading'
+import { BASE_URL } from '@/src/lib/api'
 
 export default function CheckoutPage() {
 	const [mounted, setMounted] = useState(false)
@@ -168,7 +169,7 @@ export default function CheckoutPage() {
 									<div className='flex items-center gap-4 min-w-0 flex-1'>
 										<div className='relative w-12 h-12 border border-border-main rounded-lg overflow-hidden bg-card-bg shrink-0 shadow-sm'>
 											<Image
-												src={`${process.env.NEXT_PUBLIC_API_URL}${item.product.imageUrl}`}
+												src={`${BASE_URL}${item.product.imageUrl}`}
 												alt={item.product.name}
 												fill
 												className='object-contain p-1 pointer-events-none'

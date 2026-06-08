@@ -1,6 +1,7 @@
 'use client'
 
 import { useUserActions } from '@/src/hooks/useUserActions'
+import { BASE_URL } from '@/src/lib/api'
 import { ProductType } from '@/src/types/product'
 import { Heart, Loader2, ShoppingCart, Star } from 'lucide-react'
 import Image from 'next/image'
@@ -84,7 +85,7 @@ export default function ProductCard({
 					)}
 
 					<Image
-						src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+						src={`${BASE_URL}${product.imageUrl}`}
 						alt={product.name}
 						fill
 						sizes='160px'
@@ -205,7 +206,7 @@ export default function ProductCard({
 				)}
 
 				<Image
-					src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
+					src={`${BASE_URL}${product.imageUrl}`}
 					alt={product.name}
 					fill
 					sizes='(max-width: 768px) 100vw, 33vw'

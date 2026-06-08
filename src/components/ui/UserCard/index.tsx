@@ -19,6 +19,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import ConfirmModal from '../ConfirmModal'
 import UpdateModal from '../UpdateModal'
+import { BASE_URL } from '@/src/lib/api'
 
 type UserCardProps = {
 	user: UserType
@@ -121,7 +122,7 @@ export default function UserCard({ user }: UserCardProps) {
 						<div className='relative flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-main-bg border border-border-main text-text-muted shadow-md dark:shadow-black/40 pointer-events-none select-none'>
 							{user.avatarUrl ? (
 								<Image
-									src={`${process.env.NEXT_PUBLIC_API_URL}${user.avatarUrl}`}
+									src={`${BASE_URL}${user.avatarUrl}`}
 									alt={user.firstName || 'User'}
 									fill
 									unoptimized

@@ -19,4 +19,5 @@ export type UserType = {
 	avatarUrl?: string
 	cart: CartItemType[]
 	wishlist: ProductType[]
+	createdAt: string
 }

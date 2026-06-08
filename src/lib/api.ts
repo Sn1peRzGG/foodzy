@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5555'
-
-const API_URL = `${BASE_URL}/api/v1`
+const isProd = process.env.NODE_ENV === 'production'
 
 const api = axios.create({
-	baseURL: API_URL,
+	baseURL: isProd
+		? 'https://foodzy-back-end.onrender.com/api/v1'
+		: 'http://localhost:5555/api/v1',
 	withCredentials: true,
 	headers: {
 		'Content-Type': 'application/json',

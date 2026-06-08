@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 		siteName: 'Foodzy',
 		images: [
 			{
-				url: '/banner2.png',
+				url: 'https://foodzy-wheat.vercel.app/banner2.png',
 				width: 1200,
 				height: 630,
 				alt: 'Foodzy - Online Food Store',

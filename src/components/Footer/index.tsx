@@ -1,17 +1,17 @@
 'use client'
 
+import {
+	companyData,
+	contactData,
+	footerImageData,
+} from '@/constants/footerConfig'
 import socialData from '@/constants/socialItems.json'
 import api from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import { useQuery } from '@tanstack/react-query'
-import { Mail, MapPin, Phone, Send } from 'lucide-react'
+import { Send } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-
-interface ContactItem {
-	icon: React.ComponentType<{ size?: number; color?: string }>
-	label: string
-}
 
 interface SocialItem {
 	name: string
@@ -19,38 +19,7 @@ interface SocialItem {
 	path: string
 }
 
-interface ImageItem {
-	src: string
-	alt: string
-}
-
-const contactData: ContactItem[] = [
-	{
-		icon: MapPin,
-		label: '51 Green St.Huntington ohio beach ontario, NY 11746 KY 4783, USA.',
-	},
-	{ icon: Mail, label: 'example@email.com' },
-	{ icon: Phone, label: '+1 (555) 123-4567' },
-]
-
-const companyData: string[] = [
-	'About Us',
-	'Delivery Information',
-	'Privacy Policy',
-	'Terms & Conditions',
-	'Contact Us',
-	'Support Center',
-]
-
 const socialMediaData: SocialItem[] = socialData
-
-const imageData: ImageItem[] = [
-	{ src: '/product_1.jpg', alt: 'Product 1' },
-	{ src: '/product_2.jpg', alt: 'Product 2' },
-	{ src: '/product_3.jpg', alt: 'Product 3' },
-	{ src: '/product_4.jpg', alt: 'Product 4' },
-	{ src: '/product_5.jpg', alt: 'Product 5' },
-]
 
 export default function Footer() {
 	const { data: categories = [] } = useQuery<CategoryType[]>({
@@ -63,12 +32,10 @@ export default function Footer() {
 	})
 
 	return (
-		<footer className='flex flex-col relative h-auto 2xl:h-120 w-full bg-main-bg border-t border-border-main pt-12 xl:pt-16 2xl:pt-0 pb-6 2xl:pb-0'>
-			<div className='hidden 2xl:block grow'></div>
-
-			<div className='w-full px-6 sm:px-12 2xl:px-0 2xl:w-2/3 h-auto 2xl:h-102 flex flex-col items-center 2xl:items-end justify-center mx-auto max-w-360'>
-				<div className='w-full h-full flex flex-col xl:flex-row gap-12 xl:gap-6 2xl:gap-0'>
-					<div className='w-full xl:w-[30%] 2xl:w-1/3 xl:pr-4 flex flex-col items-start'>
+		<footer className='relative w-full bg-main-bg border-t border-border-main pt-12 xl:pt-16 pb-6'>
+			<div className='w-full px-4 sm:px-8 xl:px-16 mx-auto max-w-7xl'>
+				<div className='flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12'>
+					<div className='w-full lg:w-1/3 flex flex-col items-start'>
 						<div className='flex flex-row items-center justify-start gap-2'>
 							<div className='rounded-[14px] bg-card-bg w-10 h-10 flex items-center justify-center shadow-sm'>
 								<Image src='/logo.png' alt='Logo' width={40} height={40} />
@@ -81,23 +48,20 @@ export default function Footer() {
 							</div>
 						</div>
 
-						<p className='text-sm text-text-subtle mt-3 flex flex-col'>
+						<p className='text-sm text-text-subtle mt-4 flex flex-col gap-1'>
 							<span>Foodzy is the biggest market of grocery products.</span>
 							<span>Get your daily needs from our store.</span>
 						</p>
 
-						<div className='flex flex-col mt-7 gap-4 w-full'>
+						<div className='flex flex-col mt-6 gap-4 w-full'>
 							{contactData.map((contact, index) => {
 								const IconComponent = contact.icon
 								return (
-									<div
-										key={index}
-										className='flex items-start sm:items-center gap-3'
-									>
-										<div className='w-5 h-5 mt-0.5 sm:mt-0 shrink-0'>
+									<div key={index} className='flex items-start gap-3'>
+										<div className='w-5 h-5 mt-0.5 shrink-0'>
 											<IconComponent size={20} color='#F53E32' />
 										</div>
-										<span className='text-text-subtle text-sm tracking-[0.48px]'>
+										<span className='text-text-subtle text-sm tracking-[0.48px] wrap-break-word'>
 											{contact.label}
 										</span>
 									</div>
@@ -106,15 +70,13 @@ export default function Footer() {
 						</div>
 					</div>
 
-					<div className='w-full xl:w-[70%] 2xl:w-2/3 grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-3 2xl:flex 2xl:flex-row 2xl:justify-between gap-8 xl:gap-4 2xl:gap-0'>
+					<div className='w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6 xl:gap-8'>
 						<div className='flex flex-col gap-4'>
-							<h2 className='font-bold text-[18px] whitespace-nowrap'>
-								Company
-							</h2>
-							<div className='flex flex-col gap-2.5 2xl:gap-4'>
+							<h2 className='font-bold text-[18px]'>Company</h2>
+							<div className='flex flex-col gap-2.5'>
 								{companyData.map(company => (
 									<span
-										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-text-subtle whitespace-nowrap cursor-pointer hover:text-text-main'
+										className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-text-subtle cursor-pointer hover:text-text-main transition-colors'
 										key={company}
 									>
 										{company}
@@ -124,16 +86,14 @@ export default function Footer() {
 						</div>
 
 						<div className='flex flex-col gap-4'>
-							<h2 className='font-bold text-[18px] whitespace-nowrap '>
-								Category
-							</h2>
-							<div className='flex flex-col gap-2.5 2xl:gap-4'>
+							<h2 className='font-bold text-[18px]'>Category</h2>
+							<div className='flex flex-col gap-2.5'>
 								{categories.length > 0 ? (
 									categories.map(category => (
 										<Link
 											href={`/products?search=&category=${encodeURIComponent(category._id)}`}
 											key={category._id}
-											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-text-subtle whitespace-nowrap hover:text-text-main'
+											className='text-[14px] tracking-[0.48px] leading-6.5 font-normal text-text-subtle hover:text-text-main transition-colors'
 										>
 											{category.name}
 										</Link>
@@ -144,18 +104,21 @@ export default function Footer() {
 							</div>
 						</div>
 
-						<div className='flex flex-col max-w-full sm:max-w-md 2xl:max-w-none col-span-full sm:col-span-1 xl:col-span-1 2xl:col-span-0'>
-							<h2 className='font-bold text-[18px] whitespace-nowrap'>
+						<div className='flex flex-col gap-4 col-span-1 sm:col-span-2 md:col-span-1'>
+							<h2 className='font-bold text-[18px]'>
 								Subscribe Our Newsletter
 							</h2>
 
-							<div className='h-11 w-full xl:max-w-95 2xl:w-104 mt-4 rounded-[5px] border border-border-main bg-card-bg flex items-center justify-between px-4 focus-within:border-border-strong transition-colors'>
+							<div className='h-11 w-full max-w-md rounded-[5px] border border-border-main bg-card-bg flex flex-row flex-nowrap items-center justify-between px-4 focus-within:border-border-strong transition-colors'>
 								<input
 									type='email'
 									placeholder='Your email...'
-									className='h-full flex-1 text-[14px] text-text-main focus:outline-none bg-transparent placeholder:text-text-subtle'
+									className='h-full flex-1 min-w-0 text-[14px] text-text-main focus:outline-none bg-transparent placeholder:text-text-subtle'
 								/>
-								<button className='cursor-pointer pl-2'>
+								<button
+									className='cursor-pointer pl-2 shrink-0 flex items-center justify-center'
+									aria-label='Subscribe'
+								>
 									<Send
 										size={18}
 										className='transform rotate-45 -translate-y-0.5'
@@ -163,13 +126,13 @@ export default function Footer() {
 								</button>
 							</div>
 
-							<div className='flex h-9 mt-6 gap-1'>
+							<div className='flex h-9 mt-2 gap-2'>
 								{socialMediaData.map(social => (
 									<Link
 										key={social.name}
 										href={social.href}
 										target='_blank'
-										className='rounded-[5px] border boborder-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
+										className='rounded-[5px] border border-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
 									>
 										<svg
 											viewBox='0 0 24 24'
@@ -181,15 +144,15 @@ export default function Footer() {
 								))}
 							</div>
 
-							<div className='flex flex-wrap gap-3 mt-6 flex-row'>
-								{imageData.map(image => (
+							<div className='flex flex-wrap gap-2 mt-2'>
+								{footerImageData.map((image, idx) => (
 									<Image
 										src={image.src}
 										alt={image.alt}
-										width={74}
-										height={74}
-										key={image.alt}
-										className='rounded-[5px]'
+										width={60}
+										height={60}
+										key={idx}
+										className='rounded-[5px] object-cover'
 									/>
 								))}
 							</div>
@@ -197,18 +160,22 @@ export default function Footer() {
 					</div>
 				</div>
 
-				<div className='w-full h-14 border-t border-border-main flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 mt-12 2xl:mt-0'>
-					<p className='text-sm text-text-subtle sm:text-text-main'>© 2026</p>
-					<div className='flex'>
-						<span className='text-sm text-accent font-medium'>Foodzy</span>
-						<p className='text-sm text-text-subtle sm:text-text-main'>
-							, All rights reserved.
-						</p>
+				<div className='w-full border-t border-border-main flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-6'>
+					<p className='text-sm text-text-subtle'>
+						© 2026 Foodzy. All rights reserved.
+					</p>
+					<div className='flex gap-4 text-sm text-text-subtle'>
+						<span className='cursor-pointer hover:text-text-main transition-colors'>
+							Privacy Policy
+						</span>
+						<span className='cursor-pointer hover:text-text-main transition-colors'>
+							Terms of Service
+						</span>
 					</div>
 				</div>
 			</div>
 
-			<div className='absolute inset-0 pointer-events-none hidden md:block'>
+			<div className='absolute inset-0 pointer-events-none hidden lg:block'>
 				<Image
 					src='/footer_lemon.png'
 					alt='Lemon'

@@ -5,7 +5,6 @@ import { CategoryType } from '@/src/types/category'
 import { PaginatedProducts } from '@/src/types/product'
 import { useQuery } from '@tanstack/react-query'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
 
 export type SortOption = 'default' | 'price-asc' | 'price-desc'
 
@@ -28,7 +27,7 @@ export function useProducts() {
 	const pageParam = searchParams.get('page')
 	const page = pageParam ? parseInt(pageParam, 10) || 1 : 1
 
-	const [sortBy, setSortByState] = useState<SortOption>('default')
+	const sortBy = (searchParams.get('sortBy') as SortOption) || 'default'
 
 	const setMultipleParams = (entries: Record<string, string | null>) => {
 		const params = new URLSearchParams(searchParams.toString())
@@ -39,6 +38,7 @@ export function useProducts() {
 				value === null ||
 				value === '' ||
 				value === 'all' ||
+				value === 'default' ||
 				(key === 'page' && value === '1')
 			) {
 				params.delete(key)
@@ -73,13 +73,10 @@ export function useProducts() {
 	}
 
 	const setSortBy = (option: SortOption) => {
-		setSortByState(option)
-		setParam('page', '1')
+		setMultipleParams({ sortBy: option, page: '1' })
 	}
 
 	const resetFilters = () => {
-		setSortByState('default')
-
 		const newParams = new URLSearchParams()
 		if (searchQuery) newParams.set('search', searchQuery)
 		if (searchCategory !== 'All Categories')
@@ -125,7 +122,7 @@ export function useProducts() {
 					maxPrice: maxPriceParam,
 					minRating: minRatingParam,
 					maxRating: maxRatingParam,
-					sortBy,
+					sortBy: sortBy === 'default' ? undefined : sortBy,
 				},
 			})
 			return res.data

@@ -75,7 +75,7 @@ export default function TiptapEditor({
 					levels: [1, 2],
 				},
 			}),
-			Underline,
+			Underline.configure(),
 			TextStyle,
 			Color,
 			TextAlign.configure({

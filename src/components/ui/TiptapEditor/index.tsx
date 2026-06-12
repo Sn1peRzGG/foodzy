@@ -1,27 +1,27 @@
 'use client'
 
+import Color from '@tiptap/extension-color'
+import Placeholder from '@tiptap/extension-placeholder'
+import TextAlign from '@tiptap/extension-text-align'
+import { TextStyle } from '@tiptap/extension-text-style'
+import Underline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Underline from '@tiptap/extension-underline'
-import Placeholder from '@tiptap/extension-placeholder'
-import { TextStyle } from '@tiptap/extension-text-style'
-import Color from '@tiptap/extension-color'
-import TextAlign from '@tiptap/extension-text-align'
 import DOMPurify from 'isomorphic-dompurify'
 import {
+	AlignCenter,
+	AlignJustify,
+	AlignLeft,
+	AlignRight,
 	Bold,
 	Heading1,
 	Heading2,
 	Italic,
 	List,
 	ListOrdered,
+	Palette,
 	Strikethrough,
 	Underline as UnderlineIcon,
-	AlignLeft,
-	AlignCenter,
-	AlignRight,
-	AlignJustify,
-	Palette,
 } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 

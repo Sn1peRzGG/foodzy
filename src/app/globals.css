@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@tailwindcss/typography';
+@plugin "@tailwindcss/typography";
 
 @theme {
 	--breakpoint-4xl: 1920px;
@@ -101,6 +101,18 @@
 }
 
 .tiptap-editor-content {
+	--tw-prose-body: var(--color-text-main);
+	--tw-prose-headings: var(--color-text-main);
+	--tw-prose-bold: var(--color-text-main);
+	--tw-prose-bullets: var(--color-text-muted);
+	--tw-prose-counters: var(--color-text-muted);
+
+	--tw-prose-invert-body: var(--color-text-main);
+	--tw-prose-invert-headings: var(--color-text-main);
+	--tw-prose-invert-bold: var(--color-text-main);
+	--tw-prose-invert-bullets: var(--color-text-muted);
+	--tw-prose-invert-counters: var(--color-text-muted);
+
 	.is-editor-empty:first-child::before {
 		content: attr(data-placeholder);
 		float: left;

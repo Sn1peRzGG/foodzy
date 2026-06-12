@@ -1,6 +1,7 @@
 'use client'
 
 import BlogCard from '@/src/components/ui/BlogCard'
+import BlogCardSkeleton from '@/src/components/ui/BlogCardSkeleton'
 import BlogModal from '@/src/components/ui/BlogModal'
 import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import { useBlogs } from '@/src/hooks/useBlogs'
@@ -183,24 +184,7 @@ export default function BlogsPage() {
 						>
 							{Array.from({ length: viewMode === 'grid' ? 6 : 3 }).map(
 								(_, idx) => (
-									<div
-										key={idx}
-										className={`border border-border-main rounded-xl bg-card-bg p-4 flex gap-3 animate-pulse shadow-sm w-full ${
-											viewMode === 'list'
-												? 'flex-col md:flex-row h-auto md:h-52'
-												: 'flex-col'
-										}`}
-									>
-										<div
-											className={`bg-main-bg rounded-lg shrink-0 ${viewMode === 'list' ? 'w-full md:w-72 h-48 md:h-full' : 'w-full aspect-16/10'}`}
-										/>
-										<div className='flex-1 flex flex-col gap-3 py-2 min-w-0 w-full'>
-											<div className='h-4 bg-main-bg rounded w-1/4' />
-											<div className='h-6 bg-main-bg rounded w-3/4' />
-											<div className='h-4 bg-main-bg rounded w-full' />
-											<div className='h-4 bg-main-bg rounded w-2/3' />
-										</div>
-									</div>
+									<BlogCardSkeleton key={idx} viewMode={viewMode} />
 								),
 							)}
 						</div>

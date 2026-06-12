@@ -16,6 +16,7 @@ import { useState } from 'react'
 import AdminDropdown from '../_components/AdminDropdown'
 import DeleteButton from '../_components/DeleteButton'
 import ConfirmModal from '@/src/components/ui/ConfirmModal'
+import { formatDate } from '@/src/utils/formatDate'
 
 export default function ReviewsAdminPage() {
 	const {
@@ -143,7 +144,7 @@ export default function ReviewsAdminPage() {
 												<div className='flex items-center gap-2 text-xs font-medium text-text-muted'>
 													<Calendar className='w-3.5 h-3.5 text-text-subtle shrink-0' />
 													<span>
-														{new Date(review.createdAt).toLocaleString()}
+														<span>{formatDate(review.createdAt)}</span>
 													</span>
 												</div>
 											</div>

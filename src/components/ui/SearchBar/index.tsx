@@ -87,7 +87,7 @@ export default function SearchBar({
 				<button
 					type='button'
 					onClick={() => setIsMenuOpen(!isMenuOpen)}
-					className='p-2 border border-border-main rounded-[5px] bg-card-bg active:bg-ui-active cursor-pointer'
+					className='p-2 border border-border-main rounded-md bg-card-bg active:bg-ui-active cursor-pointer'
 				>
 					<Menu className='w-5 h-5 text-text-main' />
 				</button>
@@ -112,7 +112,7 @@ export default function SearchBar({
 				</div>
 			</Link>
 
-			<div className='flex flex-1 xl:flex-none 2xl:w-125 h-10 xl:h-11.25 rounded-[5px] border border-primary flex-row justify-between items-center relative bg-card-bg'>
+			<div className='flex flex-1 xl:flex-none 2xl:w-125 h-10 xl:h-11.25 rounded-md border border-primary flex-row justify-between items-center relative bg-card-bg'>
 				<div className='pl-3 xl:pl-4 py-2 flex-1 flex items-center gap-2'>
 					<input
 						type='text'

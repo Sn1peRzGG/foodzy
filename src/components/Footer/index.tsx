@@ -109,7 +109,7 @@ export default function Footer() {
 								Subscribe Our Newsletter
 							</h2>
 
-							<div className='h-11 w-full max-w-md rounded-[5px] border border-border-main bg-card-bg flex flex-row flex-nowrap items-center justify-between px-4 focus-within:border-border-strong transition-colors'>
+							<div className='h-11 w-full max-w-md rounded-md border border-border-main bg-card-bg flex flex-row flex-nowrap items-center justify-between px-4 focus-within:border-border-strong transition-colors'>
 								<input
 									type='email'
 									placeholder='Your email...'
@@ -132,7 +132,7 @@ export default function Footer() {
 										key={social.name}
 										href={social.href}
 										target='_blank'
-										className='rounded-[5px] border border-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
+										className='rounded-md border border-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
 									>
 										<svg
 											viewBox='0 0 24 24'
@@ -152,7 +152,7 @@ export default function Footer() {
 										width={60}
 										height={60}
 										key={idx}
-										className='rounded-[5px] object-cover'
+										className='rounded-md object-cover'
 									/>
 								))}
 							</div>

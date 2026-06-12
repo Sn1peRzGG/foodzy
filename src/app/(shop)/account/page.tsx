@@ -31,13 +31,13 @@ export default function AccountPage() {
 				<div className='flex flex-row gap-4'>
 					<Link
 						href={'/login'}
-						className='bg-primary text-text-main text-[18px] rounded-[5px] px-4 py-2 hover:bg-primary-hover transition-all duration-200'
+						className='bg-primary text-text-main text-[18px] rounded-md px-4 py-2 hover:bg-primary-hover transition-all duration-200'
 					>
 						Login
 					</Link>
 					<Link
 						href={'/signup'}
-						className='bg-primary text-text-main text-[18px] rounded-[5px] px-4 py-2 hover:bg-primary-hover transition-all duration-200'
+						className='bg-primary text-text-main text-[18px] rounded-md px-4 py-2 hover:bg-primary-hover transition-all duration-200'
 					>
 						Signup
 					</Link>

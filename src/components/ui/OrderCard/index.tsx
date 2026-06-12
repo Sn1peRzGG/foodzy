@@ -1,6 +1,7 @@
 'use client'
 
 import { OrderItem, OrderStatus, OrderType } from '@/src/types/order'
+import { formatDate } from '@/src/utils/formatDate'
 import {
 	Calendar,
 	ChevronDown,
@@ -66,13 +67,7 @@ export default function OrderCard({
 
 					<span className='text-xs md:text-sm text-text-muted tabular-nums flex items-center gap-1.5 shrink-0 w-auto sm:w-28'>
 						<Calendar size={15} className='text-text-subtle shrink-0' />
-						{order.createdAt
-							? new Date(order.createdAt).toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: '2-digit',
-									day: '2-digit',
-								})
-							: '-'}
+						{formatDate(order.createdAt)}
 					</span>
 
 					<span

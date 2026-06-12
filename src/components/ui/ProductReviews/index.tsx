@@ -17,6 +17,7 @@ import { useMemo, useState } from 'react'
 import ConfirmModal from '../ConfirmModal'
 import UpdateReviewModal from '../UpdateReviewModal'
 import { BASE_URL } from '@/src/lib/api'
+import { formatDate } from '@/src/utils/formatDate'
 
 interface ProductReviewsProps {
 	productId: string
@@ -243,16 +244,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
 
 										<div className='flex items-center justify-between mt-3 pt-2 border-t border-dashed border-border-main/40'>
 											<span className='text-[10px] text-text-subtle font-mono'>
-												{review.createdAt
-													? new Date(review.createdAt).toLocaleDateString(
-															'en-US',
-															{
-																year: 'numeric',
-																month: '2-digit',
-																day: '2-digit',
-															},
-														)
-													: '-'}
+												<span>{formatDate(review.createdAt)}</span>
 											</span>
 
 											{isOwnReview && (

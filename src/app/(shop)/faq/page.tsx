@@ -13,7 +13,7 @@ export default function FAQPage() {
 					src='/faq.jpg'
 					alt='FAQ Image'
 					fill
-					className='rounded-[5px] object-cover pointer-events-none'
+					className='rounded-md object-cover pointer-events-none'
 					unoptimized
 				/>
 			</div>

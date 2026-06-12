@@ -31,7 +31,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 		<>
 			<div className='w-full h-full shadow-md dark:shadow-black/40(0,0,0,0.1)] hidden xl:block'>
 				<div className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full flex items-center justify-between mx-auto max-w-360'>
-					<div className='w-8.75 h-8.75 border border-border-main rounded-[5px] flex items-center pl-1 cursor-pointer hover:bg-main-bg transition-colors'>
+					<div className='w-8.75 h-8.75 border border-border-main rounded-md flex items-center pl-1 cursor-pointer hover:bg-main-bg transition-colors'>
 						<TextAlignJustify className='w-5.5 h-5.5' />
 					</div>
 
@@ -144,7 +144,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 			>
 				<div className='p-4 border-b border-border-main flex items-center justify-between bg-main-bg'>
 					<div className='flex items-center gap-2'>
-						<div className='w-8.75 h-8.75 border border-border-main rounded-[5px] flex items-center justify-center bg-card-bg'>
+						<div className='w-8.75 h-8.75 border border-border-main rounded-md flex items-center justify-center bg-card-bg'>
 							<TextAlignJustify className='w-4 h-4' />
 						</div>
 						<span className='font-bold text-text-muted text-base'>

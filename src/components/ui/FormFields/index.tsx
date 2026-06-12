@@ -7,6 +7,8 @@ import {
 	Eye,
 	EyeOff,
 	Image as ImageIcon,
+	X,
+	Upload,
 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -79,7 +81,9 @@ interface FormFileFieldProps {
 	previewUrl: string | null
 	error?: string | null
 	disabled?: boolean
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+	onChange: (file: File) => void
+	onError?: (error: string | null) => void
+	onRemove?: () => void
 }
 
 export const FormFileField = ({
@@ -88,7 +92,22 @@ export const FormFileField = ({
 	error,
 	disabled,
 	onChange,
+	onError,
+	onRemove,
 }: FormFileFieldProps) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0]
+		if (!file) return
+
+		if (file.size > 4 * 1024 * 1024) {
+			if (onError) onError('File size exceeds 4MB limit')
+			return
+		}
+
+		if (onError) onError(null)
+		onChange(file)
+	}
+
 	return (
 		<div className='w-full space-y-1.5 text-left'>
 			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
@@ -112,24 +131,42 @@ export const FormFileField = ({
 							className='object-cover'
 						/>
 					) : (
-						<ImageIcon size={20} className='text-text-subtle' />
+						<ImageIcon size={20} className='text-text-subtle/70' />
 					)}
 				</div>
 
-				<label
-					className={`inline-flex items-center justify-center py-2.5 px-4 bg-card-bg border border-border-main rounded-xl text-sm font-semibold text-text-muted shadow-md dark:shadow-black/40:bg-main-bg transition-all cursor-pointer ${
-						disabled ? 'opacity-50 cursor-not-allowed' : ''
-					}`}
-				>
-					<span>Choose Image</span>
-					<input
-						type='file'
-						accept='image/jpeg, image/png, image/webp'
-						disabled={disabled}
-						onChange={onChange}
-						className='hidden'
-					/>
-				</label>
+				<div className='flex items-center gap-2.5 flex-1'>
+					<label
+						className={`inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-card-bg border border-border-strong rounded-xl text-sm font-bold text-text-main shadow-sm transition-all active:scale-95 cursor-pointer select-none
+              ${
+								disabled
+									? 'opacity-50 cursor-not-allowed'
+									: 'hover:bg-ui-hover hover:border-primary/40 text-text-main'
+							}`}
+					>
+						<Upload size={16} className='text-primary' />
+						<span>{previewUrl ? 'Change Image' : 'Choose Image'}</span>
+						<input
+							type='file'
+							accept='image/jpeg, image/png, image/webp'
+							disabled={disabled}
+							onChange={handleInputChange}
+							className='hidden'
+						/>
+					</label>
+
+					{previewUrl && onRemove && (
+						<button
+							type='button'
+							disabled={disabled}
+							onClick={onRemove}
+							className='p-2.5 bg-card-bg border border-border-strong rounded-xl text-red-500 shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400'
+							title='Remove image'
+						>
+							<X size={18} />
+						</button>
+					)}
+				</div>
 			</div>
 
 			{error && (

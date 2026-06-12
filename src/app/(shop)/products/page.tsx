@@ -139,7 +139,7 @@ export default function ProductsPage() {
 						<button
 							type='button'
 							onClick={() => setIsMobileFilterOpen(false)}
-							className='p-2 border border-border-main rounded-[5px] bg-card-bg active:bg-ui-active cursor-pointer'
+							className='p-2 border border-border-main rounded-md bg-card-bg active:bg-ui-active cursor-pointer'
 						>
 							<X className='w-5 h-5 text-text-main' />
 						</button>
@@ -177,7 +177,7 @@ export default function ProductsPage() {
 						<button
 							type='button'
 							onClick={() => toggleViewMode('list')}
-							className={`p-1.5 rounded-[5px] transition-all cursor-pointer ${
+							className={`p-1.5 rounded-md transition-all cursor-pointer ${
 								viewMode === 'list'
 									? 'bg-ui-hover text-primary font-semibold'
 									: 'text-text-subtle hover:text-text-muted hover:bg-main-bg'
@@ -190,7 +190,7 @@ export default function ProductsPage() {
 						<button
 							type='button'
 							onClick={() => toggleViewMode('grid')}
-							className={`p-1.5 rounded-[5px] transition-all cursor-pointer ${
+							className={`p-1.5 rounded-md transition-all cursor-pointer ${
 								viewMode === 'grid'
 									? 'bg-ui-hover text-primary font-semibold'
 									: 'text-text-subtle hover:text-text-muted hover:bg-main-bg'

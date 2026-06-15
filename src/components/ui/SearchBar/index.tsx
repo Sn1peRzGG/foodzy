@@ -268,7 +268,7 @@ export default function SearchBar({
 										{item.length !== undefined &&
 											item.length !== null &&
 											item.length > 0 && (
-												<span className='absolute -top-1.5 -right-2 inline-flex items-center justify-center min-w-4 h-4 px-1 text-[9.5px] font-black tabular-nums text-white bg-primary rounded-full ring-2 ring-card-bg select-none shadow-md dark:shadow-black/40'>
+												<span className='absolute -top-1.5 -right-2 inline-flex items-center justify-center min-w-4 h-4 px-1 text-[9.5px] font-black tabular-nums text-white bg-primary rounded-full ring-2 ring-card-bg select-none'>
 													{item.length}
 												</span>
 											)}

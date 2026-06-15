@@ -20,12 +20,14 @@ export function useProducts() {
 
 	const minPriceParam = searchParams.get('minPrice') || undefined
 	const maxPriceParam = searchParams.get('maxPrice') || undefined
-
 	const minRatingParam = searchParams.get('minRating') || undefined
 	const maxRatingParam = searchParams.get('maxRating') || undefined
 
 	const pageParam = searchParams.get('page')
 	const page = pageParam ? parseInt(pageParam, 10) || 1 : 1
+
+	const limitParam = searchParams.get('limit')
+	const limit = limitParam ? parseInt(limitParam, 10) || 24 : 24
 
 	const sortBy = (searchParams.get('sortBy') as SortOption) || 'default'
 
@@ -39,14 +41,15 @@ export function useProducts() {
 				value === '' ||
 				value === 'all' ||
 				value === 'default' ||
-				(key === 'page' && value === '1')
+				(key === 'page' && value === '1') ||
+				(key === 'limit' && value === '24')
 			) {
 				params.delete(key)
 			} else {
 				params.set(key, value)
 			}
 
-			if (key !== 'page') {
+			if (key !== 'page' && key !== 'limit') {
 				shouldResetPage = true
 			}
 		})
@@ -70,6 +73,10 @@ export function useProducts() {
 		const targetPage =
 			typeof newPageOrFn === 'function' ? newPageOrFn(page) : newPageOrFn
 		setParam('page', targetPage.toString())
+	}
+
+	const setLimit = (newLimit: number) => {
+		setMultipleParams({ limit: newLimit.toString(), page: '1' })
 	}
 
 	const setSortBy = (option: SortOption) => {
@@ -100,6 +107,7 @@ export function useProducts() {
 			searchQuery,
 			searchCategory,
 			page,
+			limit,
 			isAvailableParam,
 			onSaleParam,
 			minPriceParam,
@@ -115,7 +123,7 @@ export function useProducts() {
 					category:
 						searchCategory === 'All Categories' ? undefined : searchCategory,
 					page,
-					limit: 20,
+					limit,
 					isAvailable: isAvailableParam ? 'true' : undefined,
 					onSale: onSaleParam ? 'true' : undefined,
 					minPrice: minPriceParam,
@@ -144,6 +152,8 @@ export function useProducts() {
 		error,
 		page,
 		setPage,
+		limit,
+		setLimit,
 		sortBy,
 		setSortBy,
 		searchQuery,

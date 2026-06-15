@@ -23,18 +23,3 @@ export interface ReviewType {
 export interface AdminReview extends Omit<ReviewType, 'user'> {
 	user: ReviewAdminUser
 }
-
-export interface CreateReviewDto {
-	product: string
-	rating: number
-	text: string
-}
-
-export interface UpdateReviewDto {
-	rating: number
-	text: string
-}
-
-interface UpdateReviewStatusDto {
-	status: 'PENDING' | 'APPROVED' | 'REJECTED'
-}

@@ -152,7 +152,7 @@ export default function FullBlogCard({
 								About the Author
 							</h3>
 							<p className='text-text-muted text-sm'>
-								Author ID:{' '}
+								Author name:{' '}
 								<span className='font-mono bg-main-bg px-1.5 py-0.5 rounded border border-border-main'>
 									{authorName}
 								</span>

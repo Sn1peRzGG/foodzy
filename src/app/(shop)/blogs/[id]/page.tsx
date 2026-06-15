@@ -5,7 +5,7 @@ import BlogModal from '@/src/components/ui/BlogModal'
 import FullBlogCard from '@/src/components/ui/FullBlogCard'
 import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import { useBlogs } from '@/src/hooks/useBlogs'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useBreadcrumbs } from '@/src/context/BreadcrumbsContext'
 import { useQuery } from '@tanstack/react-query'
@@ -15,8 +15,6 @@ import api from '@/src/lib/api'
 export default function BlogDetailPage() {
 	const params = useParams()
 	const router = useRouter()
-	const searchParams = useSearchParams()
-	const isEditingParam = searchParams.get('edit') === 'true'
 
 	const [mounted, setMounted] = useState(false)
 	const { setLabel } = useBreadcrumbs()
@@ -49,12 +47,6 @@ export default function BlogDetailPage() {
 	}, [blog?.title, blogId, setLabel])
 
 	useEffect(() => {
-		if (blog && isEditingParam && checkPermission(blog)) {
-			setIsEditOpen(true)
-		}
-	}, [isEditingParam, blog, checkPermission])
-
-	useEffect(() => {
 		setMounted(true)
 	}, [])
 
@@ -74,20 +66,25 @@ export default function BlogDetailPage() {
 		banner?: File
 		removeBanner?: boolean
 	}) => {
+		if (!blog) return
+
+		const formData = new FormData()
+		formData.append('title', data.title)
+		formData.append('content', data.content)
+		if (data.removeBanner) formData.append('removeBanner', 'true')
+		if (data.banner) formData.append('banner', data.banner)
+
 		await updateBlog({
-			id: blogId,
-			dto: {
-				title: data.title,
-				content: data.content,
-			},
-			banner: data.banner,
-			removeBanner: data.removeBanner,
+			id: blog._id,
+			formData,
 		})
-		router.replace(`/blogs/${blogId}`)
+
+		setIsEditOpen(false)
 	}
 
 	const handleConfirmDelete = async () => {
-		await deleteBlog(blogId)
+		if (!blog) return
+		await deleteBlog(blog._id)
 		setIsDeleteOpen(false)
 		router.push('/blogs')
 	}
@@ -106,10 +103,7 @@ export default function BlogDetailPage() {
 					blog={blog}
 					isOpen={isEditOpen}
 					isLoading={isUpdating}
-					onClose={() => {
-						setIsEditOpen(false)
-						router.push(`/blogs/${blogId}`)
-					}}
+					onClose={() => setIsEditOpen(false)}
 					onSubmit={handleUpdateSubmit}
 				/>
 			)}

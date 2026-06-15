@@ -1,23 +1,40 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import {
+	LayoutGrid,
+	Rows3,
+	ChevronLeft,
+	ChevronRight,
+	ChevronDown,
+} from 'lucide-react'
 import BlogCard from '@/src/components/ui/BlogCard'
 import BlogCardSkeleton from '@/src/components/ui/BlogCardSkeleton'
-import BlogModal from '@/src/components/ui/BlogModal'
 import ConfirmModal from '@/src/components/ui/ConfirmModal'
-import { useBlogs } from '@/src/hooks/useBlogs'
+import BlogModal from '@/src/components/ui/BlogModal'
+import { useBlogs, BlogSortOption } from '@/src/hooks/useBlogs'
 import { BlogType } from '@/src/types/blog'
-import { FileText, LayoutGrid, Rows3 } from 'lucide-react'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import SortDropdown from '@/src/components/ui/SortDropdown'
+import Pagination from '@/src/components/ui/Pagination'
 
-export default function BlogsPage() {
+interface BlogsPageProps {
+	displayName?: string
+}
+
+export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 	const {
 		blogs,
+		meta,
 		isLoading,
 		error,
-		canCreate,
-		createBlog,
-		isCreating,
+		page,
+		setPage,
+		limit,
+		setLimit,
+		sortBy,
+		setSortBy,
+		searchQuery,
 		updateBlog,
 		isUpdating,
 		deleteBlog,
@@ -25,27 +42,92 @@ export default function BlogsPage() {
 		checkPermission,
 	} = useBlogs()
 
+	const [isSortOpen, setIsSortOpen] = useState(false)
 	const [isMounted, setIsMounted] = useState(false)
-	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [selectedBlog, setSelectedBlog] = useState<BlogType | undefined>(
-		undefined,
-	)
 	const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
+	const [selectedBlog, setSelectedBlog] = useState<BlogType | null>(null)
+	const [isEditOpen, setIsEditOpen] = useState(false)
 	const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-	const [blogIdToDelete, setBlogIdToDelete] = useState<string | null>(null)
+
+	const dropdownRef = useRef<HTMLDivElement>(null)
+
+	const sortLabels: Record<BlogSortOption, string> = {
+		desc: 'Newest first',
+		asc: 'Oldest first',
+	}
 
 	useEffect(() => {
-		const savedViewMode = window.sessionStorage.getItem('blogViewMode')
+		const savedViewMode = window.sessionStorage.getItem('blogsViewMode')
 		if (savedViewMode === 'grid' || savedViewMode === 'list') {
 			setViewMode(savedViewMode)
 		}
 		setIsMounted(true)
 	}, [])
 
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				setIsSortOpen(false)
+			}
+		}
+		document.addEventListener('mousedown', handleClickOutside)
+		return () => document.removeEventListener('mousedown', handleClickOutside)
+	}, [])
+
 	const toggleViewMode = (mode: 'grid' | 'list') => {
 		setViewMode(mode)
-		window.sessionStorage.setItem('blogViewMode', mode)
+		window.sessionStorage.setItem('blogsViewMode', mode)
+	}
+
+	const handleEditClick = (blog: BlogType, e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		setSelectedBlog(blog)
+		setIsEditOpen(true)
+	}
+
+	const handleDeleteClick = (id: string, e: React.MouseEvent) => {
+		e.preventDefault()
+		e.stopPropagation()
+		const blogToDelete = blogs.find(b => b._id === id)
+		if (blogToDelete) {
+			setSelectedBlog(blogToDelete)
+			setIsDeleteOpen(true)
+		}
+	}
+
+	const handleUpdateSubmit = async (data: {
+		title: string
+		content: string
+		banner?: File
+		removeBanner?: boolean
+	}) => {
+		if (!selectedBlog) return
+
+		const formData = new FormData()
+		formData.append('title', data.title)
+		formData.append('content', data.content)
+		if (data.removeBanner) formData.append('removeBanner', 'true')
+		if (data.banner) formData.append('banner', data.banner)
+
+		await updateBlog({
+			id: selectedBlog._id,
+			formData,
+		})
+
+		setIsEditOpen(false)
+		setSelectedBlog(null)
+	}
+
+	const handleConfirmDelete = async () => {
+		if (!selectedBlog) return
+		await deleteBlog(selectedBlog._id)
+		setIsDeleteOpen(false)
+		setSelectedBlog(null)
 	}
 
 	if (!isMounted) {
@@ -59,75 +141,33 @@ export default function BlogsPage() {
 	if (error) {
 		return (
 			<div className='w-full flex items-center justify-center py-20'>
-				<p className='text-red-500'>Failed to load blog posts.</p>
+				<p className='text-red-500'>Failed to load posts.</p>
 			</div>
 		)
 	}
 
-	const handleModalSubmit = async (data: {
-		title: string
-		content: string
-		banner?: File
-		removeBanner?: boolean
-	}) => {
-		if (selectedBlog) {
-			await updateBlog({
-				id: selectedBlog._id,
-				dto: {
-					title: data.title,
-					content: data.content,
-				},
-				banner: data.banner,
-				removeBanner: data.removeBanner,
-			})
-		} else {
-			await createBlog({
-				dto: { title: data.title, content: data.content },
-				banner: data.banner,
-			})
-		}
-		setIsModalOpen(false)
-	}
-
-	const handleEditClick = (blog: BlogType, e: React.MouseEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-		setSelectedBlog(blog)
-		setIsModalOpen(true)
-	}
-
-	const handleDeleteClick = (id: string, e: React.MouseEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-		setBlogIdToDelete(id)
-		setIsDeleteOpen(true)
-	}
-
-	const handleConfirmDelete = async () => {
-		if (blogIdToDelete) {
-			await deleteBlog(blogIdToDelete)
-			setIsDeleteOpen(false)
-			setBlogIdToDelete(null)
-		}
-	}
-
-	const blogTitleToDelete = blogs.find(b => b._id === blogIdToDelete)?.title
-
 	return (
-		<div className='container-responsive px-4 mx-auto max-w-7xl py-8 w-full min-w-0 overflow-hidden'>
-			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-border-main pb-4 w-full min-w-0'>
-				<div className='min-w-0 flex-1 w-full'>
-					<h1 className='text-2xl sm:text-3xl font-black text-text-main max-w-full'>
-						Our Publication Articles
+		<div className='container-responsive px-4 mx-auto max-w-7xl py-8'>
+			<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-border-main pb-4'>
+				<div>
+					<h1 className='text-2xl sm:text-3xl font-black text-text-main'>
+						{searchQuery ? `Results for "${searchQuery}"` : 'Our Blogs'}
 					</h1>
-					<p className='text-sm text-text-muted mt-1 max-w-full'>
-						Publications – Found{' '}
-						<span className='font-semibold text-primary'>{blogs.length}</span>{' '}
-						items
+					<p className='text-sm text-text-muted mt-1'>
+						Category:{' '}
+						<span className='font-semibold text-primary'>{displayName}</span> –
+						Found {meta?.total || 0} items
 					</p>
 				</div>
 
-				<div className='flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end shrink-0'>
+				<div className='flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end'>
+					<SortDropdown
+						value={sortBy}
+						onChange={setSortBy}
+						options={sortLabels}
+						className='min-w-44 sm:min-w-48'
+					/>
+
 					<div className='flex items-center gap-1 border border-border-strong rounded-md h-10 px-1.5 bg-card-bg shadow-sm select-none'>
 						<button
 							type='button'
@@ -155,96 +195,100 @@ export default function BlogsPage() {
 							<LayoutGrid size={18} />
 						</button>
 					</div>
-
-					{canCreate && (
-						<button
-							type='button'
-							onClick={() => {
-								setSelectedBlog(undefined)
-								setIsModalOpen(true)
-							}}
-							className='flex items-center gap-2 border border-border-strong rounded-md h-10 px-4 py-2 bg-card-bg text-text-main font-medium text-sm shadow-sm hover:bg-ui-hover transition-colors cursor-pointer'
-						>
-							<FileText size={16} className='text-primary' />
-							Create Post
-						</button>
-					)}
 				</div>
 			</div>
 
-			<div className='flex flex-col xl:flex-row gap-8 items-start w-full'>
-				<div className='w-full transition-all duration-200 ease-in-out'>
-					{isLoading && blogs.length === 0 ? (
-						<div
-							className={
-								viewMode === 'grid'
-									? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full'
-									: 'flex flex-col gap-4 w-full'
-							}
+			<div className='w-full'>
+				{isLoading && blogs.length === 0 ? (
+					<div
+						className={`transition-all duration-200 ${
+							viewMode === 'grid'
+								? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
+								: 'flex flex-col gap-4'
+						}`}
+					>
+						{Array.from({ length: viewMode === 'grid' ? 6 : 3 }).map(
+							(_, index) => (
+								<BlogCardSkeleton key={index} viewMode={viewMode} />
+							),
+						)}
+					</div>
+				) : blogs.length === 0 ? (
+					<div className='text-center py-20 bg-main-bg rounded-xl border border-dashed border-border-main'>
+						<p className='text-text-muted text-lg'>
+							We couldn&apos;t find anything matching your request.
+						</p>
+						<Link
+							href='/'
+							className='text-primary font-semibold mt-2 inline-block hover:underline'
 						>
-							{Array.from({ length: viewMode === 'grid' ? 6 : 3 }).map(
-								(_, idx) => (
-									<BlogCardSkeleton key={idx} viewMode={viewMode} />
-								),
-							)}
-						</div>
-					) : blogs.length === 0 ? (
-						<div className='text-center py-20 bg-main-bg rounded-xl border border-dashed border-border-main w-full'>
-							<p className='text-text-muted text-lg'>
-								We couldn&apos;t find any publications at the moment.
-							</p>
-							<Link
-								href='/'
-								className='text-primary font-semibold mt-2 inline-block hover:underline'
-							>
-								Go back home
-							</Link>
-						</div>
-					) : (
+							Go back home
+						</Link>
+					</div>
+				) : (
+					<>
 						<div
-							className={
+							className={`transition-all duration-200 ${
 								viewMode === 'grid'
-									? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch w-full'
-									: 'flex flex-col gap-4 w-full'
-							}
+									? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
+									: 'flex flex-col gap-4'
+							}`}
 						>
 							{blogs.map(blog => (
 								<BlogCard
 									key={blog._id}
 									blog={blog}
 									viewMode={viewMode}
-									onEdit={handleEditClick}
-									onDelete={handleDeleteClick}
+									onEdit={(blogItem, e) => handleEditClick(blogItem, e)}
+									onDelete={(id, e) => handleDeleteClick(id, e)}
 									hasPermission={checkPermission(blog)}
 								/>
 							))}
 						</div>
-					)}
-				</div>
+
+						{meta && (
+							<Pagination
+								currentPage={page}
+								totalPages={meta.pages}
+								onPageChange={setPage}
+								limit={limit}
+								onLimitChange={setLimit}
+								limitOptions={[6, 12, 18, 24]}
+							/>
+						)}
+					</>
+				)}
 			</div>
 
-			<BlogModal
-				isOpen={isModalOpen}
-				blog={selectedBlog}
-				onClose={() => setIsModalOpen(false)}
-				onSubmit={handleModalSubmit}
-				isLoading={isCreating || isUpdating}
-			/>
+			{isEditOpen && selectedBlog && (
+				<BlogModal
+					blog={selectedBlog}
+					isOpen={isEditOpen}
+					isLoading={isUpdating}
+					onClose={() => {
+						setIsEditOpen(false)
+						setSelectedBlog(null)
+					}}
+					onSubmit={handleUpdateSubmit}
+				/>
+			)}
 
-			<ConfirmModal
-				isOpen={isDeleteOpen}
-				isLoading={isDeleting}
-				onClose={() => {
-					setIsDeleteOpen(false)
-					setBlogIdToDelete(null)
-				}}
-				onConfirm={handleConfirmDelete}
-				title='Delete Blog Post'
-				description={`Are you sure you want to delete ${blogTitleToDelete ? `"${blogTitleToDelete}"` : 'this post'}? This action is permanent.`}
-				confirmText='Delete'
-				cancelText='Cancel'
-				variant='danger'
-			/>
+			{isDeleteOpen && selectedBlog && (
+				<ConfirmModal
+					isOpen={isDeleteOpen}
+					isLoading={isDeleting}
+					onClose={() => {
+						setIsDeleteOpen(false)
+						setSelectedBlog(null)
+					}}
+					onConfirm={handleConfirmDelete}
+					title='Delete Publication'
+					description={`Are you sure you want to delete "${selectedBlog.title}"? This action cannot be undone.`}
+					confirmText='Delete'
+					cancelText='Cancel'
+					variant='danger'
+				/>
+			)}
 		</div>
 	)
 }

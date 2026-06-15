@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-export default function ProductPage() {
+export default function ProductDetailPage() {
 	const params = useParams()
 	const [mounted, setMounted] = useState(false)
 	const { setLabel } = useBreadcrumbs()

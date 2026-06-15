@@ -1,8 +1,10 @@
 'use client'
 
+import Pagination from '@/src/components/ui/Pagination'
 import ProductCard from '@/src/components/ui/ProductCard'
 import ProductCardSkeleton from '@/src/components/ui/ProductCardSkeleton'
 import ProductFilter from '@/src/components/ui/ProductFilter'
+import SortDropdown from '@/src/components/ui/SortDropdown'
 import { SortOption, useProducts } from '@/src/hooks/useProducts'
 import {
 	ChevronDown,
@@ -24,6 +26,8 @@ export default function ProductsPage() {
 		error,
 		page,
 		setPage,
+		limit,
+		setLimit,
 		sortBy,
 		setSortBy,
 		searchQuery,
@@ -50,7 +54,7 @@ export default function ProductsPage() {
 			setIsDesktopFilterOpen(savedState === 'true')
 		}
 
-		const savedViewMode = window.sessionStorage.getItem('viewMode')
+		const savedViewMode = window.sessionStorage.getItem('productsViewMode')
 		if (savedViewMode === 'grid' || savedViewMode === 'list') {
 			setViewMode(savedViewMode)
 		}
@@ -61,7 +65,7 @@ export default function ProductsPage() {
 	const toggleViewMode = (viewMode: 'grid' | 'list') => {
 		setViewMode(prev => {
 			const newMode = viewMode
-			window.sessionStorage.setItem('viewMode', newMode)
+			window.sessionStorage.setItem('productsViewMode', newMode)
 			return newMode
 		})
 	}
@@ -215,47 +219,12 @@ export default function ProductsPage() {
 						</span>
 					</button>
 
-					<div
-						className='flex items-center gap-2 relative z-30'
-						ref={dropdownRef}
-					>
-						<div
-							onClick={() => setIsSortOpen(!isSortOpen)}
-							className='flex flex-row items-center justify-between border border-border-strong rounded-md h-10 px-4 py-2 cursor-pointer relative select-none bg-card-bg min-w-44 sm:min-w-56 text-text-main shadow-sm transition-all focus-within:border-primary hover:bg-ui-hover'
-						>
-							<p className='text-[13px] font-medium whitespace-nowrap mr-2 text-text-muted'>
-								{sortLabels[sortBy]}
-							</p>
-							<ChevronDown
-								className={`transition-transform duration-200 text-text-muted ${isSortOpen ? 'rotate-180' : ''}`}
-								size={18}
-							/>
-
-							{isSortOpen && (
-								<ul className='absolute right-0 w-full mt-1 top-full z-50 rounded-md border border-border-main bg-card-bg p-1.5 shadow-lg left-0'>
-									{(Object.keys(sortLabels) as SortOption[]).map(option => (
-										<li key={option}>
-											<button
-												type='button'
-												onClick={e => {
-													e.stopPropagation()
-													setSortBy(option)
-													setIsSortOpen(false)
-												}}
-												className={`block w-full cursor-pointer text-left rounded-sm px-4 py-2 text-sm transition-colors ${
-													sortBy === option
-														? 'bg-main-bg text-primary font-semibold'
-														: 'text-text-muted hover:bg-ui-hover'
-												}`}
-											>
-												{sortLabels[option]}
-											</button>
-										</li>
-									))}
-								</ul>
-							)}
-						</div>
-					</div>
+					<SortDropdown
+						value={sortBy}
+						onChange={setSortBy}
+						options={sortLabels}
+						className='min-w-44 sm:min-w-56'
+					/>
 				</div>
 			</div>
 
@@ -320,38 +289,20 @@ export default function ProductsPage() {
 									<ProductCard
 										key={product._id}
 										viewMode={viewMode}
-										{...product}
+										product={product}
 									/>
 								))}
 							</div>
 
-							{meta && meta.pages > 1 && (
-								<div className='flex justify-center items-center gap-3 mt-12'>
-									<button
-										type='button'
-										onClick={() => setPage(prev => Math.max(1, prev - 1))}
-										disabled={page === 1}
-										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-ui-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
-									>
-										<ChevronLeft />
-									</button>
-
-									<span className='text-sm text-text-muted'>
-										Page <strong className='font-semibold'>{page}</strong> of{' '}
-										<strong className='font-semibold'>{meta.pages}</strong>
-									</span>
-
-									<button
-										type='button'
-										onClick={() =>
-											setPage(prev => Math.min(meta.pages, prev + 1))
-										}
-										disabled={page === meta.pages}
-										className='p-2 border border-border-strong rounded-md text-sm font-medium bg-card-bg text-text-muted hover:bg-ui-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer'
-									>
-										<ChevronRight />
-									</button>
-								</div>
+							{meta && (
+								<Pagination
+									currentPage={page}
+									totalPages={meta.pages}
+									onPageChange={setPage}
+									limit={limit}
+									onLimitChange={setLimit}
+									limitOptions={[12, 24, 48, 72]}
+								/>
 							)}
 						</>
 					)}

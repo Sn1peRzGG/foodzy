@@ -3,7 +3,7 @@ export interface BlogType {
 	title: string
 	content: string
 	banner?: string
-	authorId: string | AuthorType
+	authorId: AuthorType
 	createdAt: string
 	updatedAt: string
 }
@@ -13,12 +13,12 @@ interface AuthorType {
 	firstName: string
 }
 
-export interface CreateBlogDto {
-	title: string
-	content: string
-}
-
-export interface UpdateBlogDto {
-	title?: string
-	content?: string
+export interface PaginatedBlogs {
+	data: BlogType[]
+	meta: {
+		total: number
+		page: number
+		limit: number
+		pages: number
+	}
 }

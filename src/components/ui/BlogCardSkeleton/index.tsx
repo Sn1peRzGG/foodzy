@@ -8,42 +8,54 @@ export default function BlogCardSkeleton({
 	viewMode = 'grid',
 }: BlogCardSkeletonProps) {
 	const isList = viewMode === 'list'
-	const commonClasses =
-		'animate-pulse bg-card-bg border border-border-main rounded-xl overflow-hidden shadow-sm w-full min-w-0'
-	const textPlaceholder = 'bg-ui-hover rounded'
+	const textPlaceholder = 'bg-ui-hover rounded animate-pulse'
+
+	if (isList) {
+		return (
+			<div className='border border-border-main rounded-xl p-4 shadow-sm flex flex-row items-center gap-5 bg-card-bg min-w-0 w-full'>
+				<div className='w-32 h-32 sm:w-40 sm:h-40 rounded-lg bg-ui-hover shrink-0 animate-pulse' />
+
+				<div className='flex flex-col grow h-full py-0.5 min-w-0 justify-between'>
+					<div className='min-w-0 w-full space-y-3'>
+						<div className='flex items-center gap-3'>
+							<div className={`h-3 w-20 ${textPlaceholder}`} />
+							<div className={`h-3 w-24 ${textPlaceholder}`} />
+						</div>
+						<div className={`h-5 w-3/4 ${textPlaceholder}`} />
+						<div className='space-y-1.5 max-w-xl'>
+							<div className={`h-3.5 w-full ${textPlaceholder}`} />
+							<div className={`h-3.5 w-5/6 ${textPlaceholder}`} />
+						</div>
+					</div>
+					<div className='border-t border-border-main pt-3 mt-4 flex justify-end gap-2 w-full'>
+						<div className='w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ui-hover animate-pulse' />
+						<div className='w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ui-hover animate-pulse' />
+					</div>
+				</div>
+			</div>
+		)
+	}
 
 	return (
-		<div
-			className={`${commonClasses} grid ${
-				isList
-					? 'grid-cols-1 md:grid-cols-[288px_1fr] h-auto md:h-52'
-					: 'grid-cols-1'
-			}`}
-		>
-			<div
-				className={`w-full bg-ui-hover shrink-0 ${
-					isList ? 'h-48 md:h-full' : 'aspect-16/10'
-				}`}
-			/>
+		<div className='border border-border-main rounded-xl p-4 shadow-sm flex flex-col justify-between bg-card-bg min-w-0 w-full'>
+			<div className='w-full aspect-square rounded-lg bg-ui-hover mb-4 animate-pulse' />
 
-			<div className='p-4 sm:p-5 grid grid-rows-[auto_1fr_auto] gap-1.5 min-w-0 w-full relative min-h-35 md:min-h-full'>
-				<div className='flex flex-col gap-2 w-full min-w-0'>
-					<div className='flex items-center gap-1.5'>
-						<div className='w-3.5 h-3.5 rounded-full bg-ui-hover' />
-						<div className={`h-3 w-24 ${textPlaceholder}`} />
-					</div>
-
-					<div className={`h-5 w-3/4 mt-1 ${textPlaceholder}`} />
+			<div className='flex flex-col grow min-w-0'>
+				<div className='flex items-center gap-3 mb-2.5'>
+					<div className={`h-3 w-20 ${textPlaceholder}`} />
+					<div className={`h-3 w-24 ${textPlaceholder}`} />
 				</div>
 
-				<div className='w-full min-w-0 mt-2 space-y-1.5 pr-24'>
+				<div className={`h-5 w-4/5 mb-3 ${textPlaceholder}`} />
+
+				<div className='space-y-1.5 mb-5'>
 					<div className={`h-3.5 w-full ${textPlaceholder}`} />
-					<div className={`h-3.5 w-5/6 ${textPlaceholder}`} />
+					<div className={`h-3.5 w-2/3 ${textPlaceholder}`} />
 				</div>
 
-				<div className='absolute right-3 bottom-3 sm:right-4 sm:bottom-4 flex items-center gap-2 pl-2 p-1 rounded-xl border border-border-main/20 bg-card-bg/90 backdrop-blur-sm'>
-					<div className='w-9 h-9 rounded-lg bg-ui-hover' />
-					<div className='w-9 h-9 rounded-lg bg-ui-hover' />
+				<div className='border-t border-border-main pt-3 mt-auto flex justify-end gap-2 w-full'>
+					<div className='w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ui-hover animate-pulse' />
+					<div className='w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ui-hover animate-pulse' />
 				</div>
 			</div>
 		</div>

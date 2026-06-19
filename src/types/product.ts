@@ -14,6 +14,7 @@ export type ProductType = {
 	isAvailable: boolean
 	isDeleted: boolean
 	createdAt: string
+	updatedAt: string
 }
 
 export interface PaginatedProducts {

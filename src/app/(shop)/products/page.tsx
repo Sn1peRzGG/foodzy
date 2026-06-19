@@ -6,15 +6,7 @@ import ProductCardSkeleton from '@/src/components/ui/ProductCardSkeleton'
 import ProductFilter from '@/src/components/ui/ProductFilter'
 import SortDropdown from '@/src/components/ui/SortDropdown'
 import { SortOption, useProducts } from '@/src/hooks/useProducts'
-import {
-	ChevronDown,
-	ChevronLeft,
-	ChevronRight,
-	LayoutGrid,
-	Rows3,
-	SlidersHorizontal,
-	X,
-} from 'lucide-react'
+import { LayoutGrid, Rows3, SlidersHorizontal, X } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 

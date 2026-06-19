@@ -3,4 +3,6 @@ export type CategoryType = {
 	name: string
 	imageUrl: string
 	count: number
+	createdAt: string
+	updatedAt: string
 }

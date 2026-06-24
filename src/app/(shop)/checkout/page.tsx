@@ -1,7 +1,14 @@
 'use client'
 
 import { useUserActions } from '@/src/hooks/useUserActions'
-import { ArrowLeft, CreditCard, Loader2, ShieldCheck } from 'lucide-react'
+import {
+	ArrowLeft,
+	CreditCard,
+	Loader2,
+	ShieldCheck,
+	MapPin,
+	Phone,
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -9,6 +16,7 @@ import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Loading from '../../loading'
 import { BASE_URL } from '@/src/lib/api'
+import { FormInput } from '@/src/components/ui/FormFields'
 
 export default function CheckoutPage() {
 	const [mounted, setMounted] = useState(false)
@@ -53,7 +61,6 @@ export default function CheckoutPage() {
 
 		try {
 			await createOrder({ city, address, phoneNumber })
-
 			router.push('/')
 		} catch (error) {
 			console.error('Error placing order:', error)
@@ -85,48 +92,36 @@ export default function CheckoutPage() {
 
 						<form className='space-y-4' onSubmit={e => e.preventDefault()}>
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-								<div>
-									<label className='block text-sm font-medium text-text-muted mb-1.5'>
-										City
-									</label>
-									<input
-										type='text'
-										disabled={isCheckingOut}
-										value={city}
-										onChange={e => setCity(e.target.value)}
-										placeholder='e.g. Kyiv'
-										className='w-full px-4 py-2.5 bg-main-bg border border-border-main rounded-xl focus:outline-none focus:border-primary focus:bg-card-bg transition-all text-sm disabled:opacity-60'
-									/>
-								</div>
-
-								<div>
-									<label className='block text-sm font-medium text-text-muted mb-1.5'>
-										Phone Number
-									</label>
-									<input
-										type='tel'
-										disabled={isCheckingOut}
-										value={phoneNumber}
-										onChange={e => setPhoneNumber(e.target.value)}
-										placeholder='e.g. +380501234567'
-										className='w-full px-4 py-2.5 bg-main-bg border border-border-main rounded-xl focus:outline-none focus:border-primary focus:bg-card-bg transition-all text-sm disabled:opacity-60'
-									/>
-								</div>
-							</div>
-
-							<div>
-								<label className='block text-sm font-medium text-text-muted mb-1.5'>
-									Address
-								</label>
-								<input
+								<FormInput
+									label='City'
 									type='text'
 									disabled={isCheckingOut}
-									value={address}
-									onChange={e => setAddress(e.target.value)}
-									placeholder='e.g. Khreshchatyk St, 15, app. 4'
-									className='w-full px-4 py-2.5 bg-main-bg border border-border-main rounded-xl focus:outline-none focus:border-primary focus:bg-card-bg transition-all text-sm disabled:opacity-60'
+									value={city}
+									onChange={e => setCity(e.target.value)}
+									placeholder='e.g. Kyiv'
+									icon={<MapPin size={18} />}
+								/>
+
+								<FormInput
+									label='Phone Number'
+									type='tel'
+									disabled={isCheckingOut}
+									value={phoneNumber}
+									onChange={e => setPhoneNumber(e.target.value)}
+									placeholder='e.g. +380501234567'
+									icon={<Phone size={18} />}
 								/>
 							</div>
+
+							<FormInput
+								label='Address'
+								type='text'
+								disabled={isCheckingOut}
+								value={address}
+								onChange={e => setAddress(e.target.value)}
+								placeholder='e.g. Khreshchatyk St, 15, app. 4'
+								icon={<MapPin size={18} />}
+							/>
 						</form>
 					</div>
 

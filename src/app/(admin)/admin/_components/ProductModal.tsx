@@ -153,11 +153,8 @@ export default function ProductModal({
 		}
 	}
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0]
+	const handleImageChange = (file: File) => {
 		setFileError(null)
-
-		if (!file) return
 
 		const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
 		if (!allowedTypes.includes(file.type)) {
@@ -173,6 +170,14 @@ export default function ProductModal({
 
 		setImageFile(file)
 		setPreviewUrl(URL.createObjectURL(file))
+	}
+
+	const handleRemoveImage = () => {
+		setImageFile(null)
+		setPreviewUrl(
+			initialData?.imageUrl ? `${BASE_URL}${initialData.imageUrl}` : null,
+		)
+		setFileError(null)
 	}
 
 	const parsedRating = Number(rating)
@@ -328,6 +333,8 @@ export default function ProductModal({
 				error={fileError}
 				disabled={isLoading}
 				onChange={handleImageChange}
+				onError={err => setFileError(err)}
+				onRemove={handleRemoveImage}
 			/>
 		</FormModal>
 	)

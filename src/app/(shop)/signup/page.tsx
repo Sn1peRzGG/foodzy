@@ -7,6 +7,7 @@ import { getFieldErrors } from '@/src/utils/getFieldErrors'
 import {
 	ArrowRight,
 	House,
+	Loader2,
 	Lock,
 	LogIn,
 	Mail,
@@ -51,8 +52,6 @@ export default function SignupPage() {
 	const router = useRouter()
 
 	const validate = () => {
-		let isValid = true
-
 		const newErrors = {
 			email: '',
 			password: '',
@@ -63,6 +62,7 @@ export default function SignupPage() {
 			city: '',
 			address: '',
 		}
+		let isValid = true
 
 		if (!formData.email || !EMAIL_REGEX.test(formData.email)) {
 			newErrors.email = 'Invalid email format'
@@ -115,12 +115,18 @@ export default function SignupPage() {
 			isValid = false
 		}
 
-		setErrors(newErrors)
-		return isValid
+		return { isValid, newErrors }
 	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		const { isValid, newErrors } = validate()
+
+		if (!isValid) {
+			setErrors(newErrors)
+			return
+		}
 
 		setErrors({
 			email: '',
@@ -133,10 +139,7 @@ export default function SignupPage() {
 			address: '',
 		})
 
-		if (!validate()) return
-
 		setLoading(true)
-
 		const loadingToast = toast.loading('Creating account...')
 
 		const payload = {
@@ -202,127 +205,119 @@ export default function SignupPage() {
 					<FormInput
 						label='First Name'
 						type='text'
-						placeholder='Enter Your First Name'
+						placeholder='John'
 						value={formData.firstName}
 						error={errors.firstName}
 						icon={<User size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								firstName: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, firstName: e.target.value }))
+							if (errors.firstName)
+								setErrors(prev => ({ ...prev, firstName: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='Last Name'
 						type='text'
-						placeholder='Enter Your Last Name'
+						placeholder='Doe'
 						value={formData.lastName}
 						error={errors.lastName}
 						icon={<User size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								lastName: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, lastName: e.target.value }))
+							if (errors.lastName)
+								setErrors(prev => ({ ...prev, lastName: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='Email Address'
 						type='email'
-						placeholder='Enter Your email'
+						placeholder='john.doe@example.com'
 						value={formData.email}
 						error={errors.email}
 						icon={<Mail size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								email: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, email: e.target.value }))
+							if (errors.email) setErrors(prev => ({ ...prev, email: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='Phone Number'
 						type='text'
-						placeholder='Enter Your phone number'
+						placeholder='+380991234567'
 						value={formData.phoneNumber}
 						error={errors.phoneNumber}
 						icon={<Phone size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								phoneNumber: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))
+							if (errors.phoneNumber)
+								setErrors(prev => ({ ...prev, phoneNumber: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='Password'
 						type='password'
-						placeholder='Enter Your password'
+						placeholder='••••••••'
 						value={formData.password}
 						error={errors.password}
 						icon={<Lock size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								password: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, password: e.target.value }))
+							if (errors.password)
+								setErrors(prev => ({ ...prev, password: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='Confirm Password'
 						type='password'
-						placeholder='Confirm Your password'
+						placeholder='••••••••'
 						value={formData.confirmPassword}
 						error={errors.confirmPassword}
 						icon={<Lock size={18} />}
-						onChange={e =>
+						onChange={e => {
 							setFormData(prev => ({
 								...prev,
 								confirmPassword: e.target.value,
 							}))
-						}
+							if (errors.confirmPassword)
+								setErrors(prev => ({ ...prev, confirmPassword: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='City'
 						type='text'
-						placeholder='Enter Your city'
+						placeholder='Kyiv'
 						value={formData.city}
 						error={errors.city}
 						icon={<MapPin size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								city: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, city: e.target.value }))
+							if (errors.city) setErrors(prev => ({ ...prev, city: '' }))
+						}}
 					/>
 
 					<FormInput
 						label='Address'
 						type='text'
-						placeholder='Enter Your address'
+						placeholder='Khreshchatyk St, 1'
 						value={formData.address}
 						error={errors.address}
 						icon={<House size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								address: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, address: e.target.value }))
+							if (errors.address) setErrors(prev => ({ ...prev, address: '' }))
+						}}
 					/>
 
 					<div className='text-right text-sm'>
@@ -340,10 +335,16 @@ export default function SignupPage() {
 						disabled={loading}
 						className='group relative flex w-full cursor-pointer items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-bold text-text-main transition-all hover:bg-primary-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
 					>
-						{loading ? 'Signing up...' : 'Sign up'}
-
-						{!loading && (
-							<ArrowRight className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
+						{loading ? (
+							<span className='flex items-center gap-2'>
+								<Loader2 className='h-4 w-4 animate-spin' />
+								Signing up...
+							</span>
+						) : (
+							<>
+								Sign up
+								<ArrowRight className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
+							</>
 						)}
 					</button>
 				</form>

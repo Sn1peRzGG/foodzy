@@ -1,22 +1,16 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import Link from 'next/link'
-import {
-	LayoutGrid,
-	Rows3,
-	ChevronLeft,
-	ChevronRight,
-	ChevronDown,
-} from 'lucide-react'
 import BlogCard from '@/src/components/ui/BlogCard'
 import BlogCardSkeleton from '@/src/components/ui/BlogCardSkeleton'
-import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import BlogModal from '@/src/components/ui/BlogModal'
-import { useBlogs, BlogSortOption } from '@/src/hooks/useBlogs'
-import { BlogType } from '@/src/types/blog'
-import SortDropdown from '@/src/components/ui/SortDropdown'
+import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import Pagination from '@/src/components/ui/Pagination'
+import SortDropdown from '@/src/components/ui/SortDropdown'
+import { BlogSortOption, useBlogs } from '@/src/hooks/useBlogs'
+import { BlogType } from '@/src/types/blog'
+import { LayoutGrid, Plus, Rows3 } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
 
 interface BlogsPageProps {
 	displayName?: string
@@ -40,6 +34,9 @@ export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 		deleteBlog,
 		isDeleting,
 		checkPermission,
+		canCreate,
+		createBlog,
+		isCreating,
 	} = useBlogs()
 
 	const [isSortOpen, setIsSortOpen] = useState(false)
@@ -47,6 +44,7 @@ export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 	const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
 	const [selectedBlog, setSelectedBlog] = useState<BlogType | null>(null)
+	const [isCreateOpen, setIsCreateOpen] = useState(false)
 	const [isEditOpen, setIsEditOpen] = useState(false)
 	const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
@@ -81,6 +79,20 @@ export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 	const toggleViewMode = (mode: 'grid' | 'list') => {
 		setViewMode(mode)
 		window.sessionStorage.setItem('blogsViewMode', mode)
+	}
+
+	const handleCreateSubmit = async (data: {
+		title: string
+		content: string
+		banner?: File
+	}) => {
+		const formData = new FormData()
+		formData.append('title', data.title)
+		formData.append('content', data.content)
+		if (data.banner) formData.append('banner', data.banner)
+
+		await createBlog(formData)
+		setIsCreateOpen(false)
 	}
 
 	const handleEditClick = (blog: BlogType, e: React.MouseEvent) => {
@@ -161,12 +173,16 @@ export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 				</div>
 
 				<div className='flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end'>
-					<SortDropdown
-						value={sortBy}
-						onChange={setSortBy}
-						options={sortLabels}
-						className='min-w-44 sm:min-w-48'
-					/>
+					{canCreate && (
+						<button
+							type='button'
+							onClick={() => setIsCreateOpen(true)}
+							className='flex items-center justify-center gap-2 border border-border-strong rounded-md h-10 w-fit px-4 py-2 bg-card-bg text-text-main font-medium text-sm shadow-sm hover:bg-ui-hover transition-all select-none cursor-pointer'
+						>
+							<Plus size={16} className='stroke-3' />
+							<span>Create Post</span>
+						</button>
+					)}
 
 					<div className='flex items-center gap-1 border border-border-strong rounded-md h-10 px-1.5 bg-card-bg shadow-sm select-none'>
 						<button
@@ -195,6 +211,13 @@ export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 							<LayoutGrid size={18} />
 						</button>
 					</div>
+
+					<SortDropdown
+						value={sortBy}
+						onChange={setSortBy}
+						options={sortLabels}
+						className='min-w-44 sm:min-w-48'
+					/>
 				</div>
 			</div>
 
@@ -259,6 +282,15 @@ export default function BlogsPage({ displayName = 'All' }: BlogsPageProps) {
 					</>
 				)}
 			</div>
+
+			{isCreateOpen && (
+				<BlogModal
+					isOpen={isCreateOpen}
+					isLoading={isCreating}
+					onClose={() => setIsCreateOpen(false)}
+					onSubmit={handleCreateSubmit}
+				/>
+			)}
 
 			{isEditOpen && selectedBlog && (
 				<BlogModal

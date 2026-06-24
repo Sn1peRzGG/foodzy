@@ -52,7 +52,7 @@ export const FormInput = ({
             ${icon ? 'pl-10 pr-10' : 'px-4'}
             ${
 							error
-								? 'border-red-400 focus:ring-4 focus:ring-red-50'
+								? 'border-accent focus:ring-4 focus:ring-accent/10'
 								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
           `}
@@ -69,9 +69,23 @@ export const FormInput = ({
 				)}
 			</div>
 
-			{error && (
-				<p className='ml-1 mt-1 text-xs font-medium text-red-500'>{error}</p>
-			)}
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -117,7 +131,7 @@ export const FormFileField = ({
 			<div
 				className={`flex items-center gap-4 p-3 bg-card-bg rounded-xl border transition-all ${
 					error
-						? 'border-red-400 focus-within:ring-4 focus-within:ring-red-50'
+						? 'border-accent focus-within:ring-4 focus-within:ring-accent/10'
 						: 'border-border-main focus-within:border-primary focus-within:ring-4 focus-within:ring-[#64B496]/15'
 				}`}
 			>
@@ -160,7 +174,7 @@ export const FormFileField = ({
 							type='button'
 							disabled={disabled}
 							onClick={onRemove}
-							className='p-2.5 bg-card-bg border border-border-strong rounded-xl text-red-500 shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400'
+							className='p-2.5 bg-card-bg border border-border-strong rounded-xl text-accent shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50 hover:bg-accent/10 hover:border-accent/30 hover:text-accent-hover'
 							title='Remove image'
 						>
 							<X size={18} />
@@ -169,9 +183,23 @@ export const FormFileField = ({
 				</div>
 			</div>
 
-			{error && (
-				<p className='ml-1 mt-1 text-xs font-medium text-red-500'>{error}</p>
-			)}
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -222,7 +250,7 @@ export function FormSelect({
             disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group data-placeholder:text-text-subtle
             ${
 							error
-								? 'border-red-400 focus:ring-4 focus:ring-red-50'
+								? 'border-accent focus:ring-4 focus:ring-accent/10'
 								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
           `}
@@ -260,9 +288,23 @@ export function FormSelect({
 				</Select.Portal>
 			</Select.Root>
 
-			{error && (
-				<p className='ml-1 mt-1 text-xs font-medium text-red-500'>{error}</p>
-			)}
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
 		</div>
 	)
 }

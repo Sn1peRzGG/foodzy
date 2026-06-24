@@ -4,7 +4,7 @@ import { FormInput } from '@/src/components/ui/FormFields'
 import api from '@/src/lib/api'
 import { getApiError } from '@/src/utils/getApiError'
 import { getFieldErrors } from '@/src/utils/getFieldErrors'
-import { ArrowRight, Lock, LogIn, Mail } from 'lucide-react'
+import { ArrowRight, Loader2, Lock, LogIn, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -29,44 +29,42 @@ export default function LoginPage() {
 	const router = useRouter()
 
 	const validate = () => {
-		let isValid = true
-
 		const newErrors = {
 			email: '',
 			password: '',
 		}
+		let isValid = true
 
-		if (!EMAIL_REGEX.test(formData.email)) {
+		if (!formData.email || !EMAIL_REGEX.test(formData.email)) {
 			newErrors.email = 'Please enter a valid email address'
 			isValid = false
 		}
 
-		if (!PASSWORD_REGEX.test(formData.password)) {
+		if (!formData.password || !PASSWORD_REGEX.test(formData.password)) {
 			newErrors.password =
 				'Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number'
-
 			isValid = false
 		}
 
-		setErrors(newErrors)
-
-		return isValid
+		return { isValid, newErrors }
 	}
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
+
+		const { isValid, newErrors } = validate()
+
+		if (!isValid) {
+			setErrors(newErrors)
+			return
+		}
 
 		setErrors({
 			email: '',
 			password: '',
 		})
 
-		if (!validate()) {
-			return
-		}
-
 		setLoading(true)
-
 		const loadingToast = toast.loading('Authenticating...')
 
 		try {
@@ -75,9 +73,7 @@ export default function LoginPage() {
 				password: formData.password,
 			})
 
-			toast.success('Welcome back!', {
-				id: loadingToast,
-			})
+			toast.success('Welcome back!', { id: loadingToast })
 
 			localStorage.setItem('isLoggedIn', 'true')
 			router.push('/account')
@@ -85,6 +81,8 @@ export default function LoginPage() {
 		} catch (error) {
 			const fieldErrors = getFieldErrors(error)
 
+			// Matches signup logic: Server validation messages update the state fields,
+			// while the main API response string goes directly to the toast message.
 			setErrors(prev => ({
 				...prev,
 				...fieldErrors,
@@ -122,32 +120,29 @@ export default function LoginPage() {
 					<FormInput
 						label='Email Address'
 						type='email'
-						placeholder='Enter Your email'
+						placeholder='john.doe@example.com'
 						value={formData.email}
 						error={errors.email}
 						icon={<Mail size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								email: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, email: e.target.value }))
+							if (errors.email) setErrors(prev => ({ ...prev, email: '' }))
+						}}
 						required
 					/>
 
 					<FormInput
 						label='Password'
 						type='password'
-						placeholder='Enter Your password'
+						placeholder='••••••••'
 						value={formData.password}
 						error={errors.password}
 						icon={<Lock size={18} />}
-						onChange={e =>
-							setFormData(prev => ({
-								...prev,
-								password: e.target.value,
-							}))
-						}
+						onChange={e => {
+							setFormData(prev => ({ ...prev, password: e.target.value }))
+							if (errors.password)
+								setErrors(prev => ({ ...prev, password: '' }))
+						}}
 						required
 					/>
 
@@ -166,10 +161,16 @@ export default function LoginPage() {
 						disabled={loading}
 						className='group relative flex w-full cursor-pointer items-center justify-center rounded-xl bg-primary py-3.5 text-sm font-bold text-text-main transition-all hover:bg-primary-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
 					>
-						{loading ? 'Signing in...' : 'Sign in'}
-
-						{!loading && (
-							<ArrowRight className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
+						{loading ? (
+							<span className='flex items-center gap-2'>
+								<Loader2 className='h-4 w-4 animate-spin' />
+								Processing...
+							</span>
+						) : (
+							<>
+								Sign in
+								<ArrowRight className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1' />
+							</>
 						)}
 					</button>
 				</form>

@@ -2,7 +2,9 @@
 
 import { reviewStatusStyles } from '@/constants/reviewStatusStyles'
 import Loading from '@/src/app/loading'
+import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import { useAdminReviews } from '@/src/hooks/admin/useAdminReviews'
+import { formatDate } from '@/src/utils/formatDate'
 import {
 	Calendar,
 	Hash,
@@ -15,8 +17,6 @@ import {
 import { useState } from 'react'
 import AdminDropdown from '../_components/AdminDropdown'
 import DeleteButton from '../_components/DeleteButton'
-import ConfirmModal from '@/src/components/ui/ConfirmModal'
-import { formatDate } from '@/src/utils/formatDate'
 
 export default function ReviewsAdminPage() {
 	const {
@@ -103,9 +103,10 @@ export default function ReviewsAdminPage() {
 							{reviews.map(review => {
 								const user = review.user
 								const userName =
-									`${user.firstName || ''} ${user.lastName || ''}`.trim() ||
+									`${user?.firstName || ''} ${user?.lastName || ''}`.trim() ||
 									'Anonymous'
-								const userEmail = user.email || 'No email'
+								const userEmail = user?.email || 'No email'
+								const userId = user?._id || 'N/A'
 
 								return (
 									<tr
@@ -122,7 +123,7 @@ export default function ReviewsAdminPage() {
 											</div>
 											<div className='flex items-center gap-1.5 text-text-subtle text-[11px] font-mono pl-0.5'>
 												<User className='w-3 h-3 shrink-0' />
-												<span>UID: {user._id}</span>
+												<span>UID: {userId}</span>
 											</div>
 										</td>
 
@@ -158,10 +159,10 @@ export default function ReviewsAdminPage() {
 													</div>
 													<div className='flex-1 min-w-0'>
 														<p className='font-bold text-text-main tracking-tight truncate font-mono text-[11px]'>
-															ID: {review.product}
+															ID: {review.product._id}
 														</p>
 														<p className='text-[10px] text-text-muted truncate mt-0.5'>
-															Linked Marketplace Item
+															{review.product.name}
 														</p>
 													</div>
 												</div>

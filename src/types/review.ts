@@ -9,9 +9,14 @@ interface ReviewAdminUser extends ReviewUser {
 	email: string
 }
 
+interface ReviewProduct {
+	_id: string
+	name: string
+}
+
 export interface ReviewType {
 	_id: string
-	product: string
+	product: ReviewProduct
 	user: ReviewUser
 	rating: number
 	text: string

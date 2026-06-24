@@ -50,15 +50,23 @@ export default function UserOrders() {
 
 	if (!orders || orders.length === 0) {
 		return (
-			<div className='mt-8 p-10 bg-card-bg border border-border-main rounded-2xl shadow-md dark:shadow-black/40'>
-				<div className='p-3 bg-main-bg rounded-full text-text-subtle'>
-					<ClipboardList size={26} />
+			<div className='mt-8 flex flex-col items-center justify-center text-center p-12 bg-card-bg border border-border-main rounded-2xl shadow-sm dark:shadow-black/20 max-w-xl mx-auto w-full animate-fade-in'>
+				<div className='p-4 bg-main-bg border border-border-main rounded-full text-text-subtle mb-5 shadow-inner'>
+					<ClipboardList size={32} strokeWidth={1.5} />
 				</div>
-				<p className='text-text-main font-bold text-lg'>No orders yet</p>
-				<p className='text-text-muted text-sm max-w-xs leading-relaxed'>
+				<h3 className='text-text-main font-bold text-xl tracking-tight mb-2'>
+					No orders yet
+				</h3>
+				<p className='text-text-muted text-sm max-w-sm leading-relaxed mb-6'>
 					Your order history is empty. Once you make a purchase, your orders
 					will appear right here.
 				</p>
+				<Link
+					href='/products'
+					className='inline-flex items-center justify-center px-6 h-10 rounded-xl bg-primary text-text-main font-semibold text-xs uppercase tracking-wider shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer'
+				>
+					Start Shopping
+				</Link>
 			</div>
 		)
 	}
@@ -104,26 +112,27 @@ export default function UserOrders() {
 
 			<div className='space-y-5 w-full animate-fade-in'>
 				{filteredOrders.length === 0 && (
-					<div className='flex flex-col items-center justify-center text-center py-14 px-4 bg-main-bg/50 border border-dashed border-border-main rounded-2xl w-full'>
-						<div className='flex items-center justify-center w-14 h-14 bg-ui-hover rounded-full text-text-subtle mb-4 shadow-md dark:shadow-black/40'>
+					<div className='flex flex-col items-center justify-center text-center py-16 px-6 bg-card-bg/40 border border-dashed border-border-main rounded-2xl w-full'>
+						<div className='flex items-center justify-center w-14 h-14 bg-main-bg border border-border-main rounded-full text-text-subtle mb-4 shadow-sm'>
 							<ShoppingBag size={24} strokeWidth={1.5} />
 						</div>
 
-						<h3 className='text-sm font-bold text-text-main mb-1 uppercase tracking-wide'>
-							No Orders Found
+						<h3 className='text-base font-bold text-text-main mb-1 tracking-tight'>
+							No {activeFilter === 'ALL' ? '' : activeFilter.toLowerCase()}{' '}
+							orders found
 						</h3>
 
-						<p className='text-xs md:text-sm text-text-muted max-w-xs mb-5 leading-relaxed'>
+						<p className='text-sm text-text-muted max-w-xs mb-6 leading-relaxed'>
 							We couldn&apos;t find any orders matching the selected filter.
 							Maybe it&apos;s time to look for something new?
 						</p>
 
-						<Link
-							href='/products'
-							className='inline-flex items-center justify-center px-5 h-9 rounded-xl bg-primary text-text-main font-semibold text-xs uppercase tracking-wider shadow-sm hover:bg-primary/90 hover:shadow-md active:scale-98 transition-all duration-200 cursor-pointer'
+						<button
+							onClick={() => setActiveFilter('ALL')}
+							className='inline-flex items-center justify-center px-5 h-9 rounded-xl border border-border-strong text-text-main font-semibold text-xs uppercase tracking-wider hover:bg-main-bg active:scale-[0.98] transition-all duration-200 cursor-pointer'
 						>
-							Explore Products
-						</Link>
+							Clear Filter
+						</button>
 					</div>
 				)}
 

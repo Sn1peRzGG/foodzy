@@ -1,6 +1,7 @@
 'use client'
 
 import * as Select from '@radix-ui/react-select'
+import * as Tooltip from '@radix-ui/react-tooltip'
 import {
 	Check,
 	ChevronDown,
@@ -9,14 +10,48 @@ import {
 	Image as ImageIcon,
 	X,
 	Upload,
+	HelpCircle,
 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
+
+interface FieldTooltipProps {
+	text: string
+}
+
+const FieldTooltip = ({ text }: FieldTooltipProps) => {
+	return (
+		<Tooltip.Provider delayDuration={200}>
+			<Tooltip.Root>
+				<Tooltip.Trigger asChild>
+					<button
+						type='button'
+						className='ml-1.5 inline-flex items-center justify-center text-text-subtle hover:text-primary transition-colors cursor-help outline-none'
+					>
+						<HelpCircle size={14} />
+					</button>
+				</Tooltip.Trigger>
+				<Tooltip.Portal>
+					<Tooltip.Content
+						side='top'
+						align='center'
+						sideOffset={4}
+						className='z-100 max-w-xs rounded-lg bg-gray-900 px-2.5 py-1.5 text-xs font-medium text-white shadow-md dark:bg-gray-800 animate-in fade-in zoom-in-95 duration-100'
+					>
+						{text}
+						<Tooltip.Arrow className='fill-gray-900 dark:fill-gray-800' />
+					</Tooltip.Content>
+				</Tooltip.Portal>
+			</Tooltip.Root>
+		</Tooltip.Provider>
+	)
+}
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	error?: string
 	icon?: React.ReactNode
+	tooltipText?: string
 }
 
 export const FormInput = ({
@@ -24,6 +59,7 @@ export const FormInput = ({
 	error,
 	icon,
 	type,
+	tooltipText,
 	...props
 }: FormInputProps) => {
 	const [showPassword, setShowPassword] = useState(false)
@@ -33,8 +69,9 @@ export const FormInput = ({
 
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
 				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
 			</label>
 
 			<div className='group relative'>
@@ -95,6 +132,7 @@ interface FormFileFieldProps {
 	previewUrl: string | null
 	error?: string | null
 	disabled?: boolean
+	tooltipText?: string
 	onChange: (file: File) => void
 	onError?: (error: string | null) => void
 	onRemove?: () => void
@@ -105,6 +143,7 @@ export const FormFileField = ({
 	previewUrl,
 	error,
 	disabled,
+	tooltipText,
 	onChange,
 	onError,
 	onRemove,
@@ -124,8 +163,9 @@ export const FormFileField = ({
 
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
 				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
 			</label>
 
 			<div
@@ -218,6 +258,7 @@ interface FormSelectProps {
 	disabled?: boolean
 	required?: boolean
 	error?: string
+	tooltipText?: string
 }
 
 export function FormSelect({
@@ -229,11 +270,13 @@ export function FormSelect({
 	disabled = false,
 	required = false,
 	error,
+	tooltipText,
 }: FormSelectProps) {
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
 				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
 			</label>
 
 			<Select.Root

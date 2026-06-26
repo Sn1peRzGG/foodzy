@@ -76,13 +76,12 @@ export default function LoginPage() {
 			toast.success('Welcome back!', { id: loadingToast })
 
 			localStorage.setItem('isLoggedIn', 'true')
-			router.push('/account')
+
 			router.refresh()
+			window.location.href = '/account'
 		} catch (error) {
 			const fieldErrors = getFieldErrors(error)
 
-			// Matches signup logic: Server validation messages update the state fields,
-			// while the main API response string goes directly to the toast message.
 			setErrors(prev => ({
 				...prev,
 				...fieldErrors,
@@ -128,6 +127,7 @@ export default function LoginPage() {
 							setFormData(prev => ({ ...prev, email: e.target.value }))
 							if (errors.email) setErrors(prev => ({ ...prev, email: '' }))
 						}}
+						tooltipText='Enter the email address associated with your account.'
 						required
 					/>
 
@@ -143,6 +143,7 @@ export default function LoginPage() {
 							if (errors.password)
 								setErrors(prev => ({ ...prev, password: '' }))
 						}}
+						tooltipText='Must be at least 8 characters with uppercase, lowercase, and numeric characters.'
 						required
 					/>
 

@@ -163,8 +163,9 @@ export default function SignupPage() {
 			})
 
 			localStorage.setItem('isLoggedIn', 'true')
-			router.push('/account')
+
 			router.refresh()
+			window.location.href = '/account'
 		} catch (error) {
 			const fieldErrors = getFieldErrors(error)
 
@@ -214,6 +215,7 @@ export default function SignupPage() {
 							if (errors.firstName)
 								setErrors(prev => ({ ...prev, firstName: '' }))
 						}}
+						tooltipText='Must be between 2 and 50 characters long.'
 						required
 					/>
 
@@ -229,6 +231,7 @@ export default function SignupPage() {
 							if (errors.lastName)
 								setErrors(prev => ({ ...prev, lastName: '' }))
 						}}
+						tooltipText='Must be between 2 and 50 characters long.'
 						required
 					/>
 
@@ -243,6 +246,7 @@ export default function SignupPage() {
 							setFormData(prev => ({ ...prev, email: e.target.value }))
 							if (errors.email) setErrors(prev => ({ ...prev, email: '' }))
 						}}
+						tooltipText='Please enter a valid email address.'
 						required
 					/>
 
@@ -258,6 +262,7 @@ export default function SignupPage() {
 							if (errors.phoneNumber)
 								setErrors(prev => ({ ...prev, phoneNumber: '' }))
 						}}
+						tooltipText='International format. Must start with + followed by 10 to 15 digits.'
 						required
 					/>
 
@@ -273,6 +278,7 @@ export default function SignupPage() {
 							if (errors.password)
 								setErrors(prev => ({ ...prev, password: '' }))
 						}}
+						tooltipText='At least 8 characters, including 1 uppercase letter, 1 lowercase letter, and 1 number.'
 						required
 					/>
 
@@ -291,6 +297,7 @@ export default function SignupPage() {
 							if (errors.confirmPassword)
 								setErrors(prev => ({ ...prev, confirmPassword: '' }))
 						}}
+						tooltipText='Must exactly match the password entered above.'
 						required
 					/>
 
@@ -305,6 +312,7 @@ export default function SignupPage() {
 							setFormData(prev => ({ ...prev, city: e.target.value }))
 							if (errors.city) setErrors(prev => ({ ...prev, city: '' }))
 						}}
+						tooltipText='Optional field. Maximum 100 characters.'
 					/>
 
 					<FormInput
@@ -318,6 +326,7 @@ export default function SignupPage() {
 							setFormData(prev => ({ ...prev, address: e.target.value }))
 							if (errors.address) setErrors(prev => ({ ...prev, address: '' }))
 						}}
+						tooltipText='Optional field. Maximum 255 characters.'
 					/>
 
 					<div className='text-right text-sm'>

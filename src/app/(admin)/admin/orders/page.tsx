@@ -17,6 +17,7 @@ import {
 import Image from 'next/image'
 import AdminDropdown from '../_components/AdminDropdown'
 import { BASE_URL } from '@/src/lib/api'
+import { formatDate } from '@/src/utils/formatDate'
 
 export default function OrdersAdminPage() {
 	const { orders, isLoading, isError, error, updateOrder, isUpdating } =
@@ -133,9 +134,7 @@ export default function OrdersAdminPage() {
 												</div>
 												<div className='flex items-center gap-2 text-xs font-medium text-text-muted'>
 													<Calendar className='w-3.5 h-3.5 text-text-subtle shrink-0' />
-													<span>
-														{new Date(order.updatedAt).toLocaleString()}
-													</span>
+													<span>{formatDate(order.createdAt)}</span>
 												</div>
 											</div>
 										</td>

@@ -6,12 +6,15 @@ import {
 	footerImageData,
 } from '@/constants/footerConfig'
 import socialData from '@/constants/socialItems.json'
+import { useSubscribe } from '@/src/hooks/useSubscribe'
 import api from '@/src/lib/api'
 import { CategoryType } from '@/src/types/category'
 import { useQuery } from '@tanstack/react-query'
 import { Send } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FormEvent, useState } from 'react'
+import toast from 'react-hot-toast'
 
 interface SocialItem {
 	name: string
@@ -22,6 +25,8 @@ interface SocialItem {
 const socialMediaData: SocialItem[] = socialData
 
 export default function Footer() {
+	const { email, setEmail, handleSubmit, isPending } = useSubscribe()
+
 	const { data: categories = [] } = useQuery<CategoryType[]>({
 		queryKey: ['categories'],
 		queryFn: async () => {
@@ -33,8 +38,8 @@ export default function Footer() {
 
 	return (
 		<footer className='relative w-full bg-main-bg border-t border-border-main pt-12 xl:pt-16 pb-6'>
-			<div className='w-full px-4 sm:px-8 xl:px-16 mx-auto max-w-7xl'>
-				<div className='flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12'>
+			<div className='w-full px-4 sm:px-8 xl:px-16 mx-auto max-w-7xl 4xl:max-w-430'>
+				<div className='flex flex-col lg:flex-row gap-12 lg:gap-8 xl:gap-12 4xl:gap-16'>
 					<div className='w-full lg:w-1/3 flex flex-col items-start'>
 						<div className='flex flex-row items-center justify-start gap-2'>
 							<div className='rounded-[14px] bg-card-bg w-10 h-10 flex items-center justify-center shadow-sm'>
@@ -70,7 +75,7 @@ export default function Footer() {
 						</div>
 					</div>
 
-					<div className='w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6 xl:gap-8'>
+					<div className='w-full lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6 xl:gap-8 4xl:gap-12'>
 						<div className='flex flex-col gap-4'>
 							<h2 className='font-bold text-[18px]'>Company</h2>
 							<div className='flex flex-col gap-2.5'>
@@ -109,14 +114,22 @@ export default function Footer() {
 								Subscribe Our Newsletter
 							</h2>
 
-							<div className='h-11 w-full max-w-md rounded-[5px] border border-border-main bg-card-bg flex flex-row flex-nowrap items-center justify-between px-4 focus-within:border-border-strong transition-colors'>
+							<form
+								onSubmit={handleSubmit}
+								className='h-11 w-full max-w-md rounded-md border border-border-main bg-card-bg flex flex-row flex-nowrap items-center justify-between px-4 focus-within:border-border-strong transition-colors'
+							>
 								<input
 									type='email'
+									value={email}
+									onChange={e => setEmail(e.target.value)}
+									disabled={isPending}
 									placeholder='Your email...'
-									className='h-full flex-1 min-w-0 text-[14px] text-text-main focus:outline-none bg-transparent placeholder:text-text-subtle'
+									className='h-full flex-1 min-w-0 text-[14px] text-text-main focus:outline-none bg-transparent placeholder:text-text-subtle disabled:opacity-50'
 								/>
 								<button
-									className='cursor-pointer pl-2 shrink-0 flex items-center justify-center'
+									type='submit'
+									disabled={isPending}
+									className='cursor-pointer pl-2 shrink-0 flex items-center justify-center disabled:opacity-50'
 									aria-label='Subscribe'
 								>
 									<Send
@@ -124,7 +137,7 @@ export default function Footer() {
 										className='transform rotate-45 -translate-y-0.5'
 									/>
 								</button>
-							</div>
+							</form>
 
 							<div className='flex h-9 mt-2 gap-2'>
 								{socialMediaData.map(social => (
@@ -132,7 +145,7 @@ export default function Footer() {
 										key={social.name}
 										href={social.href}
 										target='_blank'
-										className='rounded-[5px] border border-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
+										className='rounded-md border border-border-main w-9 h-9 flex items-center justify-center hover:bg-ui-hover transition-colors'
 									>
 										<svg
 											viewBox='0 0 24 24'
@@ -152,7 +165,7 @@ export default function Footer() {
 										width={60}
 										height={60}
 										key={idx}
-										className='rounded-[5px] object-cover'
+										className='rounded-md object-cover'
 									/>
 								))}
 							</div>
@@ -182,6 +195,7 @@ export default function Footer() {
 					width={60}
 					height={60}
 					className='absolute top-[40%] -left-2'
+					style={{ width: 'auto', height: 'auto' }}
 				/>
 				<Image
 					src='/footer_tomato.png'
@@ -189,6 +203,7 @@ export default function Footer() {
 					width={70}
 					height={60}
 					className='absolute -top-6 right-10'
+					style={{ width: 'auto', height: 'auto' }}
 				/>
 				<Image
 					src='/footer_pepper.png'
@@ -196,6 +211,7 @@ export default function Footer() {
 					width={120}
 					height={60}
 					className='absolute bottom-5 right-10'
+					style={{ width: 'auto', height: 'auto' }}
 				/>
 			</div>
 		</footer>

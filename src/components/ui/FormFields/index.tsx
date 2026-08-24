@@ -1,20 +1,57 @@
 'use client'
 
 import * as Select from '@radix-ui/react-select'
+import * as Tooltip from '@radix-ui/react-tooltip'
 import {
 	Check,
 	ChevronDown,
 	Eye,
 	EyeOff,
 	Image as ImageIcon,
+	X,
+	Upload,
+	HelpCircle,
 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
+
+interface FieldTooltipProps {
+	text: string
+}
+
+const FieldTooltip = ({ text }: FieldTooltipProps) => {
+	return (
+		<Tooltip.Provider delayDuration={200}>
+			<Tooltip.Root>
+				<Tooltip.Trigger asChild>
+					<button
+						type='button'
+						className='ml-1.5 inline-flex items-center justify-center text-text-subtle hover:text-primary transition-colors cursor-help outline-none'
+					>
+						<HelpCircle size={14} />
+					</button>
+				</Tooltip.Trigger>
+				<Tooltip.Portal>
+					<Tooltip.Content
+						side='top'
+						align='center'
+						sideOffset={4}
+						className='z-100 max-w-xs rounded-lg bg-gray-900 px-2.5 py-1.5 text-xs font-medium text-white shadow-md dark:bg-gray-800 animate-in fade-in zoom-in-95 duration-100'
+					>
+						{text}
+						<Tooltip.Arrow className='fill-gray-900 dark:fill-gray-800' />
+					</Tooltip.Content>
+				</Tooltip.Portal>
+			</Tooltip.Root>
+		</Tooltip.Provider>
+	)
+}
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string
 	error?: string
 	icon?: React.ReactNode
+	tooltipText?: string
 }
 
 export const FormInput = ({
@@ -22,6 +59,7 @@ export const FormInput = ({
 	error,
 	icon,
 	type,
+	tooltipText,
 	...props
 }: FormInputProps) => {
 	const [showPassword, setShowPassword] = useState(false)
@@ -31,8 +69,9 @@ export const FormInput = ({
 
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
 				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
 			</label>
 
 			<div className='group relative'>
@@ -50,7 +89,7 @@ export const FormInput = ({
             ${icon ? 'pl-10 pr-10' : 'px-4'}
             ${
 							error
-								? 'border-red-400 focus:ring-4 focus:ring-red-50'
+								? 'border-accent focus:ring-4 focus:ring-accent/10'
 								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
           `}
@@ -67,9 +106,23 @@ export const FormInput = ({
 				)}
 			</div>
 
-			{error && (
-				<p className='ml-1 mt-1 text-xs font-medium text-red-500'>{error}</p>
-			)}
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -79,7 +132,10 @@ interface FormFileFieldProps {
 	previewUrl: string | null
 	error?: string | null
 	disabled?: boolean
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+	tooltipText?: string
+	onChange: (file: File) => void
+	onError?: (error: string | null) => void
+	onRemove?: () => void
 }
 
 export const FormFileField = ({
@@ -87,18 +143,35 @@ export const FormFileField = ({
 	previewUrl,
 	error,
 	disabled,
+	tooltipText,
 	onChange,
+	onError,
+	onRemove,
 }: FormFileFieldProps) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0]
+		if (!file) return
+
+		if (file.size > 4 * 1024 * 1024) {
+			if (onError) onError('File size exceeds 4MB limit')
+			return
+		}
+
+		if (onError) onError(null)
+		onChange(file)
+	}
+
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
 				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
 			</label>
 
 			<div
 				className={`flex items-center gap-4 p-3 bg-card-bg rounded-xl border transition-all ${
 					error
-						? 'border-red-400 focus-within:ring-4 focus-within:ring-red-50'
+						? 'border-accent focus-within:ring-4 focus-within:ring-accent/10'
 						: 'border-border-main focus-within:border-primary focus-within:ring-4 focus-within:ring-[#64B496]/15'
 				}`}
 			>
@@ -112,29 +185,61 @@ export const FormFileField = ({
 							className='object-cover'
 						/>
 					) : (
-						<ImageIcon size={20} className='text-text-subtle' />
+						<ImageIcon size={20} className='text-text-subtle/70' />
 					)}
 				</div>
 
-				<label
-					className={`inline-flex items-center justify-center py-2.5 px-4 bg-card-bg border border-border-main rounded-xl text-sm font-semibold text-text-muted shadow-md dark:shadow-black/40:bg-main-bg transition-all cursor-pointer ${
-						disabled ? 'opacity-50 cursor-not-allowed' : ''
-					}`}
-				>
-					<span>Choose Image</span>
-					<input
-						type='file'
-						accept='image/jpeg, image/png, image/webp'
-						disabled={disabled}
-						onChange={onChange}
-						className='hidden'
-					/>
-				</label>
+				<div className='flex items-center gap-2.5 flex-1'>
+					<label
+						className={`inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-card-bg border border-border-strong rounded-xl text-sm font-bold text-text-main shadow-sm transition-all active:scale-95 cursor-pointer select-none
+              ${
+								disabled
+									? 'opacity-50 cursor-not-allowed'
+									: 'hover:bg-ui-hover hover:border-primary/40 text-text-main'
+							}`}
+					>
+						<Upload size={16} className='text-primary' />
+						<span>{previewUrl ? 'Change Image' : 'Choose Image'}</span>
+						<input
+							type='file'
+							accept='image/jpeg, image/png, image/webp'
+							disabled={disabled}
+							onChange={handleInputChange}
+							className='hidden'
+						/>
+					</label>
+
+					{previewUrl && onRemove && (
+						<button
+							type='button'
+							disabled={disabled}
+							onClick={onRemove}
+							className='p-2.5 bg-card-bg border border-border-strong rounded-xl text-accent shadow-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50 hover:bg-accent/10 hover:border-accent/30 hover:text-accent-hover'
+							title='Remove image'
+						>
+							<X size={18} />
+						</button>
+					)}
+				</div>
 			</div>
 
-			{error && (
-				<p className='ml-1 mt-1 text-xs font-medium text-red-500'>{error}</p>
-			)}
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -153,6 +258,7 @@ interface FormSelectProps {
 	disabled?: boolean
 	required?: boolean
 	error?: string
+	tooltipText?: string
 }
 
 export function FormSelect({
@@ -164,11 +270,13 @@ export function FormSelect({
 	disabled = false,
 	required = false,
 	error,
+	tooltipText,
 }: FormSelectProps) {
 	return (
 		<div className='w-full space-y-1.5 text-left'>
-			<label className='ml-0.5 text-sm font-semibold text-text-muted'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
 				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
 			</label>
 
 			<Select.Root
@@ -185,7 +293,7 @@ export function FormSelect({
             disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group data-placeholder:text-text-subtle
             ${
 							error
-								? 'border-red-400 focus:ring-4 focus:ring-red-50'
+								? 'border-accent focus:ring-4 focus:ring-accent/10'
 								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
 						}
           `}
@@ -223,9 +331,23 @@ export function FormSelect({
 				</Select.Portal>
 			</Select.Root>
 
-			{error && (
-				<p className='ml-1 mt-1 text-xs font-medium text-red-500'>{error}</p>
-			)}
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
 		</div>
 	)
 }

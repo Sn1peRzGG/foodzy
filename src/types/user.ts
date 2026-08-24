@@ -20,4 +20,5 @@ export type UserType = {
 	cart: CartItemType[]
 	wishlist: ProductType[]
 	createdAt: string
+	updatedAt: string
 }

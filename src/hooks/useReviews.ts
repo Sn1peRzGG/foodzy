@@ -3,7 +3,9 @@
 import api from '@/src/lib/api'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { CreateReviewDto, ReviewType, UpdateReviewDto } from '../types/review'
+import { ReviewType } from '../types/review'
+import { AxiosError } from 'axios'
+import { getApiError } from '../utils/getApiError'
 
 export function useReviews(productId?: string) {
 	const queryClient = useQueryClient()
@@ -12,21 +14,26 @@ export function useReviews(productId?: string) {
 		data: reviews = [],
 		isLoading,
 		error,
-	} = useQuery<ReviewType[]>({
+	} = useQuery<ReviewType[], AxiosError>({
 		queryKey: ['reviews', productId],
 		queryFn: async () => {
 			const response = await api.get(`/reviews/product/${productId}`)
 			return response.data
 		},
 		enabled: !!productId,
+		refetchOnWindowFocus: false,
 	})
 
-	const createReviewMutation = useMutation({
-		mutationFn: async (dto: CreateReviewDto) => {
+	const createReviewMutation = useMutation<
+		ReviewType,
+		AxiosError,
+		{ product: string; rating: number; text: string }
+	>({
+		mutationFn: async dto => {
 			const response = await api.post('/reviews', dto)
 			return response.data
 		},
-		onSuccess: (data: ReviewType, variables) => {
+		onSuccess: (data, variables) => {
 			queryClient.invalidateQueries({
 				queryKey: ['reviews', variables.product],
 			})
@@ -37,28 +44,23 @@ export function useReviews(productId?: string) {
 			if (data.status === 'REJECTED') {
 				toast.error(
 					'Your review was hidden because it triggered the spam filter.',
-					{
-						duration: 5000,
-					},
+					{ duration: 5000 },
 				)
 			} else {
 				toast.success('Review submitted successfully')
 			}
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || 'Failed to submit review'
-			toast.error(message)
+		onError: err => {
+			toast.error(getApiError(err) || 'Failed to submit review')
 		},
 	})
 
-	const updateReviewMutation = useMutation({
-		mutationFn: async ({
-			reviewId,
-			dto,
-		}: {
-			reviewId: string
-			dto: UpdateReviewDto
-		}) => {
+	const updateReviewMutation = useMutation<
+		ReviewType,
+		AxiosError,
+		{ reviewId: string; dto: { rating: number; text: string } }
+	>({
+		mutationFn: async ({ reviewId, dto }) => {
 			const response = await api.patch(`/reviews/${reviewId}`, dto)
 			return response.data
 		},
@@ -69,16 +71,14 @@ export function useReviews(productId?: string) {
 			}
 			toast.success('Review updated successfully')
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || 'Failed to update review'
-			toast.error(message)
+		onError: err => {
+			toast.error(getApiError(err) || 'Failed to update review')
 		},
 	})
 
-	const deleteReviewMutation = useMutation({
+	const deleteReviewMutation = useMutation<void, AxiosError, string>({
 		mutationFn: async (reviewId: string) => {
-			const response = await api.delete(`/reviews/${reviewId}`)
-			return response.data
+			await api.delete(`/reviews/${reviewId}`)
 		},
 		onSuccess: () => {
 			if (productId) {
@@ -87,9 +87,8 @@ export function useReviews(productId?: string) {
 			}
 			toast.success('Review deleted successfully')
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || 'Failed to delete review'
-			toast.error(message)
+		onError: err => {
+			toast.error(getApiError(err) || 'Failed to delete review')
 		},
 	})
 

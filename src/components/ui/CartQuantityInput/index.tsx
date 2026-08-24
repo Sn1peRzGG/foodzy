@@ -37,7 +37,7 @@ export default function CartQuantityInput({
 	return (
 		<div className='flex justify-center'>
 			<div
-				className={`inline-flex items-center rounded-[5px] bg-card-bg border border-border-main h-8 overflow-hidden text-text-main transition-opacity ${
+				className={`inline-flex items-center rounded-md bg-card-bg border border-border-main h-8 overflow-hidden text-text-main transition-opacity ${
 					isLoading ? 'opacity-70 pointer-events-none' : ''
 				}`}
 			>

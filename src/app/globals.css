@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @theme {
 	--breakpoint-4xl: 1920px;
@@ -96,6 +97,79 @@
 		--color-border-strong: #334155;
 		--color-ui-hover: #1e293b;
 		--color-ui-active: #334155;
+	}
+}
+
+.tiptap-editor-content {
+	--tw-prose-body: var(--color-text-main);
+	--tw-prose-headings: var(--color-text-main);
+	--tw-prose-bold: var(--color-text-main);
+	--tw-prose-bullets: var(--color-text-muted);
+	--tw-prose-counters: var(--color-text-muted);
+
+	--tw-prose-invert-body: var(--color-text-main);
+	--tw-prose-invert-headings: var(--color-text-main);
+	--tw-prose-invert-bold: var(--color-text-main);
+	--tw-prose-invert-bullets: var(--color-text-muted);
+	--tw-prose-invert-counters: var(--color-text-muted);
+
+	.is-editor-empty:first-child::before {
+		content: attr(data-placeholder);
+		float: left;
+		color: var(--color-text-subtle);
+		opacity: 0.5;
+		pointer-events: none;
+		height: 0;
+	}
+
+	&:focus {
+		outline: none;
+	}
+
+	h1 {
+		font-size: 1.875rem !important;
+		font-weight: 900 !important;
+		margin-top: 1rem !important;
+		margin-bottom: 0.5rem !important;
+		display: block !important;
+	}
+
+	h2 {
+		font-size: 1.5rem !important;
+		font-weight: 700 !important;
+		margin-top: 0.75rem !important;
+		margin-bottom: 0.25rem !important;
+		display: block !important;
+	}
+
+	p {
+		margin-bottom: 0.5rem !important;
+		line-height: 1.625 !important;
+	}
+
+	ul {
+		list-style-type: disc !important;
+		padding-left: 1.5rem !important;
+		margin-top: 0.5rem !important;
+		margin-bottom: 0.5rem !important;
+		display: block !important;
+	}
+
+	ol {
+		list-style-type: decimal !important;
+		padding-left: 1.5rem !important;
+		margin-top: 0.5rem !important;
+		margin-bottom: 0.5rem !important;
+		display: block !important;
+	}
+
+	li {
+		margin-bottom: 0.125rem !important;
+		display: list-item !important;
+	}
+
+	li::marker {
+		color: var(--color-text-muted) !important;
 	}
 }
 

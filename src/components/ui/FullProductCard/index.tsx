@@ -37,6 +37,8 @@ export default function FullProductCard(product: ProductType) {
 		isInCart: checkCart,
 	} = useUserActions()
 
+	const isAuthenticated = !!user
+
 	const targetId = String((product as any)._id || product._id)
 
 	const isInWishlist = checkWishlist(targetId)
@@ -301,7 +303,10 @@ export default function FullProductCard(product: ProductType) {
 						</div>
 					) : (
 						<div className='animate-fadeIn w-full'>
-							<ProductReviews productId={targetId} />
+							<ProductReviews
+								productId={targetId}
+								isAuthenticated={isAuthenticated}
+							/>
 						</div>
 					)}
 				</div>

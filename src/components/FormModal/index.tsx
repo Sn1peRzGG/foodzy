@@ -14,6 +14,7 @@ interface FormModalProps {
 	isLoading?: boolean
 	isDisabled?: boolean
 	children: React.ReactNode
+	className?: string
 }
 
 export default function FormModal({
@@ -26,6 +27,7 @@ export default function FormModal({
 	isLoading = false,
 	isDisabled = false,
 	children,
+	className,
 }: FormModalProps) {
 	useEffect(() => {
 		if (!isOpen) return
@@ -49,7 +51,9 @@ export default function FormModal({
 				onClick={isLoading ? undefined : onClose}
 			/>
 
-			<div className='relative z-10 w-full max-w-md transform overflow-hidden rounded-2xl bg-card-bg p-6 text-left align-middle shadow-xl border border-border-main/80 animate-scale-up'>
+			<div
+				className={`relative z-10 w-full transform overflow-hidden rounded-2xl bg-card-bg p-6 text-left align-middle shadow-xl border border-border-main/80 animate-scale-up ${className || 'max-w-md'}`}
+			>
 				<div className='flex items-center justify-between mb-5 pb-3 border-b border-border-main/60'>
 					<h3 className='text-lg font-bold text-text-main tracking-tight'>
 						{title}
@@ -65,7 +69,7 @@ export default function FormModal({
 				</div>
 
 				<form onSubmit={onSubmit} className='space-y-4'>
-					<div className='space-y-4 max-h-[60vh] overflow-y-auto px-1 pr-1.5 scrollbar-thin scrollbar-thumb-border-main scrollbar-track-transparent'>
+					<div className='space-y-4 max-h-[60vh] overflow-y-auto p-1 pr-1.5 scrollbar-thin scrollbar-thumb-border-main scrollbar-track-transparent'>
 						{children}
 					</div>
 

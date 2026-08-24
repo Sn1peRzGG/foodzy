@@ -2,6 +2,7 @@
 
 import { ProductType } from '@/src/types/product'
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { useSwipeable } from 'react-swipeable'
 import SpecialCard from '../SpecialCard'
 
 interface SpecialSliderProps {
@@ -56,10 +57,20 @@ const SpecialSlider = forwardRef<SpecialSliderRef, SpecialSliderProps>(
 			prev,
 		}))
 
+		const swipeHandlers = useSwipeable({
+			onSwipedLeft: () => next(),
+			onSwipedRight: () => prev(),
+			trackMouse: false,
+			preventScrollOnSwipe: true,
+		})
+
 		if (!products.length) return null
 
 		return (
-			<div className='w-full overflow-hidden px-1 py-4 box-border relative'>
+			<div
+				{...swipeHandlers}
+				className='w-full overflow-hidden px-1 py-4 box-border relative touch-pan-y'
+			>
 				<div
 					className='flex items-stretch transition-transform duration-500 ease-in-out box-border relative'
 					style={{

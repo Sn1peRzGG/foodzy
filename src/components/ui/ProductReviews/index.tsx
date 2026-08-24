@@ -11,18 +11,25 @@ import {
 	MessageSquare,
 	Star,
 	Trash2,
+	LogIn,
 } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import ConfirmModal from '../ConfirmModal'
 import UpdateReviewModal from '../UpdateReviewModal'
 import { BASE_URL } from '@/src/lib/api'
+import { formatDate } from '@/src/utils/formatDate'
 
 interface ProductReviewsProps {
 	productId: string
+	isAuthenticated?: boolean
 }
 
-export default function ProductReviews({ productId }: ProductReviewsProps) {
+export default function ProductReviews({
+	productId,
+	isAuthenticated = false,
+}: ProductReviewsProps) {
 	const {
 		reviews,
 		isLoading,
@@ -88,99 +95,114 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
 
 			<div className='grid grid-cols-1 lg:grid-cols-[1fr_1.4fr] gap-8 items-start w-full'>
 				<div className='w-full lg:sticky lg:top-6'>
-					<form
-						onSubmit={handleSubmit}
-						className='p-5 bg-main-bg rounded-xl border border-border-main w-full shadow-inner'
-					>
-						<h3 className='font-bold text-text-main mb-4 text-sm uppercase tracking-wider flex items-center justify-between'>
-							Leave a Review
-							<span className='text-xs text-text-muted normal-case font-normal'>
-								Your feedback is public
-							</span>
-						</h3>
-
-						<div
-							className='flex items-center gap-1 mb-4 flex-row-reverse justify-end group/rating w-max'
-							onMouseLeave={() => setHoveredRating(null)}
+					{isAuthenticated ? (
+						<form
+							onSubmit={handleSubmit}
+							className='p-5 bg-main-bg rounded-xl border border-border-main w-full shadow-inner'
 						>
-							{[5, 4, 3, 2, 1].map(star => {
-								const isLit =
-									hoveredRating !== null
-										? star <= hoveredRating
-										: star <= rating
-								return (
-									<button
-										key={star}
-										type='button'
-										onClick={() => setRating(star)}
-										onMouseEnter={() => setHoveredRating(star)}
-										className='text-amber-500 transition-transform active:scale-95 hover:scale-110 cursor-pointer group/star'
-									>
-										<Star
-											size={24}
-											fill={isLit ? 'currentColor' : 'none'}
-											className='transition-colors duration-200'
-										/>
-									</button>
-								)
-							})}
-						</div>
+							<h3 className='font-bold text-text-main mb-4 text-sm uppercase tracking-wider flex items-center justify-between'>
+								Leave a Review
+								<span className='text-xs text-text-muted normal-case font-normal'>
+									Your feedback is public
+								</span>
+							</h3>
 
-						<textarea
-							value={text}
-							onChange={e => setText(e.target.value)}
-							placeholder='Share your thoughts about this product...'
-							rows={4}
-							required
-							className={`w-full p-3.5 rounded-lg border bg-card-bg text-text-main text-sm focus:outline-none resize-none mb-3 transition-all ${
-								detectedBadWords.length > 0
-									? 'border-red-500 focus:border-red-500 ring-1 ring-red-500/20'
-									: 'border-border-main focus:border-primary focus:ring-1 focus:ring-primary/20'
-							}`}
-						/>
-
-						{detectedBadWords.length > 0 && (
-							<div className='flex items-start gap-3 text-xs text-red-400 mb-4 bg-red-500/10 p-3 rounded-lg border border-red-500/20 animate-fadeIn max-w-full'>
-								<AlertTriangle
-									size={16}
-									className='mt-0.5 shrink-0 text-red-500'
-								/>
-								<div className='flex-1 min-w-0'>
-									<p className='font-semibold text-red-500'>
-										Your review contains forbidden links or words:
-									</p>
-									<div className='flex flex-wrap gap-1.5 mt-2 max-w-full overflow-hidden'>
-										{detectedBadWords.map(word => (
-											<span
-												key={word}
-												className='px-2 py-0.5 bg-red-500/20 text-red-200 rounded font-mono text-[10px] break-all max-w-full whitespace-normal'
-											>
-												&quot;{word}&quot;
-											</span>
-										))}
-									</div>
-									<p className='mt-2 text-text-muted text-[11px] leading-relaxed'>
-										Please remove them, otherwise your review will be
-										automatically rejected.
-									</p>
-								</div>
+							<div
+								className='flex items-center gap-1 mb-4 flex-row-reverse justify-end group/rating w-max'
+								onMouseLeave={() => setHoveredRating(null)}
+							>
+								{[5, 4, 3, 2, 1].map(star => {
+									const isLit =
+										hoveredRating !== null
+											? star <= hoveredRating
+											: star <= rating
+									return (
+										<button
+											key={star}
+											type='button'
+											onClick={() => setRating(star)}
+											onMouseEnter={() => setHoveredRating(star)}
+											className='text-amber-500 transition-transform active:scale-95 hover:scale-110 cursor-pointer group/star'
+										>
+											<Star
+												size={24}
+												fill={isLit ? 'currentColor' : 'none'}
+												className='transition-colors duration-200'
+											/>
+										</button>
+									)
+								})}
 							</div>
-						)}
 
-						<button
-							type='submit'
-							disabled={
-								isCreating || !text.trim() || detectedBadWords.length > 0
-							}
-							className='w-full h-11 bg-primary text-text-main rounded-lg font-bold text-sm transition-all shadow active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-hover'
-						>
-							{isCreating ? (
-								<Loader2 size={16} className='animate-spin' />
-							) : (
-								'Submit Review'
+							<textarea
+								value={text}
+								onChange={e => setText(e.target.value)}
+								placeholder='Share your thoughts about this product...'
+								rows={4}
+								required
+								className={`w-full p-3.5 rounded-lg border bg-card-bg text-text-main text-sm focus:outline-none resize-none mb-3 transition-all ${
+									detectedBadWords.length > 0
+										? 'border-red-500 focus:border-red-500 ring-1 ring-red-500/20'
+										: 'border-border-main focus:border-primary focus:ring-1 focus:ring-primary/20'
+								}`}
+							/>
+
+							{detectedBadWords.length > 0 && (
+								<div className='flex items-start gap-3 text-xs text-red-400 mb-4 bg-red-500/10 p-3 rounded-lg border border-red-500/20 animate-fadeIn max-w-full'>
+									<AlertTriangle
+										size={16}
+										className='mt-0.5 shrink-0 text-red-500'
+									/>
+									<div className='flex-1 min-w-0'>
+										<p className='font-semibold text-red-500'>
+											Your review contains forbidden links or words:
+										</p>
+										<div className='flex flex-wrap gap-1.5 mt-2 max-w-full overflow-hidden'>
+											{detectedBadWords.map(word => (
+												<span
+													key={word}
+													className='px-2 py-0.5 bg-red-500/20 text-red-200 rounded font-mono text-[10px] break-all max-w-full whitespace-normal'
+												>
+													&quot;{word}&quot;
+												</span>
+											))}
+										</div>
+										<p className='mt-2 text-text-muted text-[11px] leading-relaxed'>
+											Please remove them, otherwise your review will be
+											automatically rejected.
+										</p>
+									</div>
+								</div>
 							)}
-						</button>
-					</form>
+
+							<button
+								type='submit'
+								disabled={
+									isCreating || !text.trim() || detectedBadWords.length > 0
+								}
+								className='w-full h-11 bg-primary text-text-main rounded-lg font-bold text-sm transition-all shadow active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-hover'
+							>
+								{isCreating ? (
+									<Loader2 size={16} className='animate-spin' />
+								) : (
+									'Submit Review'
+								)}
+							</button>
+						</form>
+					) : (
+						<div className='p-6 bg-main-bg rounded-xl border border-dashed border-border-main flex flex-col items-center text-center gap-3 shadow-sm'>
+							<p className='text-sm font-medium text-text-muted'>
+								Only registered users can leave reviews.
+							</p>
+							<Link
+								href='/login'
+								className='inline-flex items-center gap-2 px-5 h-10 bg-primary text-text-main font-bold text-sm rounded-lg shadow transition-all active:scale-95 hover:bg-primary-hover cursor-pointer'
+							>
+								<LogIn size={16} />
+								Log In
+							</Link>
+						</div>
+					)}
 				</div>
 
 				<div className='w-full'>
@@ -243,16 +265,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
 
 										<div className='flex items-center justify-between mt-3 pt-2 border-t border-dashed border-border-main/40'>
 											<span className='text-[10px] text-text-subtle font-mono'>
-												{review.createdAt
-													? new Date(review.createdAt).toLocaleDateString(
-															'en-US',
-															{
-																year: 'numeric',
-																month: '2-digit',
-																day: '2-digit',
-															},
-														)
-													: '-'}
+												<span>{formatDate(review.createdAt)}</span>
 											</span>
 
 											{isOwnReview && (

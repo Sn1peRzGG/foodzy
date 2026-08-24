@@ -1,22 +1,22 @@
 [
-	{ "label": "Home", "href": "/", "hasDropdown": false },
+	{
+		"label": "Home",
+		"href": "/"
+	},
 	{
 		"label": "Products",
-		"href": "/products",
-		"hasDropdown": false
+		"href": "/products"
 	},
 	{
-		"label": "Blog",
-		"href": "/blog",
-		"hasDropdown": false
+		"label": "Blogs",
+		"href": "/blogs"
 	},
 	{
-		"label": "Pages",
-		"href": "/pages",
-		"hasDropdown": true,
-		"subItems": [
-			{ "label": "About Us", "href": "/about" },
-			{ "label": "FAQ", "href": "/faq" }
-		]
+		"label": "About",
+		"href": "/about"
+	},
+	{
+		"label": "FAQ",
+		"href": "/faq"
 	}
 ]

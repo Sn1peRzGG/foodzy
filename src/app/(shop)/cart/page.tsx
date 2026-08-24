@@ -36,10 +36,10 @@ export default function CartPage() {
 
 			{user?.cart && user.cart.length > 0 ? (
 				<div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
-					<div className='lg:col-span-2 overflow-x-auto rounded-xl border border-border-main shadow-sm'>
+					<div className='lg:col-span-2 overflow-x-auto rounded-xl border border-border-main shadow-sm bg-card-bg'>
 						<table className='w-full text-text-muted border-collapse table-fixed min-w-150'>
 							<thead>
-								<tr className='bg-ui-hover text-[15px] font-semibold text-text-muted'>
+								<tr className='bg-ui-hover text-[14px] font-semibold text-text-muted uppercase tracking-wider border-b border-border-main'>
 									<th className='py-4 pl-6 text-left rounded-tl-xl w-[40%]'>
 										Product
 									</th>
@@ -51,14 +51,14 @@ export default function CartPage() {
 									</th>
 								</tr>
 							</thead>
-							<tbody className='divide-y divide-[#E9E9E9]'>
+							<tbody className='divide-y divide-border-main'>
 								{user.cart.map(item => (
 									<tr
 										key={item.product._id}
-										className='bg-main-bg hover:bg-main-bg transition-colors'
+										className='hover:bg-ui-hover/30 transition-colors'
 									>
 										<td className='py-5 px-6 flex flex-row items-center overflow-hidden'>
-											<div className='relative w-16 h-16 border border-border-main rounded-lg overflow-hidden bg-card-bg shrink-0 shadow-sm'>
+											<div className='relative w-16 h-16 border border-border-main rounded-lg overflow-hidden bg-main-bg shrink-0 shadow-sm'>
 												<Image
 													src={`${BASE_URL}${item.product.imageUrl}`}
 													alt={item.product.name}
@@ -69,7 +69,7 @@ export default function CartPage() {
 											</div>
 											<Link
 												href={`/products/${item.product._id}`}
-												className='ml-5 font-semibold text-text-muted truncate hover:text-primary transition-colors'
+												className='ml-5 font-semibold text-text-main truncate hover:text-primary transition-colors'
 											>
 												{item.product.name}
 											</Link>
@@ -80,7 +80,7 @@ export default function CartPage() {
 										</td>
 
 										<td className='py-5 text-center'>
-											<div className='inline-block bg-card-bg rounded-md shadow-sm border border-border-main p-0.5'>
+											<div className='inline-block bg-main-bg rounded-lg shadow-sm border border-border-main p-0.5'>
 												<CartQuantityInput
 													item={item}
 													isLoading={
@@ -98,17 +98,17 @@ export default function CartPage() {
 										<td className='py-5 text-center'>
 											<button
 												disabled={!!loadingStates[item.product._id]}
-												className={`p-2.5 rounded-full transition-all duration-200 ${
+												className={`p-2 rounded-lg border transition-all duration-200 ${
 													loadingStates[item.product._id] === 'remove'
-														? 'text-red-500 bg-red-50 opacity-70 cursor-not-allowed'
-														: 'text-text-subtle hover:text-red-600 hover:bg-red-50 cursor-pointer'
+														? 'text-accent border-accent/20 bg-accent/10 opacity-70 cursor-not-allowed'
+														: 'text-text-subtle border-border-main bg-card-bg hover:text-accent hover:border-accent/30 hover:bg-accent/5 cursor-pointer active:scale-95 shadow-sm'
 												}`}
 												onClick={() => removeFromCart(item.product._id)}
 											>
 												{loadingStates[item.product._id] === 'remove' ? (
-													<Loader2 size={18} className='animate-spin' />
+													<Loader2 size={16} className='animate-spin' />
 												) : (
-													<Trash2 size={18} />
+													<Trash2 size={16} />
 												)}
 											</button>
 										</td>
@@ -132,7 +132,7 @@ export default function CartPage() {
 							</div>
 							<div className='flex justify-between text-text-muted text-sm'>
 								<span>Shipping</span>
-								<span className='font-medium text-green-600'>Free</span>
+								<span className='font-semibold text-primary'>Free</span>
 							</div>
 							<hr className='border-border-main my-2' />
 							<div className='flex justify-between items-baseline'>
@@ -147,7 +147,7 @@ export default function CartPage() {
 
 						<Link
 							href='/checkout'
-							className='w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-text-main font-semibold py-3.5 px-4 rounded-xl transition-all shadow-md dark:shadow-black/40:shadow-lg active:scale-[0.98]'
+							className='w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-md hover:shadow-lg hover:shadow-primary/20 active:scale-[0.98] cursor-pointer'
 						>
 							Proceed to Checkout
 							<ArrowRight size={18} />
@@ -155,14 +155,14 @@ export default function CartPage() {
 
 						<Link
 							href='/products'
-							className='w-full mt-3 flex items-center justify-center gap-2 text-sm text-text-muted hover:text-text-muted font-medium py-2 transition-colors'
+							className='w-full mt-3 flex items-center justify-center gap-2 text-sm text-text-subtle hover:text-text-main font-semibold py-2 transition-colors'
 						>
 							Continue Shopping
 						</Link>
 					</div>
 				</div>
 			) : (
-				<div className='border-2 border-dashed border-border-main rounded-2xl py-24 px-4 text-center max-w-md mx-auto mt-12 bg-main-bg/50'>
+				<div className='border-2 border-dashed border-border-main rounded-2xl py-24 px-4 text-center max-w-md mx-auto mt-12 bg-card-bg shadow-sm'>
 					<div className='mx-auto w-16 h-16 bg-ui-hover rounded-full flex items-center justify-center text-text-subtle mb-4 shadow-sm'>
 						<ShoppingBag size={28} />
 					</div>
@@ -174,7 +174,7 @@ export default function CartPage() {
 					</p>
 					<Link
 						href='/products'
-						className='inline-flex items-center justify-center bg-main-bg hover:bg-main-bg text-text-main font-medium text-sm py-2.5 px-6 rounded-xl transition-colors shadow-sm'
+						className='inline-flex items-center justify-center bg-primary hover:bg-primary-hover text-white font-semibold text-sm py-2.5 px-6 rounded-xl transition-all shadow-sm active:scale-95'
 					>
 						Start Shopping
 					</Link>

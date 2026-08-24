@@ -1,11 +1,11 @@
 'use client'
 
 import menuItems from '@/constants/menuItems.json'
-import { ChevronDown, Phone, TextAlignJustify, X } from 'lucide-react'
+import { Phone, TextAlignJustify, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 interface NavBarProps {
 	isMenuOpen: boolean
@@ -14,7 +14,6 @@ interface NavBarProps {
 
 export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 	const pathname = usePathname()
-	const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
 	useEffect(() => {
 		if (isMenuOpen) {
@@ -29,9 +28,9 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 
 	return (
 		<>
-			<div className='w-full h-full shadow-md dark:shadow-black/40(0,0,0,0.1)] hidden xl:block'>
+			<div className='w-full h-full shadow-md dark:shadow-black/40 hidden xl:block'>
 				<div className='w-full px-4 md:px-12 xl:px-0 xl:w-2/3 h-full flex items-center justify-between mx-auto max-w-360'>
-					<div className='w-8.75 h-8.75 border border-border-main rounded-[5px] flex items-center pl-1 cursor-pointer hover:bg-main-bg transition-colors'>
+					<div className='w-8.75 h-8.75 border border-border-main rounded-md flex items-center pl-1 cursor-pointer hover:bg-main-bg transition-colors'>
 						<TextAlignJustify className='w-5.5 h-5.5' />
 					</div>
 
@@ -43,78 +42,25 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 										? pathname === '/'
 										: pathname.startsWith(item.href)
 
-								const hasDropdown = item.hasDropdown && item.subItems
-
 								return (
-									<li
-										key={item.href}
-										className='relative py-2'
-										onMouseEnter={() =>
-											hasDropdown && setOpenDropdown(item.label)
-										}
-										onMouseLeave={() => setOpenDropdown(null)}
-									>
-										{hasDropdown ? (
-											<div className='group relative flex cursor-pointer items-center gap-1 transition-colors duration-200'>
-												<span
-													className={
-														isActive ? 'text-text-main' : 'text-text-muted'
-													}
-												>
-													{item.label}
-												</span>
-												<ChevronDown
-													className={`w-4 h-4 transition-all duration-200 ${
-														openDropdown === item.label ? 'rotate-180' : ''
-													} ${isActive ? 'text-text-main' : 'text-text-muted'}`}
-												/>
-												<span
-													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-200 group-hover:w-full ${
-														isActive ? 'w-full' : 'w-0'
-													}`}
-												/>
-											</div>
-										) : (
-											<Link
-												href={item.href}
-												className='group relative flex items-center gap-1 transition-colors duration-200'
+									<li key={item.href} className='relative py-2'>
+										<Link
+											href={item.href}
+											className='group relative flex items-center gap-1 transition-colors duration-200'
+										>
+											<span
+												className={
+													isActive ? 'text-text-main' : 'text-text-muted'
+												}
 											>
-												<span
-													className={
-														isActive ? 'text-text-main' : 'text-text-muted'
-													}
-												>
-													{item.label}
-												</span>
-												<span
-													className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-200 group-hover:w-full ${
-														isActive ? 'w-full' : 'w-0'
-													}`}
-												/>
-											</Link>
-										)}
-
-										{hasDropdown && openDropdown === item.label && (
-											<ul className='absolute left-0 top-full z-10 min-w-50 rounded-md border border-border-main bg-card-bg p-2 shadow-lg animate-in fade-in slide-in-from-top-2'>
-												{item.subItems.map(sub => {
-													const isSubActive = pathname === sub.href
-													return (
-														<li key={sub.href}>
-															<Link
-																href={sub.href}
-																className={`block rounded-sm px-4 py-2 text-sm transition-colors ${
-																	isSubActive
-																		? 'bg-main-bg text-text-main font-semibold'
-																		: 'text-text-muted hover:bg-ui-hover hover:text-text-main'
-																}`}
-															>
-																{sub.label}
-															</Link>
-														</li>
-													)
-												})}
-											</ul>
-										)}
+												{item.label}
+											</span>
+											<span
+												className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-200 group-hover:w-full ${
+													isActive ? 'w-full' : 'w-0'
+												}`}
+											/>
+										</Link>
 									</li>
 								)
 							})}
@@ -144,7 +90,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 			>
 				<div className='p-4 border-b border-border-main flex items-center justify-between bg-main-bg'>
 					<div className='flex items-center gap-2'>
-						<div className='w-8.75 h-8.75 border border-border-main rounded-[5px] flex items-center justify-center bg-card-bg'>
+						<div className='w-8.75 h-8.75 border border-border-main rounded-md flex items-center justify-center bg-card-bg'>
 							<TextAlignJustify className='w-4 h-4' />
 						</div>
 						<span className='font-bold text-text-muted text-base'>
@@ -188,68 +134,22 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 									? pathname === '/'
 									: pathname.startsWith(item.href)
 
-							const hasDropdown = item.hasDropdown && item.subItems
-							const isDropdownToggled = openDropdown === item.label
-
 							return (
 								<li
 									key={item.href}
 									className='border-b border-border-main pb-1 last:border-none'
 								>
-									{hasDropdown ? (
-										<div>
-											<button
-												onClick={() =>
-													setOpenDropdown(isDropdownToggled ? null : item.label)
-												}
-												className={`w-full flex items-center justify-between py-2.5 px-2 rounded-md transition-colors cursor-pointer ${
-													isActive
-														? 'bg-main-bg text-primary font-semibold'
-														: 'text-text-muted active:bg-ui-active'
-												}`}
-											>
-												<span>{item.label}</span>
-												<ChevronDown
-													className={`w-4 h-4 transition-transform duration-200 ${isDropdownToggled ? 'rotate-180' : ''}`}
-												/>
-											</button>
-
-											{isDropdownToggled && (
-												<ul className='mt-1 ml-4 border-l-2 border-border-main pl-2 flex flex-col gap-0.5 bg-main-bg/50 rounded-r-md p-1'>
-													{item.subItems.map(sub => {
-														const isSubActive = pathname === sub.href
-														return (
-															<li key={sub.href}>
-																<Link
-																	href={sub.href}
-																	onClick={() => setIsMenuOpen(false)}
-																	className={`block rounded-md px-3 py-2 text-sm transition-colors ${
-																		isSubActive
-																			? 'text-primary font-semibold bg-card-bg shadow-sm'
-																			: 'text-text-muted active:bg-ui-active'
-																	}`}
-																>
-																	{sub.label}
-																</Link>
-															</li>
-														)
-													})}
-												</ul>
-											)}
-										</div>
-									) : (
-										<Link
-											href={item.href}
-											onClick={() => setIsMenuOpen(false)}
-											className={`block py-2.5 px-2 rounded-md transition-colors ${
-												isActive
-													? 'bg-main-bg text-primary font-semibold'
-													: 'text-text-muted active:bg-ui-active'
-											}`}
-										>
-											{item.label}
-										</Link>
-									)}
+									<Link
+										href={item.href}
+										onClick={() => setIsMenuOpen(false)}
+										className={`block py-2.5 px-2 rounded-md transition-colors ${
+											isActive
+												? 'bg-main-bg text-primary font-semibold'
+												: 'text-text-muted active:bg-ui-active'
+										}`}
+									>
+										{item.label}
+									</Link>
 								</li>
 							)
 						})}

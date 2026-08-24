@@ -99,21 +99,11 @@ export default function UserCard({ user }: UserCardProps) {
 	}
 
 	return (
-		<div className='container-responsive p-6 max-w-7xl mx-auto animate-fade-in'>
-			<div className='mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+		<div className='container-responsive p-6 max-w-7xl mx-auto animate-fade-in space-y-8'>
+			<div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
 				<h1 className='text-3xl font-extrabold tracking-tight text-text-main'>
 					Welcome back, {user.firstName || 'Friend'}
 				</h1>
-
-				<button
-					type='button'
-					onClick={() => setShowUpdateModal(true)}
-					disabled={isUpdating}
-					className='inline-flex items-center justify-center gap-2 px-4 h-10 rounded-xl border border-border-main bg-card-bg text-sm font-bold text-text-muted hover:bg-main-bg active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40:self-end disabled:opacity-50'
-				>
-					<Edit2 size={15} className='text-text-muted' />
-					{isUpdating ? 'Saving...' : 'Edit Profile'}
-				</button>
 			</div>
 
 			<div className='w-full space-y-8'>
@@ -166,22 +156,12 @@ export default function UserCard({ user }: UserCardProps) {
 					<div className='flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto md:shrink-0 sm:justify-end'>
 						<button
 							type='button'
-							onClick={() => setShowLogoutConfirm(true)}
-							disabled={isLoggingOut}
-							className='inline-flex items-center justify-center gap-2 px-5 h-11 w-full sm:w-auto rounded-xl border border-border-main bg-card-bg text-sm font-bold text-text-muted hover:bg-main-bg hover:text-text-main active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40'
+							onClick={() => setShowUpdateModal(true)}
+							disabled={isUpdating}
+							className='inline-flex items-center justify-center gap-2 px-4 h-10 rounded-xl border border-border-main bg-card-bg text-sm font-bold text-text-muted hover:bg-main-bg active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40 disabled:opacity-50'
 						>
-							<LogOut size={16} className='text-text-muted' />
-							Logout
-						</button>
-
-						<button
-							type='button'
-							onClick={() => setShowDeleteAccountConfirm(true)}
-							disabled={isPending}
-							className='inline-flex items-center justify-center gap-2 px-5 h-11 w-full sm:w-auto rounded-xl bg-red-600 text-sm font-bold text-text-main hover:bg-accent-hover active:scale-98 transition-all cursor-pointer shadow-md dark:shadow-black/40:shadow-lg hover:shadow-lg dark:hover:shadow-black/60:shadow-md dark:shadow-black/40:hover:shadow-lg dark:hover:shadow-black/60'
-						>
-							<Trash2 size={16} />
-							Delete Account
+							<Edit2 size={15} className='text-text-muted' />
+							{isUpdating ? 'Saving...' : 'Edit Profile'}
 						</button>
 					</div>
 				</div>
@@ -226,6 +206,55 @@ export default function UserCard({ user }: UserCardProps) {
 
 				<div className='pt-2'>
 					<UserOrders />
+				</div>
+
+				<div className='space-y-3 pt-4'>
+					<h4 className='text-xs font-bold text-red-500 uppercase tracking-wider pl-1'>
+						Danger Zone
+					</h4>
+					<div className='bg-card-bg border border-red-500/40 rounded-xl overflow-hidden shadow-sm divide-y divide-red-500/25 dark:divide-red-500/15'>
+						<div className='p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+							<div className='space-y-1'>
+								<p className='text-sm font-bold text-text-main'>
+									Sign out of your account
+								</p>
+								<p className='text-xs text-text-muted'>
+									Log out of your current session. Your shopping cart and
+									profile data will be preserved.
+								</p>
+							</div>
+							<button
+								type='button'
+								onClick={() => setShowLogoutConfirm(true)}
+								disabled={isLoggingOut}
+								className='inline-flex items-center justify-center gap-2 px-4 h-9 w-full sm:w-auto rounded-lg border border-border-main bg-main-bg text-xs font-semibold text-text-main hover:bg-neutral-100 dark:hover:bg-neutral-800 active:scale-98 transition-all cursor-pointer shadow-sm'
+							>
+								<LogOut size={14} className='text-text-muted' />
+								Logout
+							</button>
+						</div>
+
+						<div className='p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+							<div className='space-y-1'>
+								<p className='text-sm font-bold text-text-main'>
+									Delete account
+								</p>
+								<p className='text-xs text-text-muted'>
+									Permanently erase your shop profile, purchase history, saved
+									addresses, and active orders. This action is irreversible.
+								</p>
+							</div>
+							<button
+								type='button'
+								onClick={() => setShowDeleteAccountConfirm(true)}
+								disabled={isPending}
+								className='inline-flex items-center justify-center gap-2 px-4 h-9 w-full sm:w-auto rounded-lg border border-red-500/30 bg-main-bg text-xs font-semibold text-red-500 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 active:scale-98 transition-all cursor-pointer shadow-sm'
+							>
+								<Trash2 size={14} />
+								Delete Account
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 

@@ -27,10 +27,10 @@ export default function WishlistPage() {
 			</h1>
 
 			{user?.wishlist && user.wishlist.length > 0 ? (
-				<div className='overflow-x-auto rounded-xl border border-border-main shadow-sm'>
+				<div className='overflow-x-auto rounded-xl border border-border-main shadow-sm bg-card-bg'>
 					<table className='w-full text-text-muted border-collapse table-fixed min-w-150'>
 						<thead>
-							<tr className='bg-ui-hover text-[15px] font-semibold text-text-muted'>
+							<tr className='bg-ui-hover text-[14px] font-semibold text-text-muted uppercase tracking-wider border-b border-border-main'>
 								<th className='py-4 pl-6 text-left rounded-tl-xl w-[40%]'>
 									Product
 								</th>
@@ -41,14 +41,14 @@ export default function WishlistPage() {
 								</th>
 							</tr>
 						</thead>
-						<tbody className='divide-y divide-[#E9E9E9]'>
+						<tbody className='divide-y divide-border-main'>
 							{user.wishlist.map(product => (
 								<tr
 									key={product._id}
-									className='bg-main-bg hover:bg-main-bg transition-colors'
+									className='hover:bg-ui-hover/30 transition-colors'
 								>
 									<td className='py-5 px-6 flex flex-row items-center overflow-hidden'>
-										<div className='relative w-16 h-16 border border-border-main rounded-lg overflow-hidden bg-card-bg shrink-0 shadow-sm'>
+										<div className='relative w-16 h-16 border border-border-main rounded-lg overflow-hidden bg-main-bg shrink-0 shadow-sm'>
 											<Image
 												src={`${BASE_URL}${product.imageUrl}`}
 												alt={product.name}
@@ -59,7 +59,7 @@ export default function WishlistPage() {
 										</div>
 										<Link
 											href={`/products/${product._id}`}
-											className='ml-5 font-semibold text-text-muted truncate hover:text-primary transition-colors'
+											className='ml-5 font-semibold text-text-main truncate hover:text-primary transition-colors'
 										>
 											{product.name}
 										</Link>
@@ -71,51 +71,53 @@ export default function WishlistPage() {
 
 									<td className='py-5 text-center'>
 										{product.isAvailable ? (
-											<span className='inline-flex items-center text-xs font-bold text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full'>
+											<span className='inline-flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-500/10 dark:bg-green-500/20 px-3 py-1 rounded-md border border-green-500/20'>
+												<span className='w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse' />
 												In Stock
 											</span>
 										) : (
-											<span className='inline-flex items-center text-xs font-bold text-red-700 bg-red-50 border border-red-200 px-2.5 py-1 rounded-full'>
+											<span className='inline-flex items-center gap-1.5 text-xs font-bold text-accent bg-accent/10 dark:bg-accent/20 px-3 py-1 rounded-md border border-accent/20'>
+												<span className='w-1.5 h-1.5 rounded-full bg-accent' />
 												Out of Stock
 											</span>
 										)}
 									</td>
 
 									<td className='py-5 text-center'>
-										<div className='flex items-center justify-center gap-3'>
+										<div className='flex items-center justify-center gap-2.5'>
 											<button
 												disabled={!!loadingStates[product._id]}
 												onClick={() =>
 													addToCart(product._id, 1, product.isAvailable)
 												}
-												className={`p-2.5 rounded-full transition-all duration-200 ${
+												className={`p-2 rounded-lg border transition-all duration-200 ${
 													loadingStates[product._id] === 'cart'
-														? 'text-primary bg-primary/10 opacity-70 cursor-not-allowed'
-														: 'text-text-subtle hover:text-primary hover:bg-primary/10 cursor-pointer active:scale-95'
+														? 'text-primary border-primary/20 bg-primary/10 opacity-70 cursor-not-allowed'
+														: 'text-text-subtle border-border-main bg-card-bg hover:text-primary hover:border-primary/30 hover:bg-primary/5 cursor-pointer active:scale-95 shadow-sm'
 												}`}
 												title='Add to Cart'
 											>
 												{loadingStates[product._id] === 'cart' ? (
-													<Loader2 size={18} className='animate-spin' />
+													<Loader2 size={16} className='animate-spin' />
 												) : (
-													<ShoppingCart size={18} />
+													<ShoppingCart size={16} />
 												)}
 											</button>
 
 											<button
 												disabled={!!loadingStates[product._id]}
 												onClick={() => toggleWishlist(product._id)}
-												className={`p-2.5 rounded-full transition-all duration-200 ${
+												className={`p-2 rounded-lg border transition-all duration-200 ${
 													loadingStates[product._id] === 'wishlist'
-														? 'text-red-500 bg-red-50 opacity-70 cursor-not-allowed'
-														: 'text-text-subtle hover:text-red-600 hover:bg-red-50 cursor-pointer active:scale-95'
+														? 'text-accent border-accent/20 bg-accent/10 opacity-70 cursor-not-allowed'
+														: 'text-text-subtle border-border-main bg-card-bg hover:text-accent hover:border-accent/30 hover:bg-accent/5 cursor-pointer active:scale-95 shadow-sm'
 												}`}
 												title='Remove from Wishlist'
 											>
 												{loadingStates[product._id] === 'wishlist' ? (
-													<Loader2 size={18} className='animate-spin' />
+													<Loader2 size={16} className='animate-spin' />
 												) : (
-													<Trash2 size={18} />
+													<Trash2 size={16} />
 												)}
 											</button>
 										</div>
@@ -126,7 +128,7 @@ export default function WishlistPage() {
 					</table>
 				</div>
 			) : (
-				<div className='border-2 border-dashed border-border-main rounded-2xl py-24 px-4 text-center max-w-md mx-auto mt-12 bg-main-bg/50'>
+				<div className='border-2 border-dashed border-border-main rounded-2xl py-24 px-4 text-center max-w-md mx-auto mt-12 bg-card-bg shadow-sm'>
 					<div className='mx-auto w-16 h-16 bg-ui-hover rounded-full flex items-center justify-center text-text-subtle mb-4 shadow-sm'>
 						<Heart size={28} />
 					</div>
@@ -138,7 +140,7 @@ export default function WishlistPage() {
 					</p>
 					<Link
 						href='/products'
-						className='inline-flex items-center justify-center bg-main-bg hover:bg-main-bg text-text-main font-medium text-sm py-2.5 px-6 rounded-xl transition-colors shadow-sm'
+						className='inline-flex items-center justify-center bg-primary hover:bg-primary-hover text-white font-semibold text-sm py-2.5 px-6 rounded-xl transition-all shadow-sm active:scale-95'
 					>
 						Discover Products
 					</Link>

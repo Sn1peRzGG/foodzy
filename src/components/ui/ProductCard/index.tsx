@@ -8,13 +8,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-interface ProductCardProps extends ProductType {
-	viewMode: 'grid' | 'list'
+interface ProductCardProps {
+	product: ProductType
+	viewMode?: 'grid' | 'list'
 }
 
 export default function ProductCard({
-	viewMode,
-	...product
+	product,
+	viewMode = 'grid',
 }: ProductCardProps) {
 	const [mounted, setMounted] = useState(false)
 	const { user, loadingStates, toggleWishlist, addToCart, removeFromCart } =

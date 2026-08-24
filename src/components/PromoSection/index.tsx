@@ -11,6 +11,7 @@ export default function PromoSection() {
 					width={578}
 					height={526}
 					className='rounded-[29px] w-full h-auto max-w-144.5'
+					style={{ height: 'auto' }}
 					priority
 				/>
 			</div>

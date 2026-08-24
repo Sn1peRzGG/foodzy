@@ -31,15 +31,14 @@ export default function EditButton<T>({
 			disabled={isLoading}
 			onClick={handleClick}
 			className={`
-        inline-flex items-center justify-center gap-2 
-        bg-card-bg border border-border-main rounded-lg text-text-muted shadow-sm 
-        text-xs font-bold hover:bg-main-bg transition-colors 
-        disabled:opacity-50 disabled:cursor-not-allowed shrink-0 cursor-pointer h-8.5
-        ${text ? 'px-3 py-1.5' : 'p-1.5'} 
-        ${className}
+        inline-flex items-center justify-center gap-1.5 rounded-xl shrink-0 h-9
+        bg-primary/5 border border-primary/15 text-primary text-xs font-bold tracking-wide
+        transition-colors duration-200 hover:bg-primary hover:text-white hover:border-primary
+        disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none
+        cursor-pointer ${text ? 'px-3.5' : 'w-9'} ${className}
       `}
 		>
-			<Edit2 size={iconSize} className='text-text-subtle' />
+			<Edit2 size={iconSize} />
 			{text && <span>{text}</span>}
 		</button>
 	)

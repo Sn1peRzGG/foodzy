@@ -82,26 +82,14 @@ export default function UpdateModal({
 		}
 	}, [isOpen, isLoading, onClose])
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0]
-		setFileError(null)
-
-		if (!file) return
-
-		const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
-		if (!allowedTypes.includes(file.type)) {
-			setFileError('Only JPG, PNG and WEBP images are allowed')
-			return
-		}
-
-		const maxSize = 4 * 1024 * 1024
-		if (file.size > maxSize) {
-			setFileError('Image size must be less than 4MB')
-			return
-		}
-
+	const handleImageChange = (file: File) => {
 		setImageFile(file)
-		setPreviewUrl(URL.createObjectURL(file))
+
+		const reader = new FileReader()
+		reader.onloadend = () => {
+			setPreviewUrl(reader.result as string)
+		}
+		reader.readAsDataURL(file)
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {
@@ -216,6 +204,12 @@ export default function UpdateModal({
 						error={fileError}
 						disabled={isLoading}
 						onChange={handleImageChange}
+						onError={setFileError}
+						onRemove={() => {
+							setImageFile(null)
+							setPreviewUrl(null)
+							setFileError(null)
+						}}
 					/>
 
 					<div className='mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-2.5 sm:gap-2 pt-4 border-t border-border-main'>

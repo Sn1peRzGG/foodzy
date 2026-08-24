@@ -6,6 +6,7 @@ import {
 	ChevronRight,
 	FolderTree,
 	LayoutDashboard,
+	Mail,
 	MessageSquare,
 	Package,
 	ShoppingBag,
@@ -27,6 +28,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 		{ name: 'Products', href: '/admin/products', icon: Package },
 		{ name: 'Categories', href: '/admin/categories', icon: FolderTree },
 		{ name: 'Users', href: '/admin/users', icon: Users },
+		{ name: 'Subscribers', href: '/admin/subscribers', icon: Mail },
 		{ name: 'Orders', href: '/admin/orders', icon: ShoppingBag },
 		{ name: 'Reviews', href: '/admin/reviews', icon: MessageSquare },
 	]

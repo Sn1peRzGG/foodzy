@@ -110,7 +110,6 @@ export default function CheckoutPage() {
 				address: address.trim(),
 				phoneNumber: phoneNumber.trim(),
 			})
-			toast.success('Order placed successfully!')
 			router.push('/')
 		} catch (error) {
 			console.error('Error placing order:', error)

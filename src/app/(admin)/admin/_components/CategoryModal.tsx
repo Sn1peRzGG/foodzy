@@ -46,8 +46,7 @@ export default function CategoryModal({
 		}
 	}, [isOpen, mode, initialData])
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0]
+	const handleImageChange = (file: File) => {
 		setFileError(null)
 
 		if (!file) return

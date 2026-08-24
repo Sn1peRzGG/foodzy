@@ -6,8 +6,6 @@ export const BASE_URL = isProd
 	? 'https://foodzy-back-end.onrender.com'
 	: 'http://localhost:5555'
 
-console.log(BASE_URL)
-
 const api = axios.create({
 	baseURL: `${BASE_URL}/api/v1`,
 	withCredentials: true,
